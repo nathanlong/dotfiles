@@ -5,3 +5,6 @@ export CLICOLOR=1
 # Load Bashmarks
 source ~/.dotfiles/bin/bashmarks.sh
 
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell
+
