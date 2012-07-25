@@ -2,6 +2,8 @@
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
+"Make sure dotfiles work
+
 "Use vim settings instead of vi settings. Way better.
 "This must be first because it changes other settings.
 set nocompatible          

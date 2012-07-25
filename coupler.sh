@@ -3,7 +3,7 @@ cd "$(dirname "$0")"
 git pull
 function linkIt() {
     for file in .{bash_profile,bashrc,vim,vimrc,gvimrc,gitconfig}; do
-        ln -s ~/.dotfiles/"$file" ~/"$file" 
+        ln -sifF ~/.dotfiles/"$file" ~/"$file" 
     done
 }
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
