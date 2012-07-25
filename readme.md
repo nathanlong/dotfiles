@@ -5,7 +5,7 @@ environment.
 
 ---
 
-**Installation**
+###Installation
 
 Clone the files into your home directory:
 
@@ -20,7 +20,7 @@ files. It will overwrite any files that already exist, so be aware!
 
 ---
 
-**Secret Places For Your Secrets**
+###Secret Places For Your Secrets
 
 Need to add machine specific settings? I know I do. So there are a few places
 I source for extra settings:
@@ -44,7 +44,7 @@ Check for it on your machine by running:
 
 ---
 
-**Additional Files for Vim**
+###Additional Files for Vim
 
 I keep Vim's backup files in a directory called `tmp` as well as the
 YankRing plugin's history file, so be sure to either make it yourself or run
@@ -65,7 +65,7 @@ key plus a number to store my current project directorys. Something like:
 
 ---
 
-**A Note on Updating Vim Submodules**
+###A Note on Updating Vim Submodules
 
 With git submodules, if `git submodule update` does not update your
 submodules after you've checked them out, try:
