@@ -13,34 +13,6 @@ git submodule foreach git pull origin master
 git submodule update
 }
 
-# Quick Push for status.nathan-long.com
-function push_status(){
-cd ~/Dropbox/status
-DTE=$(date +%Y%m%d)
-git add -A
-git commit -m "$DTE"
-git ftp push -p
-}
-
-# Backup bash settings as well as vim stuff not in the git repo
-function backup_setup(){
-rsync -vdm --delete ~/vimwiki/*.wiki ~/Dropbox/backup/vimwiki/
-rsync -vdm --delete ~/.bashrc ~/Dropbox/backup/bash/bashrc
-rsync -vdm --delete ~/.vim/UltiSnips/  ~/Dropbox/backup/ultisnips/
-}
-
-# Restore bash and misc vim stuff
-function restore_setup(){
-rsync -vdm --delete ~/Dropbox/backup/vimwiki/ ~/vimwiki/
-rsync -vdm --delete ~/Dropbox/backup/bash/bashrc ~/.bashrc
-rsync -vdm --delete ~/Dropbox/backup/ultisnips/ ~/.vim/UltiSnips/
-}
-
-# Create a new directory and enter it
-function md() {
-	mkdir -p "$@" && cd "$@"
-}
-
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}"
@@ -50,8 +22,8 @@ function server() {
 	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
-# New blank compass project that copies the boilerplate in ~/base/bare5
-function blank() {
+# New blank compass project that loads my preferred file structure
+function cblank() {
     compass create ${1} --bare --sass-dir "sass" --css-dir "css" --javascripts-dir "js" --images-dir "img"
     cd ${1}
     mkdir css

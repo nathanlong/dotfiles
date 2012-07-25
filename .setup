@@ -1,4 +1,4 @@
-# Colors
+# Prompt and Colors
 PS1='\[\e[0;33m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;33m\]\$\[\e[m\] \[\e[0;37m\]'
 export CLICOLOR=1
 
