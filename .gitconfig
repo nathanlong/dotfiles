@@ -1,0 +1,13 @@
+[include]
+    path = .gitsecrets
+[color]
+    ui = true
+[alias]
+    st = status
+    ci = commit
+    cm = commit -m
+    br = branch
+    lg = log -p
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ls = ls-files

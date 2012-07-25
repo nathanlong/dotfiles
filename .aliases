@@ -1,0 +1,45 @@
+# ============================================================================== 
+# Aliases
+# ============================================================================== 
+
+# Easier Navigation
+alias ..='cd ..'
+alias ...="cd ../.."
+alias ~="cd ~"
+alias -- -="cd -"
+
+# Lists
+alias lsa='ls -A'
+alias ll='ls -laF'
+
+alias zz='exit'
+alias cpbase='cp -RLv'
+alias mvimdiff='mvim -d'
+
+# Shortcuts
+# alias g="git"
+alias v="mvim . "
+alias o="open"
+alias oo="open ."
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# Flush Directory Service cache
+alias flush="dscacheutil -flushcache"
+
+# View HTTP traffic
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.Finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.Finder AppleShowAllFiles -bool false && killall Finder"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# System monitoring
+alias toc="top -o cpu"
+alias tor="top -o rsize"
+

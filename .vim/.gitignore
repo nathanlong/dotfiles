@@ -1,0 +1,5 @@
+.netrwbook
+.netrwhist
+.VimballRecord
+.DS_store
+UltiSnips/*
