@@ -1,5 +1,5 @@
 [include]
-    path = ../.gitsecrets
+    path = ~/.gitsecrets
 [color]
     ui = true
 [alias]
