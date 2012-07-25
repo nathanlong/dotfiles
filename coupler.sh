@@ -1,6 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 git pull
+git submodule init
+git submodule update
 function linkIt() {
     for file in .{bash_profile,bashrc,vim,vimrc,gvimrc,gitconfig}; do
         ln -sifF ~/.dotfiles/"$file" ~/"$file" 
