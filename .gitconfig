@@ -3,13 +3,16 @@
 [color]
     ui = true
 [alias]
-    st = status
+    st = status -s
+    aa = add -A
     ci = commit
     cm = commit -m
+    ca = !git add -A && git commit -av
     br = branch
     lg = log -p
-    lol = log --graph --decorate --pretty=oneline --abbrev-commit
-    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    l = log --graph --decorate --pretty=oneline --abbrev-commit
+    la = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ls = ls-files
+    undopush = push -f origin HEAD^:master
 [credential]
 	helper = osxkeychain
