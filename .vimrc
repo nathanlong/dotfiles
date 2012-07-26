@@ -2,8 +2,6 @@
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
-"Make sure dotfiles work
-
 "Use vim settings instead of vi settings. Way better.
 "This must be first because it changes other settings.
 set nocompatible          
@@ -20,7 +18,6 @@ set history=70            "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
-set gdefault              "Apply substitutions globally on a line by default
 set foldmethod=marker     "Use {{{ and }}} to define folds
 
 " Put swap files in /tmp file in the home directory
@@ -41,21 +38,24 @@ imap jj <esc>
 set wildmenu
 set wildmode=list:longest
 
-" In many terminal emulators the mouse works just fine, so have at it.
-if has('mouse')
-  set mouse=a
-  set ttymouse=xterm2
-endif
-
 " Disable keys I accidentally press all the time
 nnoremap K <nop>
+
+"In many terminal emulators the mouse works just fine, so have at it.
+set mouse=a
+
+"Sets terminal colors to mustang, I override this in my gvimrc for macvim
+if &t_Co >= 256 
+   colorscheme mustang
+endif
+
 
 "-----------------------------------------------------------------------------
 " INTERFACE
 "-----------------------------------------------------------------------------
 
 set linespace=3         "Slightly higher linespace
-set number              "Show lines numbers
+set number              "Show line numbers
 set ruler               "Cursor position in lower right
 set showcmd             "Show command in bottom right
 set showmode            "Shows current mode
@@ -64,6 +64,7 @@ set incsearch           "Set incremental searching
 set hlsearch            "Highlight searching
 set ignorecase          "case insensitive search
 set smartcase           "case insensitive search
+set gdefault            "Apply substitutions globally on a line by default
 set mousehide           "hide mouse when typing
 set foldenable          "Enable code folding
 set splitbelow          "Split windows below the current window
@@ -87,6 +88,21 @@ let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
 set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ %y%12.12(%l\,%c%V%)%8.8p%%
+
+"Swap relative numbers and absolute line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <F6> :call NumberToggle()<cr>
+
+"We only need relative numbers when moving around in normal mode
+"autocmd InsertEnter * :set number
+"autocmd InsertLeave * :set relativenumber
 
 "-----------------------------------------------------------------------------
 " TEXT AND TABS
@@ -187,6 +203,10 @@ map <leader>vl <esc>^vg_
 "emacs style jump to end of line in insert mode
 imap <C-e> <C-o>A
 imap <C-a> <C-o>I
+
+"remap tab in normal and visual mode to match brackets
+nnoremap <tab> %
+vnoremap <tab> %
 
 "Remap j and k to act as expected when used on long, wrapped, lines
 nnoremap j gj
@@ -339,4 +359,5 @@ fu! Journal()
 endfu
 
 map <leader>7 :call Journal()<CR>
+
 
