@@ -31,8 +31,8 @@ defaults write NSGlobalDomain KeyRepeat -int 0
 # Finder 
 # =============================================================================
 
-# Empty Trash securely by default
-defaults write com.apple.finder EmptyTrashSecurely -bool true
+# Disable the warning before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
 # Show the ~/Library folder
 chflags nohidden ~/Library
