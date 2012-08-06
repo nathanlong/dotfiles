@@ -27,13 +27,13 @@ sourcing in `.bash_profile`.
 Need to add machine specific settings? I know I do. So there are a few places
 I source for extra settings:
 
-For bash:
+*For bash:*
 
     ~/.extra
 
-Anything here will be sourced by the `.bash_profile`
+Anything here will be sourced by `.bash_profile` after the defaults.
 
-For git:
+*For git:*
 
     ~/.gitsecrets
 
@@ -58,22 +58,23 @@ Bynens's [.osx file](https://github.com/mathiasbynens/dotfiles/blob/master/.osx)
 
 ## Additional Files for Vim
 
-I keep Vim's backup files in a directory called `tmp` as well as the
-YankRing plugin's history file, so be sure to either make it yourself or run
-the command: 
+I keep Vim's backup and plugin support files in a directory called `tmp` that
+sits inside the `.vim` directory.
 
-    mkdir ~/tmp
-
-I also keep a file called `.vimbookmarks` in my home directory that allows me
-to quickly navigate to projects and edit them on the fly. You'll also have to
+I also keep a file called `vimbookmarks` in that directory that allows me
+to quickly navigate to projects and edit them on the fly. You'll want to
 create this file or remove the reference from the `.vimrc`. I use the leader
-key plus a number to store my current project directorys. Something like: 
+key plus a number to store my current project directories. Something like: 
 
     map <leader>1 :cd /path/to/directory1/<cr>
     map <leader>2 :cd /path/to/directory2/<cr>
+    
+I also map quick editing shortcuts to the file, so I can change bookmarks when
+I need to.
 
-**Happy Vimming!**
+    map <leader>9 :15sp ~/.vim/tmp/vimbookmarks<cr>
 
+Its pretty hackish, but it works!
 
 ## A Note on Updating Vim Submodules
 

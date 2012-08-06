@@ -20,9 +20,9 @@ set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
 
-" Put swap files in /tmp file in the home directory
-set backupdir=~/tmp
-set directory=~/tmp
+" Put swap files in tmp
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
 
 "Changes leader from \ to ,
 let mapleader = ","
@@ -290,8 +290,8 @@ map <silent> <leader>cd :cd %:p:h<cr>
 
 "Manage sessions from one location
 "from http://vim.runpaint.org/editing/managing-sessions/
-nmap SSA :mksession! ~/tmp/sessions/
-nmap SO :so ~/tmp/sessions/
+nmap SSA :mksession! ~/.vim/sessions/
+nmap SO :so ~/sessions/
 
 "-------------------"
 " FILETYPE SETTINGS
@@ -330,12 +330,12 @@ let g:vimwiki_menu=''
 nnoremap <F2> :GundoToggle<CR>
 
 "Source bookmark files
-source ~/.vimbookmarks
+source ~/.vim/tmp/vimbookmarks
 
 "YankRing Bindings
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
-let g:yankring_history_dir = '~/tmp'
+let g:yankring_history_dir = '~/.vim/tmp'
 
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
