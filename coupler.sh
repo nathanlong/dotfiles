@@ -18,5 +18,8 @@ else
 	fi
 fi
 unset linkIt
+mkdir ~/.dotfiles/.vim/sessions
+mkdir ~/.dotfiles/.vim/tmp
+touch ~/.dotfiles/.vim/tmp/vimbookmarks
 source ~/.bash_profile
 
