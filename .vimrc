@@ -100,9 +100,8 @@ endfunc
 
 nnoremap <F6> :call NumberToggle()<cr>
 
-"We only need relative numbers when moving around in normal mode
-"autocmd InsertEnter * :set number
-"autocmd InsertLeave * :set relativenumber
+"Toggle spellcheck
+nmap <silent> <buffer> <leader>s :set spell!<CR>
 
 "-----------------------------------------------------------------------------
 " TEXT AND TABS
@@ -201,8 +200,9 @@ map <leader>vl <esc>^vg_
 "-----------------------------------------------------------------------------
 
 "emacs style jump to end of line in insert mode
-imap <C-e> <C-o>A
-imap <C-a> <C-o>I
+"prevents conflict with autocomplete
+inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
+inoremap <C-a> <C-o>I
 
 "remap tab in normal and visual mode to match brackets
 nnoremap <tab> %
@@ -270,7 +270,22 @@ function! SetCursorPosition()
     end
 endfunction
 
-"Bash scripts for opening the current file or directory in another application
+" <c-x>{char} - paste register into search field, escaping sensitive chars
+" useful for searching for urls http://stackoverflow.com/questions/7400743/
+cnoremap <c-x> <c-r>=<SID>PasteEscaped()<cr>
+function! s:PasteEscaped()
+  echo "\\".getcmdline()."\""
+  let char = getchar()
+  if char == "\<esc>"
+    return ''
+  else
+    let register_content = getreg(nr2char(char))
+    let escaped_register = escape(register_content, '\'.getcmdtype())
+    return substitute(escaped_register, '\n', '\\n', 'g')
+  endif
+endfunction
+
+"Bash commands for opening the current file or directory in another application
 map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
 map <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
 map <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
@@ -291,7 +306,7 @@ map <silent> <leader>cd :cd %:p:h<cr>
 "Manage sessions from one location
 "from http://vim.runpaint.org/editing/managing-sessions/
 nmap SSA :mksession! ~/.vim/sessions/
-nmap SO :so ~/sessions/
+nmap SO :so ~/.vim/sessions/
 
 "-------------------"
 " FILETYPE SETTINGS

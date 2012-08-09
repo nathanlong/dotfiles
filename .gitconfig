@@ -15,4 +15,4 @@
     ls = ls-files
     undopush = push -f origin HEAD^:master
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain

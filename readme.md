@@ -27,13 +27,13 @@ sourcing in `.bash_profile`.
 Need to add machine specific settings? I know I do. So there are a few places
 I source for extra settings:
 
-*For bash:*
+**For bash:**
 
     ~/.extra
 
 Anything here will be sourced by `.bash_profile` after the defaults.
 
-*For git:*
+**For git:**
 
     ~/.gitsecrets
 
@@ -59,11 +59,11 @@ Bynens's [.osx file](https://github.com/mathiasbynens/dotfiles/blob/master/.osx)
 ## Additional Files for Vim
 
 I keep Vim's backup and plugin support files in a directory called `tmp` that
-sits inside the `.vim` directory.
+sits inside the `.vim` directory. The included `coupler.sh` will create this
+directory for you.
 
 I also keep a file called `vimbookmarks` in that directory that allows me
-to quickly navigate to projects and edit them on the fly. You'll want to
-create this file or remove the reference from the `.vimrc`. I use the leader
+to quickly navigate to projects and edit them on the fly. I use the leader
 key plus a number to store my current project directories. Something like: 
 
     map <leader>1 :cd /path/to/directory1/<cr>
