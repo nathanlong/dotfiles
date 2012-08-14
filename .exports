@@ -8,5 +8,8 @@ export EDITOR="mvim"
 # Highlight section titles in manual pages
 export LESS_TERMCAP_md="$ORANGE"
 
+# Do not put duplicate items in the history
+export HISTCONTROL=ignoredups
+
 # Make some commands not show up in history
 export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
