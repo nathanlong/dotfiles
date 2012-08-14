@@ -44,12 +44,6 @@ nnoremap K <nop>
 "In many terminal emulators the mouse works just fine, so have at it.
 set mouse=a
 
-"Sets terminal colors to mustang, I override this in my gvimrc for macvim
-if &t_Co >= 256 
-   colorscheme mustang
-endif
-
-
 "-----------------------------------------------------------------------------
 " INTERFACE
 "-----------------------------------------------------------------------------
@@ -69,6 +63,20 @@ set mousehide           "hide mouse when typing
 set foldenable          "Enable code folding
 set splitbelow          "Split windows below the current window
 set splitright          "Split vertical windows on the right
+set lazyredraw          "Does not redraw while macro is running (faster)
+set scrolloff=1         "Always keeps cursor one line from bottom
+
+"Use solarized dark scheme, very nice!
+let g:solarized_menu=0      "Remove solarized menubar
+colorscheme solarized       "Set colorscheme
+set bg=dark                 "Set solarized color setting
+call togglebg#map("<F5>")   "Background toggle for solarized
+
+"Makes solarized work in the terminal
+if &t_Co >= 256 
+  let g:solarized_termcolors=256
+  set bg=dark
+endif
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>l :set list!<CR>
@@ -159,6 +167,7 @@ set wrap
 set linebreak
 set textwidth=78
 set formatoptions=qrn1
+set showbreak=++\ \ 
 
 "Toggle paste
 set pastetoggle=<F4>
@@ -193,7 +202,7 @@ function! SummarizeTabs()
 endfunction
 
 "Grab a line without trailing whitespace
-map <leader>vl <esc>^vg_
+nnoremap YY <esc>^vg_y
 
 "-----------------------------------------------------------------------------
 " MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
@@ -374,5 +383,4 @@ fu! Journal()
 endfu
 
 map <leader>7 :call Journal()<CR>
-
 

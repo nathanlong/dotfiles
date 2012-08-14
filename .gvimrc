@@ -1,11 +1,6 @@
-let g:solarized_menu=0      "Remove solarized menubar
-colorscheme solarized       "Set colorscheme
-set bg=dark                 "Set solarized color setting
-call togglebg#map("<F5>")   "Background toggle for solarized
-
 set guioptions-=T           "Hide MacVim toolbar by default
-set guioptions-=rL          "Do not use Aqua scrollbars
-set guifont=Consolas:h17    "Set font type and size. 
+set guioptions-=rL          "Do not use scrollbars
+set guifont=Consolas:h16    "Set font type and size. 
 set fuopt=maxvert           "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 set lines=999               "Sets new windows to full-height
