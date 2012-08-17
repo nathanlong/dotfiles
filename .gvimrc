@@ -23,5 +23,4 @@ function! Writer()
    set background=light
    colorscheme writer
    setlocal lines=999 columns=80 fullscreen spell nonumber
-   :AcpLock
 endfunction

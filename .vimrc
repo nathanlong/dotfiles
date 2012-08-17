@@ -14,8 +14,9 @@ filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
+set synmaxcol=800         "Don't try to highlight lines 800+
 set history=70            "Sets how many lines of history VIM has to remember
-set timeoutlen=500        "lowers leader+command timeout.
+set timeoutlen=250        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
@@ -146,6 +147,14 @@ imap <D-8> <esc>8gt
 imap <D-9> <esc>9gt
 imap <D-0> <esc>:tablast<CR>
 
+" C-TAB and C-SHIFT-TAB cycle tabs forward and backward
+nmap <c-tab> :tabnext<cr>
+imap <c-tab> <c-o>:tabnext<cr>
+vmap <c-tab> <c-o>:tabnext<cr>
+nmap <c-s-tab> :tabprevious<cr>
+imap <c-s-tab> <c-o>:tabprevious<cr>
+vmap <c-s-tab> <c-o>:tabprevious<cr>
+
 "Tab stuff
 set tabstop=4
 set shiftwidth=4
@@ -171,6 +180,9 @@ set showbreak=++\ \
 
 "Toggle paste
 set pastetoggle=<F4>
+
+"Grab a line without trailing whitespace
+nnoremap <leader>L <esc>^vg_y
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 " From http://vimcasts.org/episodes/tabs-and-spaces/
@@ -200,9 +212,6 @@ function! SummarizeTabs()
     echohl None
   endtry
 endfunction
-
-"Grab a line without trailing whitespace
-nnoremap YY <esc>^vg_y
 
 "-----------------------------------------------------------------------------
 " MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
@@ -341,14 +350,13 @@ nmap <silent> <Leader>m :CommandTBuffer<CR>
 let g:user_zen_expandabbr_key = '<D-e>'
 let g:user_zen_next_key = '<C-f>'
 
-"Test driving without autocomplpop for awhile
-let g:acp_enableAtStartup = 0
-
 "Supertab settings
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+" let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 
-" Removes vimwiki menu
+" Removes vimwiki menu, and kills .md override
 let g:vimwiki_menu=''
+let g:vimwiki_ext2syntax = {}
 
 "Map for Gundo
 nnoremap <F2> :GundoToggle<CR>
@@ -360,6 +368,8 @@ source ~/.vim/tmp/vimbookmarks
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
 let g:yankring_history_dir = '~/.vim/tmp'
+let g:yankring_default_menu_mode = 0
+
 
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
@@ -371,6 +381,7 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 "NerdTree
 nnoremap <f1> :NERDTreeToggle<cr>
 
+"Delimitmate
 
 "-----------------------------------------------------------------------------
 " PERSONAL FUNCTIONS
@@ -379,7 +390,8 @@ nnoremap <f1> :NERDTreeToggle<cr>
 "Opens a journal file in my dropbox
 fu! Journal()
     let today = strftime("%y%m%d")
-    exe ':e ~/Dropbox/journal/' . today . ".md"
+    exe ':e ~/Dropbox/docs/journal/' . today . ".md"
+    exe ':call Writer()'
 endfu
 
 map <leader>7 :call Journal()<CR>
