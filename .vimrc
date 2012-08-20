@@ -334,9 +334,16 @@ if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt set filetype=text
     au FileType html,xhtml,css,scss,ruby,pml,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-    au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab 
+    au FileType javascript,php setlocal ts=4 sts=4 sw=4 noexpandtab 
     au FileType text setlocal textwidth=78 
 endif
+
+"Easy filetype switching
+nnoremap _md :set ft=markdown<CR>
+nnoremap _ht :set ft=html<CR>
+nnoremap _js :set ft=javascript<CR>
+nnoremap _jq :set ft=javascript<CR> :set syntax=jQuery<CR>
+nnoremap _pp :set ft=php<CR>
 
 "-------------------"
 " PLUGIN SETTINGS
@@ -361,15 +368,11 @@ let g:vimwiki_ext2syntax = {}
 "Map for Gundo
 nnoremap <F2> :GundoToggle<CR>
 
-"Source bookmark files
-source ~/.vim/tmp/vimbookmarks
-
 "YankRing Bindings
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
 let g:yankring_history_dir = '~/.vim/tmp'
 let g:yankring_default_menu_mode = 0
-
 
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
@@ -380,8 +383,13 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 
 "NerdTree
 nnoremap <f1> :NERDTreeToggle<cr>
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowHidden = 1
 
-"Delimitmate
+"Vimbookmarks - my ghetto bookmarking system
+source ~/.vim/tmp/vimbookmarks.vim
+map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
 
 "-----------------------------------------------------------------------------
 " PERSONAL FUNCTIONS
