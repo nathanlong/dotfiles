@@ -3,16 +3,37 @@
 [color]
     ui = true
 [alias]
-    st = status -s
-    aa = add -A
-    ci = commit
-    cm = commit -m
-    ca = !git add -A && git commit -av
-    br = branch
+    st = status -s                              # short status
+
+    a = add                                     # add
+    aa = add -A                                 # add all the things
+
+    cm = commit -m                              # commit with message
+    ca = commit -am                             # commit all with message
+    ci = commit                                 # commit
+    amend = commit --amend                      # ammend your last commit
+
+    b = branch -v                               # show branches (verbose)
+    co = checkout                               # checkout
+    nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
+    
     lg = log -p
     l = log --graph --decorate --pretty=oneline --abbrev-commit
     la = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ls = ls-files
-    undopush = push -f origin HEAD^:master
+
+    ss = stash                                  # stash changes
+    sl = stash list                             # list stashes
+    sa = stash apply                            # apply stash (restore changes)
+    sd = stash drop                             # drop stashes (destory changes)
+
+    pl = pull                                   # pull
+    ps = push                                   # push
+    r = remote -v                               # show remotes (verbose)
+
+    unstage = reset HEAD                        # remove files from index
+    undopush = push -f origin HEAD^:master      # go back before last commit, with files in uncommitted state
+    filelog = log -u                            # show changes to a file
+    mt = mergetool                              # fire up the merge tool
 [credential]
     helper = osxkeychain
