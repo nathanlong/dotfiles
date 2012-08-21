@@ -89,3 +89,10 @@
 [submodule ".vim/bundle/syntax-liquid"]
 	path = .vim/bundle/syntax-liquid
 	url = git://github.com/tpope/vim-liquid.git
+[submodule ".vim/bundle/csscomb"]
+	path = .vim/bundle/csscomb
+	url = git://github.com/miripiruni/CSScomb-for-Vim.git
+    ignore = dirty
+[submodule ".vim/bundle/change-inside"]
+	path = .vim/bundle/change-inside
+	url = git://github.com/briandoll/change-inside-surroundings.vim.git
