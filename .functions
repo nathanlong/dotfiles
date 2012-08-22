@@ -33,8 +33,7 @@ function serve {
 
 # Update submodules in a git repo
 function update_submodules(){
-    git submodule foreach git pull origin master
-    git submodule update
+    git submodule foreach git pull
 }
 
 # New blank compass project that loads my preferred file structure
