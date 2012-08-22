@@ -18,9 +18,4 @@ inoremap <F17> <esc>:set lines=999 columns=100<cr>a
 nnoremap <F18> :set lines=999<cr>
 inoremap <F18> <esc>:set lines=999<cr>a
 
-"Defaults for writing
-function! Writer()
-   set background=light
-   colorscheme writer
-   setlocal lines=999 columns=80 fullscreen spell nonumber
-endfunction
+

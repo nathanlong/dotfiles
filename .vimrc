@@ -14,16 +14,21 @@ filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
-set synmaxcol=800         "Don't try to highlight lines 800+
+set synmaxcol=800         "Don't try to highlight lines with 800+ columns
 set history=70            "Sets how many lines of history VIM has to remember
-set timeoutlen=250        "lowers leader+command timeout.
+set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
 
-" Put swap files in tmp
-set backupdir=~/.vim/tmp
-set directory=~/.vim/tmp
+"I've never used the backup files to restore anything... so turn them off
+set nobackup
+set nowb
+set noswapfile
+
+"Turn persistent undo on - keeps change history even after quitting!
+set undodir=~/.vim/tmp
+set undofile
 
 "Changes leader from \ to ,
 let mapleader = ","
@@ -36,8 +41,8 @@ nore , ;
 imap jj <esc>
 
 "More useful command-line completion
-set wildmenu
 set wildmode=list:longest
+set wildmenu
 
 " Disable keys I accidentally press all the time
 nnoremap K <nop>
@@ -65,7 +70,9 @@ set foldenable          "Enable code folding
 set splitbelow          "Split windows below the current window
 set splitright          "Split vertical windows on the right
 set lazyredraw          "Does not redraw while macro is running (faster)
-set scrolloff=1         "Always keeps cursor one line from bottom
+set scrolloff=3         "Always keeps cursor three lines from bottom
+set sidescrolloff=7     "Keeps 7 chars onscreen when nowrap set
+set sidescroll=1        "Minimum number of columns to scroll sideways
 
 "Use solarized dark scheme, very nice!
 let g:solarized_menu=0      "Remove solarized menubar
@@ -181,37 +188,8 @@ set showbreak=++\ \
 "Toggle paste
 set pastetoggle=<F4>
 
-"Grab a line without trailing whitespace
+"Grab a line without trailing whitespace or linebreaks
 nnoremap <leader>L <esc>^vg_y
-
-" Set tabstop, softtabstop and shiftwidth to the same value
-" From http://vimcasts.org/episodes/tabs-and-spaces/
-command! -nargs=* Stab call Stab()
-function! Stab()
-  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-  if l:tabstop > 0
-    let &l:sts = l:tabstop
-    let &l:ts = l:tabstop
-    let &l:sw = l:tabstop
-  endif
-  call SummarizeTabs()
-endfunction
-
-function! SummarizeTabs()
-  try
-    echohl ModeMsg
-    echon 'tabstop='.&l:ts
-    echon ' shiftwidth='.&l:sw
-    echon ' softtabstop='.&l:sts
-    if &l:et
-      echon ' expandtab'
-    else
-      echon ' noexpandtab'
-    end
-  finally
-    echohl None
-  endtry
-endfunction
 
 "-----------------------------------------------------------------------------
 " MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
@@ -245,13 +223,50 @@ map <silent> <leader><cr> :noh<cr>
 nmap <leader>vv :tabedit $MYVIMRC<cr>
 nmap <leader>vg :tabedit $MYGVIMRC<cr>
 
-"Make .vimrc edits active without relaunch
-if has("autocmd")
-  augroup myvimrchooks
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-  augroup END
-endif
+"Bash commands for opening the current file or directory in another application
+map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
+map <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
+map <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
+map <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
+map <silent> <leader>oi :silent !open .<cr>
+
+"Will open files in current directory, allows you to leave the working cd in
+"the project root. You can also use %% anywhere in the command line to expand.
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
+"Change current directory to that of the file in the buffer
+map <silent> <leader>cd :cd %:p:h<cr>
+
+" Smart mappings on the command line
+cno $h e ~/
+cno $d e ~/Desktop/
+cno $j e ./
+" Deletes until it finds a slash in the command line - useful!
+cno $q <C-\>eDeleteTillSlash()<cr>
+
+"Manage sessions from one location
+"from http://vim.runpaint.org/editing/managing-sessions/
+nmap SSA :mksession! ~/.vim/sessions/
+nmap SO :so ~/.vim/sessions/
+
+"-----------------------------------------------------------------------------
+" HELPER FUNCTIONS
+"-----------------------------------------------------------------------------
+
+"Jump to last cursor position when opening a file
+autocmd BufReadPost * call SetCursorPosition()
+function! SetCursorPosition()
+    if &filetype !~ 'svn\|commit\c'
+        if line("'\"") > 0 && line("'\"") <= line("$")
+            exe "normal! g`\""
+            normal! zz
+        endif
+    end
+endfunction
 
 "Autoclose unactive buffers - activate with :call CloseHiddenBuffers()
 "http://stackoverflow.com/questions/2974192/how-can-i-pare-down-vims-buffer-list-to-only-include-active-buffers
@@ -277,17 +292,6 @@ endfun
 
 map <leader>bc :call CloseHiddenBuffers()<cr>
 
-"Jump to last cursor position when opening a file
-autocmd BufReadPost * call SetCursorPosition()
-function! SetCursorPosition()
-    if &filetype !~ 'svn\|commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    end
-endfunction
-
 " <c-x>{char} - paste register into search field, escaping sensitive chars
 " useful for searching for urls http://stackoverflow.com/questions/7400743/
 cnoremap <c-x> <c-r>=<SID>PasteEscaped()<cr>
@@ -303,28 +307,91 @@ function! s:PasteEscaped()
   endif
 endfunction
 
-"Bash commands for opening the current file or directory in another application
-map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
-map <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
-map <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
-map <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
-map <silent> <leader>oi :silent !open .<cr>
+" Set tabstop, softtabstop and shiftwidth to the same value
+" From http://vimcasts.org/episodes/tabs-and-spaces/
+command! -nargs=* Stab call Stab()
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
 
-"Will open files in current directory, allows you to leave the working cd in
-"the project root. You can also use %% anywhere in the command line to expand.
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>ew :e %%
-map <leader>es :sp %%
-map <leader>ev :vsp %%
-map <leader>et :tabe %%
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    end
+  finally
+    echohl None
+  endtry
+endfunction
 
-"Change current directory to that of the file in the buffer
-map <silent> <leader>cd :cd %:p:h<cr>
+"Grabs selection that's highlighted in visual mode
+"from https://github.com/amix/vimrc/
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
 
-"Manage sessions from one location
-"from http://vim.runpaint.org/editing/managing-sessions/
-nmap SSA :mksession! ~/.vim/sessions/
-nmap SO :so ~/.vim/sessions/
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.' . a:extra_filter)
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+" Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+
+" Will clear command line until it finds a slash
+" from https://github.com/amix/vimrc
+func! DeleteTillSlash()
+    let g:cmd = getcmdline()
+
+    if has("win16") || has("win32")
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
+    else
+        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
+    endif
+
+    if g:cmd == g:cmd_edited
+        if has("win16") || has("win32")
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
+        else
+            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
+        endif
+    endif   
+
+    return g:cmd_edited
+endfunc
+
+"Make .vimrc edits active without relaunch
+if has("autocmd")
+  augroup myvimrchooks
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+  augroup END
+endif
 
 "-------------------"
 " FILETYPE SETTINGS
@@ -390,17 +457,3 @@ let NERDTreeShowHidden = 1
 "Vimbookmarks - my ghetto bookmarking system
 source ~/.vim/tmp/vimbookmarks.vim
 map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
-
-"-----------------------------------------------------------------------------
-" PERSONAL FUNCTIONS
-"-----------------------------------------------------------------------------
-
-"Opens a journal file in my dropbox
-fu! Journal()
-    let today = strftime("%y%m%d")
-    exe ':e ~/Dropbox/docs/journal/' . today . ".md"
-    exe ':call Writer()'
-endfu
-
-map <leader>7 :call Journal()<CR>
-
