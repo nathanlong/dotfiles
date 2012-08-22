@@ -457,3 +457,6 @@ let NERDTreeShowHidden = 1
 "Vimbookmarks - my ghetto bookmarking system
 source ~/.vim/tmp/vimbookmarks.vim
 map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
+
+"Writer - my minimal writing environment
+let g:writer_journal_dir = '~/Dropbox/docs/journal/'
