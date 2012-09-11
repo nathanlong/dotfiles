@@ -14,7 +14,7 @@ filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
-set synmaxcol=800         "Don't try to highlight lines with 800+ columns
+set synmaxcol=300         "Don't try to highlight lines with 300+ columns
 set history=70            "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
@@ -70,20 +70,19 @@ set foldenable          "Enable code folding
 set splitbelow          "Split windows below the current window
 set splitright          "Split vertical windows on the right
 set lazyredraw          "Does not redraw while macro is running (faster)
+set ttyfast             "Speed up terminal connection
 set scrolloff=3         "Always keeps cursor three lines from bottom
 set sidescrolloff=7     "Keeps 7 chars onscreen when nowrap set
 set sidescroll=1        "Minimum number of columns to scroll sideways
 
 "Use solarized dark scheme, very nice!
-let g:solarized_menu=0      "Remove solarized menubar
 colorscheme solarized       "Set colorscheme
-set bg=dark                 "Set solarized color setting
-call togglebg#map("<F5>")   "Background toggle for solarized
+set background=dark         "Set solarized theme
 
 "Makes solarized work in the terminal
 if &t_Co >= 256 
   let g:solarized_termcolors=256
-  set bg=dark
+  set background=dark
 endif
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
@@ -99,32 +98,49 @@ set diffopt=filler,vertical
 set winminheight=0
 set winminwidth=0
 
+"Toggle spellcheck
+nmap <silent> <buffer> <leader>s :set spell!<CR>
+
+"-----------------------------------------------------------------------------
+" STATUS LINE
+"-----------------------------------------------------------------------------
+
 "Syntastic Status Line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ %y%12.12(%l\,%c%V%)%8.8p%%
+set statusline=%f\ %m\ %r%=%{HasPaste()}%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%
 
-"Swap relative numbers and absolute line numbers
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <F6> :call NumberToggle()<cr>
-
-"Toggle spellcheck
-nmap <silent> <buffer> <leader>s :set spell!<CR>
+" Returns true if paste mode is enabled (for status line)
+function! HasPaste()
+    if &paste
+        return '[PASTE MODE]   '
+    en
+    return ''
+endfunction
 
 "-----------------------------------------------------------------------------
 " TEXT AND TABS
 "-----------------------------------------------------------------------------
 
-"allow backspacing over everything in insert mode
+"Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+"Tab stuff
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+"Indent stuff
+set smartindent
+set autoindent
+
+"Indentation commands like textmate
+nmap <D-[> <<
+nmap <D-]> >>
+vmap <D-[> <gv
+vmap <D-]> >gv
 
 "Easier window navigation, control+letter moves in that direction
 nmap <C-h> <C-w>h
@@ -162,22 +178,6 @@ nmap <c-s-tab> :tabprevious<cr>
 imap <c-s-tab> <c-o>:tabprevious<cr>
 vmap <c-s-tab> <c-o>:tabprevious<cr>
 
-"Tab stuff
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-
-"Indent stuff
-set smartindent
-set autoindent
-
-"Indentation commands like textmate
-nmap <D-[> <<
-nmap <D-]> >>
-vmap <D-[> <gv
-vmap <D-]> >gv
-
 "Better line wrapping
 set wrap
 set linebreak
@@ -188,8 +188,8 @@ set showbreak=++\ \
 "Toggle paste
 set pastetoggle=<F4>
 
-"Grab a line without trailing whitespace or linebreaks
-nnoremap <leader>L <esc>^vg_y
+"Copy a line without trailing whitespace or linebreaks (gui only)
+nnoremap <leader>L <esc>^vg_
 
 "-----------------------------------------------------------------------------
 " MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
@@ -385,6 +385,17 @@ func! DeleteTillSlash()
     return g:cmd_edited
 endfunc
 
+"Swap relative numbers and absolute line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <F6> :call NumberToggle()<cr>
+
 "Make .vimrc edits active without relaunch
 if has("autocmd")
   augroup myvimrchooks
@@ -459,4 +470,4 @@ source ~/.vim/tmp/vimbookmarks.vim
 map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
 
 "Writer - my minimal writing environment
-let g:writer_journal_dir = '~/Dropbox/docs/journal/'
+let g:writer_journal_dir = '~/Dropbox/docs/journal/' 
