@@ -29,6 +29,8 @@ set noswapfile
 "Turn persistent undo on - keeps change history even after quitting!
 set undodir=~/.vim/tmp
 set undofile
+set undolevels=500
+set undoreload=500
 
 "Changes leader from \ to ,
 let mapleader = ","
@@ -99,7 +101,7 @@ set winminheight=0
 set winminwidth=0
 
 "Toggle spellcheck
-nmap <silent> <buffer> <leader>s :set spell!<CR>
+nmap <silent> <leader>s :setlocal spell!<CR>
 
 "-----------------------------------------------------------------------------
 " STATUS LINE
@@ -120,7 +122,7 @@ function! HasPaste()
 endfunction
 
 "-----------------------------------------------------------------------------
-" TEXT AND TABS
+" TEXT AND TAB SETTINGS
 "-----------------------------------------------------------------------------
 
 "Allow backspacing over everything in insert mode
@@ -141,6 +143,23 @@ nmap <D-[> <<
 nmap <D-]> >>
 vmap <D-[> <gv
 vmap <D-]> >gv
+
+"Better line wrapping
+set wrap
+set linebreak
+set textwidth=78
+set formatoptions=qrn1
+set showbreak=++\ \ 
+
+"Toggle paste
+set pastetoggle=<F4>
+
+"Copy a line without trailing whitespace or linebreaks
+nnoremap <leader>L <esc>^vg_
+
+"-----------------------------------------------------------------------------
+" MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
+"-----------------------------------------------------------------------------
 
 "Easier window navigation, control+letter moves in that direction
 nmap <C-h> <C-w>h
@@ -177,23 +196,6 @@ vmap <c-tab> <c-o>:tabnext<cr>
 nmap <c-s-tab> :tabprevious<cr>
 imap <c-s-tab> <c-o>:tabprevious<cr>
 vmap <c-s-tab> <c-o>:tabprevious<cr>
-
-"Better line wrapping
-set wrap
-set linebreak
-set textwidth=78
-set formatoptions=qrn1
-set showbreak=++\ \ 
-
-"Toggle paste
-set pastetoggle=<F4>
-
-"Copy a line without trailing whitespace or linebreaks (gui only)
-nnoremap <leader>L <esc>^vg_
-
-"-----------------------------------------------------------------------------
-" MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
-"-----------------------------------------------------------------------------
 
 "emacs style jump to end of line in insert mode
 "prevents conflict with autocomplete
@@ -244,9 +246,9 @@ map <silent> <leader>cd :cd %:p:h<cr>
 " Smart mappings on the command line
 cno $h e ~/
 cno $d e ~/Desktop/
-cno $j e ./
+
 " Deletes until it finds a slash in the command line - useful!
-cno $q <C-\>eDeleteTillSlash()<cr>
+cno $# <C-\>eDeleteTillSlash()<cr>
 
 "Manage sessions from one location
 "from http://vim.runpaint.org/editing/managing-sessions/
@@ -420,7 +422,7 @@ endif
 nnoremap _md :set ft=markdown<CR>
 nnoremap _ht :set ft=html<CR>
 nnoremap _js :set ft=javascript<CR>
-nnoremap _jq :set ft=javascript<CR> :set syntax=jQuery<CR>
+nnoremap _jq :set ft=javascript syntax=jQuery<CR>
 nnoremap _pp :set ft=php<CR>
 
 "-------------------"
