@@ -8,3 +8,6 @@ unset file
 if [ -f ~/.extra ]; then
    source ~/.extra
 fi
+
+# Load Bashmarks
+source ~/.dotfiles/bin/bashmarks.sh

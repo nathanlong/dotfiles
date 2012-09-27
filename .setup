@@ -77,5 +77,3 @@ export CLICOLOR=1
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
-# Load Bashmarks
-source ~/.dotfiles/bin/bashmarks.sh

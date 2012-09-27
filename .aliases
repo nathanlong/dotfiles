@@ -1,29 +1,35 @@
-# ============================================================================== 
+# ============================================================================ 
 # Aliases
-# ============================================================================== 
+# ============================================================================ 
 
-# Easier Navigation
+# NAVIGATION -----------------------------------------------------------------
 alias ..='cd ..'
 alias ...="cd ../.."
 alias ~="cd ~"
 alias -- -="cd -"
 
-# Lists
-alias lsa='ls -A'
-alias ll='ls -laF'
+# LISTS ----------------------------------------------------------------------
+alias ll='ls -laF'       # long form, everything
+alias lo='ls -oG'        # long form, no user group, no hidden
+alias lt='ls -toaG'      # order by last modified, everything
+alias lf='ls -AGFoh'     # long form, no user, file size
 
-alias zz='exit'
-alias cpbase='cp -RLv'
-alias mvimdiff='mvim -d'
+# UTILITIES ------------------------------------------------------------------
+alias a="ack -ia"        # ack everything, case insensitive
+alias catn='cat -n'      # join and print with line numbers
+alias zz='exit'          # quick exit
+alias mp='mvim -p'       # open all files in macvim tabs
+alias mvimdiff='mvim -d' # open mvim with diff splits
+alias sudo='sudo '       # Enable aliases to be sudo’ed
+alias v="mvim . "        # Open cd in mvim
+alias o="open"           # Open file with default application
+alias oo="open ."        # Open cd in Finder
 
-# Shortcuts
-# alias g="git"
-alias v="mvim . "
-alias o="open"
-alias oo="open ."
-
-# Enable aliases to be sudo’ed
-alias sudo='sudo '
+# NETWORK AND TRAFFIC --------------------------------------------------------
+# IP Addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en1"
+alias localip0="ipconfig getifaddr en0"
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache"
@@ -32,6 +38,25 @@ alias flush="dscacheutil -flushcache"
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
+# if on a proxy server dump traffic for en0
+alias httpdump0="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+# System monitoring
+alias toc="top -o cpu"
+alias tor="top -o rsize"
+
+
+# SYSTEM ---------------------------------------------------------------------
+# Empty the Trash on all mounted volumes and the main HDD
+# Also, clear Apple’s System Logs to improve shell startup speed
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g; sudo gem update'
+
 # Show/hide hidden files in Finder
 alias show="defaults write com.apple.Finder AppleShowAllFiles -bool true && killall Finder"
 alias hide="defaults write com.apple.Finder AppleShowAllFiles -bool false && killall Finder"
@@ -39,13 +64,3 @@ alias hide="defaults write com.apple.Finder AppleShowAllFiles -bool false && kil
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# System monitoring
-alias toc="top -o cpu"
-alias tor="top -o rsize"
-
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; npm update npm -g; npm update -g; sudo gem update'
