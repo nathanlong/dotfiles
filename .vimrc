@@ -14,7 +14,7 @@ filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
-set synmaxcol=300         "Don't try to highlight lines with 300+ columns
+set synmaxcol=600         "Don't try to highlight lines with 600+ columns
 set history=70            "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
@@ -27,10 +27,12 @@ set nowb
 set noswapfile
 
 "Turn persistent undo on - keeps change history even after quitting!
-set undodir=~/.vim/tmp
-set undofile
-set undolevels=500
-set undoreload=500
+if exists("&undodir")
+    set undodir=~/.vim/tmp
+    set undofile
+    set undolevels=500
+    set undoreload=500
+endif
 
 "Changes leader from \ to ,
 let mapleader = ","
@@ -80,12 +82,6 @@ set sidescroll=1        "Minimum number of columns to scroll sideways
 "Use solarized dark scheme, very nice!
 colorscheme solarized       "Set colorscheme
 set background=dark         "Set solarized theme
-
-"Makes solarized work in the terminal
-if &t_Co >= 256 
-  let g:solarized_termcolors=256
-  set background=dark
-endif
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>l :set list!<CR>
@@ -138,7 +134,7 @@ set expandtab
 set smartindent
 set autoindent
 
-"Indentation commands like textmate
+"Indentation commands sorta like textmate
 nmap <D-[> <<
 nmap <D-]> >>
 vmap <D-[> <gv
@@ -225,7 +221,7 @@ map <silent> <leader><cr> :noh<cr>
 nmap <leader>vv :tabedit $MYVIMRC<cr>
 nmap <leader>vg :tabedit $MYGVIMRC<cr>
 
-"Bash commands for opening the current file or directory in another application
+"Commands for opening the current file or directory in another application
 map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
 map <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
 map <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
@@ -246,9 +242,6 @@ map <silent> <leader>cd :cd %:p:h<cr>
 " Smart mappings on the command line
 cno $h e ~/
 cno $d e ~/Desktop/
-
-" Deletes until it finds a slash in the command line - useful!
-cno $# <C-\>eDeleteTillSlash()<cr>
 
 "Manage sessions from one location
 "from http://vim.runpaint.org/editing/managing-sessions/
@@ -293,21 +286,6 @@ function! CloseHiddenBuffers()
 endfun
 
 map <leader>bc :call CloseHiddenBuffers()<cr>
-
-" <c-x>{char} - paste register into search field, escaping sensitive chars
-" useful for searching for urls http://stackoverflow.com/questions/7400743/
-cnoremap <c-x> <c-r>=<SID>PasteEscaped()<cr>
-function! s:PasteEscaped()
-  echo "\\".getcmdline()."\""
-  let char = getchar()
-  if char == "\<esc>"
-    return ''
-  else
-    let register_content = getreg(nr2char(char))
-    let escaped_register = escape(register_content, '\'.getcmdtype())
-    return substitute(escaped_register, '\n', '\\n', 'g')
-  endif
-endfunction
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 " From http://vimcasts.org/episodes/tabs-and-spaces/
@@ -364,39 +342,6 @@ endfunction
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f', '')<CR>
 vnoremap <silent> # :call VisualSelection('b', '')<CR>
-
-" Will clear command line until it finds a slash
-" from https://github.com/amix/vimrc
-func! DeleteTillSlash()
-    let g:cmd = getcmdline()
-
-    if has("win16") || has("win32")
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-    else
-        let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-    endif
-
-    if g:cmd == g:cmd_edited
-        if has("win16") || has("win32")
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-        else
-            let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-        endif
-    endif   
-
-    return g:cmd_edited
-endfunc
-
-"Swap relative numbers and absolute line numbers
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-
-nnoremap <F6> :call NumberToggle()<cr>
 
 "Make .vimrc edits active without relaunch
 if has("autocmd")
