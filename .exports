@@ -12,4 +12,4 @@ export LESS_TERMCAP_md="$ORANGE"
 export HISTCONTROL=ignoredups
 
 # Make some commands not show up in history
-export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
+export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
