@@ -96,3 +96,6 @@
 [submodule ".vim/bundle/change-inside"]
 	path = .vim/bundle/change-inside
 	url = git://github.com/briandoll/change-inside-surroundings.vim.git
+[submodule ".vim/bundle/syntax-javascript"]
+	path = .vim/bundle/syntax-javascript
+	url = git://github.com/pangloss/vim-javascript.git
