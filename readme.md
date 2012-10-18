@@ -78,11 +78,16 @@ Its pretty hackish, but it works!
 
 ## A Note on Updating Vim Submodules
 
-With git submodules, if `git submodule update` does not update your
-submodules after you've checked them out, try:
+Most of the time, it seems, cloning this repo will create detached heads for
+all submodules (not actually on a branch, just kinda 'floating' at a commit).
+If that's ok, then just leave it as is. If you'd like to continually update
+your submodules run:
 
-    git submodule foreach git pull origin master
-    git submodule update
+    git submodule foreach git checkout master
 
-(If you use command-t, you'll have to rebuild it after an update with `rake
-make`.)
+Which will switch them all to the master branch. An update can be run as:
+
+    git submodule foreach git pull
+
+I'm sure there's a much better way to do this. But this works. (If you know of
+a way, I'd love to hear it.)
