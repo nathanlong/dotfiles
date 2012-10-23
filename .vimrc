@@ -237,7 +237,7 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
 "Change current directory to that of the file in the buffer
-map <silent> <leader>cd :cd %:p:h<cr>
+map <silent> <leader><leader>cd :cd %:p:h<cr>
 
 " Smart mappings on the command line
 cno $h e ~/
@@ -386,9 +386,11 @@ let g:user_zen_next_key = '<C-f>'
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 " let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 
-" Removes vimwiki menu, and kills .md override
+" VimWiki
 let g:vimwiki_menu=''
 let g:vimwiki_ext2syntax = {}
+let g:vimwiki_list = [{'path': '~/Dropbox/docs/vimwiki'}]
+nmap <leader>tt <Plug>VimwikiToggleListItem
 
 "Map for Gundo
 nnoremap <F2> :GundoToggle<CR>
@@ -411,6 +413,10 @@ nnoremap <f1> :NERDTreeToggle<cr>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
+
+"ChangeInside
+nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
+nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 
 "Vimbookmarks - my ghetto bookmarking system
 source ~/.vim/tmp/vimbookmarks.vim
