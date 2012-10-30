@@ -389,7 +389,6 @@ let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 " VimWiki
 let g:vimwiki_menu=''
 let g:vimwiki_ext2syntax = {}
-let g:vimwiki_list = [{'path': '~/Dropbox/docs/vimwiki'}]
 nmap <leader>tt <Plug>VimwikiToggleListItem
 
 "Map for Gundo
@@ -422,5 +421,8 @@ nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 source ~/.vim/tmp/vimbookmarks.vim
 map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
 
-"Writer - my minimal writing environment
-let g:writer_journal_dir = '~/Dropbox/docs/journal/' 
+"-----------------------------------------------------------------------------
+" MACHINE SPECIFIC SETTINGS
+"-----------------------------------------------------------------------------
+
+source ~/.vimsecrets
