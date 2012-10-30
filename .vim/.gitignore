@@ -3,5 +3,6 @@
 .VimballRecord
 .DS_store
 UltiSnips/*
+UltiSnips
 sessions/*
 tmp/*
