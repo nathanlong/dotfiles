@@ -107,15 +107,7 @@ nmap <silent> <leader>s :setlocal spell!<CR>
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=%f\ %m\ %r%=%{HasPaste()}%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%
-
-" Returns true if paste mode is enabled (for status line)
-function! HasPaste()
-    if &paste
-        return '[PASTE MODE]   '
-    en
-    return ''
-endfunction
+set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -239,14 +231,6 @@ map <leader>et :tabe %%
 "Change current directory to that of the file in the buffer
 map <silent> <leader><leader>cd :cd %:p:h<cr>
 
-" Smart mappings on the command line
-cno $h e ~/
-cno $d e ~/Desktop/
-
-"Manage sessions from one location
-"from http://vim.runpaint.org/editing/managing-sessions/
-nmap SSA :mksession! ~/.vim/sessions/
-nmap SO :so ~/.vim/sessions/
 
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
@@ -287,62 +271,6 @@ endfun
 
 map <leader>bc :call CloseHiddenBuffers()<cr>
 
-" Set tabstop, softtabstop and shiftwidth to the same value
-" From http://vimcasts.org/episodes/tabs-and-spaces/
-command! -nargs=* Stab call Stab()
-function! Stab()
-  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-  if l:tabstop > 0
-    let &l:sts = l:tabstop
-    let &l:ts = l:tabstop
-    let &l:sw = l:tabstop
-  endif
-  call SummarizeTabs()
-endfunction
-
-function! SummarizeTabs()
-  try
-    echohl ModeMsg
-    echon 'tabstop='.&l:ts
-    echon ' shiftwidth='.&l:sw
-    echon ' softtabstop='.&l:sts
-    if &l:et
-      echon ' expandtab'
-    else
-      echon ' noexpandtab'
-    end
-  finally
-    echohl None
-  endtry
-endfunction
-
-"Grabs selection that's highlighted in visual mode
-"from https://github.com/amix/vimrc/
-function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.' . a:extra_filter)
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
-
-" Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :call VisualSelection('f', '')<CR>
-vnoremap <silent> # :call VisualSelection('b', '')<CR>
-
 "Make .vimrc edits active without relaunch
 if has("autocmd")
   augroup myvimrchooks
@@ -378,13 +306,9 @@ nnoremap _pp :set ft=php<CR>
 nmap <silent> <Leader>. :CommandT<CR>
 nmap <silent> <Leader>m :CommandTBuffer<CR>
 
-"Change zen coding plugin expansion key to control + d
+"Change zen coding plugin expansion key to command + e
 let g:user_zen_expandabbr_key = '<D-e>'
 let g:user_zen_next_key = '<C-f>'
-
-"Supertab settings
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-" let g:SuperTabContextDefaultCompletionType = "<c-x><c-n>"
 
 " VimWiki
 let g:vimwiki_menu=''

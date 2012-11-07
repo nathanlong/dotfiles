@@ -23,9 +23,6 @@
 [submodule ".vim/bundle/unimpaired"]
 	path = .vim/bundle/unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
-[submodule ".vim/bundle/supertab"]
-	path = .vim/bundle/supertab
-	url = git://github.com/ervandew/supertab.git
 [submodule ".vim/bundle/command-t"]
 	path = .vim/bundle/command-t
 	url = git://github.com/wincent/Command-T.git
@@ -83,9 +80,6 @@
 	path = .vim/bundle/git
 	url = git://github.com/tpope/vim-git.git
 	ignore = dirty
-[submodule ".vim/bundle/colors-mustang"]
-	path = .vim/bundle/colors-mustang
-	url = git://github.com/croaker/mustang-vim.git
 [submodule ".vim/bundle/syntax-liquid"]
 	path = .vim/bundle/syntax-liquid
 	url = git://github.com/tpope/vim-liquid.git
