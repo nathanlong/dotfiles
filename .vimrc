@@ -107,7 +107,9 @@ nmap <silent> <leader>s :setlocal spell!<CR>
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%
+set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%\ \ %{strftime('%H:%M')}
+
+
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
