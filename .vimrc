@@ -2,6 +2,9 @@
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
+scriptencoding utf-8      "UTF8 All day, every day
+set directory=~/.vim/tmp  "Set temporary directory (don't litter local dir with swp/tmp files)
+
 "Use vim settings instead of vi settings. Way better.
 "This must be first because it changes other settings.
 set nocompatible          
@@ -15,7 +18,7 @@ filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
 set synmaxcol=600         "Don't try to highlight lines with 600+ columns
-set history=70            "Sets how many lines of history VIM has to remember
+set history=100           "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
@@ -26,10 +29,13 @@ set nobackup
 set nowb
 set noswapfile
 
+"Set shift+K to internal VIM Help
+set keywordprg=:help
+
 "Turn persistent undo on - keeps change history even after quitting!
 if exists("&undodir")
-    set undodir=~/.vim/tmp
     set undofile
+    let &undodir=&directory
     set undolevels=500
     set undoreload=500
 endif
@@ -58,30 +64,31 @@ set mouse=a
 " INTERFACE
 "-----------------------------------------------------------------------------
 
-set linespace=3         "Slightly higher linespace
-set number              "Show line numbers
-set ruler               "Cursor position in lower right
-set showcmd             "Show command in bottom right
-set showmode            "Shows current mode
-set laststatus=2        "Always show status line
-set incsearch           "Set incremental searching
-set hlsearch            "Highlight searching
-set ignorecase          "case insensitive search
-set smartcase           "case insensitive search
-set gdefault            "Apply substitutions globally on a line by default
-set mousehide           "hide mouse when typing
-set foldenable          "Enable code folding
-set splitbelow          "Split windows below the current window
-set splitright          "Split vertical windows on the right
-set lazyredraw          "Does not redraw while macro is running (faster)
-set ttyfast             "Speed up terminal connection
-set scrolloff=3         "Always keeps cursor three lines from bottom
-set sidescrolloff=7     "Keeps 7 chars onscreen when nowrap set
-set sidescroll=1        "Minimum number of columns to scroll sideways
+set linespace=3           "Slightly higher linespace
+set number                "Show line numbers
+set more                  "Adds the more prompt to long screen prints
+set ruler                 "Cursor position in lower right
+set showcmd               "Show command in bottom right
+set showmode              "Shows current mode
+set incsearch             "Set incremental searching
+set hlsearch              "Highlight searching
+set ignorecase            "case insensitive search
+set smartcase             "case insensitive search
+set gdefault              "Apply substitutions globally on a line by default
+set mousehide             "hide mouse when typing
+set foldenable            "Enable code folding
+set splitbelow            "Split windows below the current window
+set splitright            "Split vertical windows on the right
+set lazyredraw            "Does not redraw while macro is running (faster)
+set ttyfast               "Speed up terminal connection
+set scrolloff=3           "Always keeps cursor three lines from bottom
+set sidescrolloff=7       "Keeps 7 chars onscreen when nowrap set
+set sidescroll=1          "Minimum number of columns to scroll sideways
 
 "Use solarized dark scheme, very nice!
-colorscheme solarized       "Set colorscheme
-set background=dark         "Set solarized theme
+let g:solarized_menu=0    "Remove solarized menubar from gui
+colorscheme solarized     "Set colorscheme
+set background=dark       "Set solarized theme style
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>l :set list!<CR>
@@ -103,13 +110,13 @@ nmap <silent> <leader>s :setlocal spell!<CR>
 " STATUS LINE
 "-----------------------------------------------------------------------------
 
+set laststatus=2          "Always show status line
+
 "Syntastic Status Line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%8.8p%%\ \ %{strftime('%H:%M')}
-
-
+set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%%8.8{strftime('%H:%M')}
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -332,12 +339,18 @@ let g:EasyMotion_leader_key = ',,'
 "Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['html', 'javascript', 'php'] }
+"Check dem partials!
+let g:syntastic_sass_check_partials = 1
 
 "NerdTree
 nnoremap <f1> :NERDTreeToggle<cr>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
+
+"Powerline
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_colorscheme = 'solarized'
 
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
@@ -351,4 +364,4 @@ map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
 " MACHINE SPECIFIC SETTINGS
 "-----------------------------------------------------------------------------
 
-source ~/.vimsecrets
+source ~/.vimrc.local

@@ -89,3 +89,9 @@
 [submodule ".vim/bundle/syntax-javascript"]
 	path = .vim/bundle/syntax-javascript
 	url = git://github.com/pangloss/vim-javascript.git
+[submodule ".vim/bundle/supertab"]
+	path = .vim/bundle/supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule ".vim/bundle/powerline"]
+	path = .vim/bundle/powerline
+	url = git://github.com/Lokaltog/vim-powerline.git

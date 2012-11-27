@@ -5,8 +5,14 @@ set guioptions-=R           "Do not use scrollbars
 set guioptions-=l           "Do not use scrollbars
 set guioptions-=L           "Do not use scrollbars
 set guifont=Consolas:h16    "Set font type and size. 
-set fuopt=maxvert           "Sets max height when entering fullscreen
+set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
+
+" Command-Return for fullscreen
+macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
+
+" Command-Shift-F for Ack
+map <D-F> :Ack<space>
 
 set lines=999               "Sets new windows to full-height
 set cursorline              "Highlights the line the cursor is on
