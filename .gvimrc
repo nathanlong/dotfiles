@@ -11,6 +11,11 @@ set fuopt=background:Normal "Set fullscreen bg to match the text bg
 " Command-Return for fullscreen
 macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
 
+"Darn semi-colons, make my life a little easier, but first unmap <D-;>
+macmenu &Tools.Spelling.To\ Next\ error key=<nop>
+imap <D-;> <esc>A;
+nmap <D-;> A;
+
 " Command-Shift-F for Ack
 map <D-F> :Ack<space>
 
