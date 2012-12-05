@@ -22,7 +22,7 @@ unset linkIt
 mkdir ~/.dotfiles/.vim/sessions
 mkdir ~/.dotfiles/.vim/tmp
 touch ~/.dotfiles/.vim/tmp/vimbookmarks
-touch ~/.vimsecrets
+touch ~/.vimrc.local
 source ~/.bash_profile
 echo "Transfer complete."
 
