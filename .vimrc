@@ -3,34 +3,26 @@
 "-----------------------------------------------------------------------------
 
 scriptencoding utf-8      "UTF8 All day, every day
-set directory=~/.vim/tmp  "Set temporary directory (don't litter local dir with swp/tmp files)
-
-"Use vim settings instead of vi settings. Way better.
-"This must be first because it changes other settings.
-set nocompatible          
-
-"Pathogen startup
-call pathogen#infect()
-call pathogen#helptags()
-
+set nocompatible          "Use vim settins, not vi settings. Affects a lot.
+call pathogen#infect()    "Initialize Pathogen
+call pathogen#helptags()  "Update the help file tags for plugins
 filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
+set directory=~/.vim/tmp  "Set temp directory (don't litter local dir with swp/tmp files)
 set synmaxcol=600         "Don't try to highlight lines with 600+ columns
 set history=100           "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
-
-"I've never used the backup files to restore anything... so turn them off
-set nobackup
-set nowb
-set noswapfile
-
-"Set shift+K to internal VIM Help
-set keywordprg=:help
+set keywordprg=:help      "Set shift+K to internal VIM Help
+set nobackup              "Get rid of backups, I don't use them
+set nowb                  "Get rid of backups on write
+set noswapfile            "Get rid of swp files, I have never used them
+set gdefault              "Apply substitutions globally on a line by default
+set ttyfast               "Speed up terminal connection
 
 "Turn persistent undo on - keeps change history even after quitting!
 if exists("&undodir")
@@ -54,9 +46,6 @@ imap jj <esc>
 set wildmode=list:longest
 set wildmenu
 
-" Disable keys I accidentally press all the time
-nnoremap K <nop>
-
 "In many terminal emulators the mouse works just fine, so have at it.
 set mouse=a
 
@@ -74,13 +63,11 @@ set incsearch             "Set incremental searching
 set hlsearch              "Highlight searching
 set ignorecase            "case insensitive search
 set smartcase             "case insensitive search
-set gdefault              "Apply substitutions globally on a line by default
 set mousehide             "hide mouse when typing
 set foldenable            "Enable code folding
 set splitbelow            "Split windows below the current window
 set splitright            "Split vertical windows on the right
 set lazyredraw            "Does not redraw while macro is running (faster)
-set ttyfast               "Speed up terminal connection
 set scrolloff=3           "Always keeps cursor three lines from bottom
 set sidescrolloff=7       "Keeps 7 chars onscreen when nowrap set
 set sidescroll=1          "Minimum number of columns to scroll sideways
@@ -116,26 +103,23 @@ set laststatus=2          "Always show status line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%%8.8{strftime('%H:%M')}
+set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
 "-----------------------------------------------------------------------------
 
-"Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-"Tab stuff
-set tabstop=4
+set tabstop=4              "Tab stuff
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-
-"Indent stuff
-set smartindent
+set smartindent            "Indent stuff
 set autoindent
 
-"Indentation commands sorta like textmate
+"Allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+"Indentation like textmate
 nmap <D-[> <<
 nmap <D-]> >>
 vmap <D-[> <gv
@@ -208,6 +192,7 @@ nnoremap j gj
 nnoremap k gk
 
 "Open line above (ctrl-shift-o much easier than ctrl-o shift-O)
+"SO USEFUL!!!
 imap <C-Enter> <C-o>o
 imap <C-S-Enter> <C-o>O
 
@@ -239,7 +224,6 @@ map <leader>et :tabe %%
 
 "Change current directory to that of the file in the buffer
 map <silent> <leader><leader>cd :cd %:p:h<cr>
-
 
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
@@ -302,7 +286,7 @@ endif
 
 "Easy filetype switching
 nnoremap _md :set ft=markdown<CR>
-nnoremap _ht :set ft=html<CR>
+nnoremap _hh :set ft=html<CR>
 nnoremap _js :set ft=javascript<CR>
 nnoremap _jq :set ft=javascript syntax=jQuery<CR>
 nnoremap _pp :set ft=php<CR>
@@ -339,8 +323,6 @@ let g:EasyMotion_leader_key = ',,'
 "Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['html', 'javascript', 'php'] }
-"Check dem partials!
-let g:syntastic_sass_check_partials = 1
 
 "NerdTree
 nnoremap <f1> :NERDTreeToggle<cr>
