@@ -19,6 +19,10 @@ nmap <D-;> A;
 " Command-Shift-F for Ack
 map <D-F> :Ack<space>
 
+"Unmap D-L for copy-line command
+macmenu &Tools.List\ Errors key=<nop>
+map <D-l> <esc>^vg_"+y
+
 set lines=999               "Sets new windows to full-height
 set cursorline              "Highlights the line the cursor is on
 
