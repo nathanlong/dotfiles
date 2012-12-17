@@ -102,8 +102,10 @@ set laststatus=2          "Always show status line
 "Syntastic Status Line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
-"Status line
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
+"Status line (if not powerline)
+if !exists('g:Powerline_loaded') || !g:Powerline_loaded
+  set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
+endif
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
