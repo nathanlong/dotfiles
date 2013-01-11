@@ -27,6 +27,13 @@
     sa = stash apply                            # apply stash (restore changes)
     sd = stash drop                             # drop stashes (destory changes)
 
+    sm = submodule                              # submodule
+    smi = submodule init                        # initialize submodules
+    smu = submodule update                      # update all submodules
+
+    smp = submodule foreach git pull            # update submodules with attached heads
+    small = submodule foreach git checkout master
+
     pl = pull                                   # pull
     ps = push                                   # push
     r = remote -v                               # show remotes (verbose)
