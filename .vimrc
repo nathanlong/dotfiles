@@ -2,7 +2,7 @@
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
-scriptencoding utf-8      "UTF8 All day, every day
+set encoding=utf-8        "UTF8 All day, every day
 set nocompatible          "Use vim settins, not vi settings. Affects a lot.
 call pathogen#infect()    "Initialize Pathogen
 call pathogen#helptags()  "Update the help file tags for plugins
@@ -281,7 +281,7 @@ endif
 if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt set filetype=text
-    au FileType html,xhtml,css,scss,ruby,pml,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
     au FileType javascript,php setlocal ts=4 sts=4 sw=4 noexpandtab 
     au FileType text setlocal textwidth=78 
 endif
