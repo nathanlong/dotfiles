@@ -77,3 +77,8 @@ export CLICOLOR=1
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob
+
+# enable programmable completion
+[ -f /etc/bash_completion ] && . /etc/bash_completion

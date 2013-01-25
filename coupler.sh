@@ -5,7 +5,7 @@ git pull
 git submodule init
 git submodule update
 function linkIt() {
-    for file in .{bash_profile,bashrc,vim,vimrc,gvimrc,gitconfig}; do
+    for file in .{bash_profile,bashrc,inputrc,vim,vimrc,gvimrc,gitconfig}; do
         ln -sifF ~/.dotfiles/"$file" ~/"$file" 
     done
 }
