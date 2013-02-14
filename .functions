@@ -25,9 +25,10 @@ function serverpy() {
 }
 
 # Start webrick server from current directory
-function serverruby {
+function server {
     local port=$1
     : ${port:=3000}
+    open "http://localhost:${port}/"
     ruby -rwebrick -e"s = WEBrick::HTTPServer.new(:Port => $port, :DocumentRoot => Dir.pwd, :MimeTypes => WEBrick::HTTPUtils::load_mime_types('/etc/apache2/mime.types')); trap(%q(INT)) { s.shutdown }; s.start"
 }
 
