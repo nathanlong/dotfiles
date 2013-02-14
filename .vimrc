@@ -78,7 +78,7 @@ colorscheme solarized     "Set colorscheme
 set background=dark       "Set solarized theme style
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
-nmap <leader>l :set list!<CR>
+nmap <leader>L :set list!<CR>
 
 "Use the similar symbols as TextMate for tabstops and EOLs
 set listchars=tab:›\ ,eol:¬,trail:⋅
@@ -135,10 +135,10 @@ set formatoptions=qrn1
 set showbreak=++\ \ 
 
 "Toggle paste
-set pastetoggle=<F4>
+set pastetoggle=<F5>
 
 "Copy a line without trailing whitespace or linebreaks
-nnoremap <leader>L <esc>^vg_
+nnoremap <leader>l <esc>^vg_
 
 "-----------------------------------------------------------------------------
 " MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
@@ -224,8 +224,8 @@ map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
-"Change current directory to that of the file in the buffer
-map <silent> <leader><leader>cd :cd %:p:h<cr>
+"Change current directory to that of the file in the buffer with CMD + D
+map <silent> <D-d> :cd %:p:h<cr>
 
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
@@ -297,9 +297,16 @@ nnoremap _pp :set ft=php<CR>
 " PLUGIN SETTINGS
 "-------------------"
 
+"Quick Mappings
+nnoremap <f1> :NERDTreeToggle<cr>
+nnoremap <f2> :BuffergatorToggle<cr>
+nnoremap <F3> :GundoToggle<CR>
+nnoremap <silent> <F4> :YRShow<cr>
+inoremap <silent> <F4> <ESC>:YRShow<cr>
+
 "Change Command-T mapping
-nmap <silent> <Leader>. :CommandT<CR>
-nmap <silent> <Leader>m :CommandTBuffer<CR>
+nmap <silent> <C-> :CommandT<CR>
+nmap <silent> <C-\> :CommandTBuffer<CR>
 
 "Change zen coding plugin expansion key to command + e
 let g:user_zen_expandabbr_key = '<D-e>'
@@ -310,12 +317,7 @@ let g:vimwiki_menu=''
 let g:vimwiki_ext2syntax = {}
 nmap <leader>tt <Plug>VimwikiToggleListItem
 
-"Map for Gundo
-nnoremap <F2> :GundoToggle<CR>
-
 "YankRing Bindings
-nnoremap <silent> <F3> :YRShow<cr>
-inoremap <silent> <F3> <ESC>:YRShow<cr>
 let g:yankring_history_dir = '~/.vim/tmp'
 let g:yankring_default_menu_mode = 0
 
@@ -327,7 +329,6 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                            \ 'active_filetypes': ['html', 'javascript', 'php'] }
 
 "NerdTree
-nnoremap <f1> :NERDTreeToggle<cr>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
