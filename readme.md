@@ -1,10 +1,6 @@
 # Dotfiles
 
-These are my personal dotfiles for web design and front-end development.  I've
-borrowed heavily from [Mathias Bynens's
-dotfiles](https://github.com/mathiasbynens/dotfiles), but instead of
-installing locally, I link all files from the repo so I can manage and
-commit from the same location.
+### AKA VIMTASTIC FRONT END DEVELOPMENT SETTINGS
 
 ## Installation
 
@@ -19,7 +15,7 @@ Clone the files into your home directory:
 This will initialize all submodules and create symlinks for all relevant
 files. It will overwrite any files that already exist, so... fair warning!
 
-Note: If you move the repo from `~/.dotfiles` you will need to change the file
+**Note:** If you move the repo from `~/.dotfiles` you will need to change the file
 sourcing in `.bash_profile`.
 
 ## Local Overrides
@@ -28,20 +24,14 @@ For quick settings, or environment specific settings use the following files,
 all are sourced by default.
 
 Bash = `~/.extra`
+
 Vim = `~/.vimrc.local`
+
 Git = `~/.gitconfig.local`
 
-Note: The `coupler.sh` will create a blank `.vimsecret` by default so that Vim
-doesn't yell when it doesn't see it.
-
-## OSX Defaults
-
-When setting up a new machine, cd into the dotfiles repo and run:
-
-    ./.osx
-
-This will set up some system defaults. For many more options check out Mathias
-Bynens's [.osx file](https://github.com/mathiasbynens/dotfiles/blob/master/.osx).
+**Note:** The `coupler.sh` will create a blank `.vimrc.local` in your home dir
+by default so that Vim doesn't get all mad and throw a fit when it can't find
+it.
 
 ## Extra Folders and Bookmarks for Vim
 
@@ -76,3 +66,13 @@ Which will switch them all to the master branch. An update can be run as:
     git submodule foreach git pull
 
 These commands are also aliased as `git small` and `git smp` respectively.
+
+## OSX Defaults
+
+When setting up a new machine, cd into the dotfiles repo and run:
+
+    ./.osx
+
+This will set up some handy dandy system defaults. For many more options check
+out Mathias Bynens's [.osx file](https://github.com/mathiasbynens/dotfiles/blob/master/.osx).
+
