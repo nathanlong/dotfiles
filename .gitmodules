@@ -95,6 +95,3 @@
 [submodule ".vim/bundle/powerline"]
 	path = .vim/bundle/powerline
 	url = git://github.com/Lokaltog/vim-powerline.git
-[submodule ".vim/bundle/buffergator"]
-	path = .vim/bundle/buffergator
-	url = git://github.com/jeetsukumaran/vim-buffergator.git

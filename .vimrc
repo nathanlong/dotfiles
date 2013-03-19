@@ -189,6 +189,14 @@ inoremap <C-a> <C-o>I
 nnoremap <tab> %
 vnoremap <tab> %
 
+"Duplicate lines above and below
+imap <C-A-down> <esc>Ypk
+nmap <C-A-down> Ypk
+vmap <C-A-down> y`>pgv
+imap <C-A-up> <esc>YPj
+nmap <C-A-up> YPj
+vmap <C-A-up> y`<Pgv
+
 "Remap j and k to act as expected when used on long, wrapped, lines
 nnoremap j gj
 nnoremap k gk
@@ -298,11 +306,10 @@ nnoremap _pp :set ft=php<CR>
 "-------------------"
 
 "Quick Mappings
-nnoremap <f1> :NERDTreeToggle<cr>
-nnoremap <f2> :BuffergatorToggle<cr>
-nnoremap <F3> :GundoToggle<CR>
-nnoremap <silent> <F4> :YRShow<cr>
-inoremap <silent> <F4> <ESC>:YRShow<cr>
+nnoremap <F1> :NERDTreeToggle<cr>
+nnoremap <F2> :GundoToggle<CR>
+nnoremap <silent> <F3> :YRShow<cr>
+inoremap <silent> <F3> <ESC>:YRShow<cr>
 
 "Change Command-T mapping
 nmap <silent> <C-> :CommandT<CR>
@@ -340,6 +347,14 @@ let g:Powerline_colorscheme = 'solarized'
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
+
+"Unimpared bubble lines
+" Bubble single lines
+nmap <C-Up> [e
+nmap <C-Down> ]e
+" Bubble multiple lines
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
 
 "Vimbookmarks - my ghetto bookmarking system
 source ~/.vim/tmp/vimbookmarks.vim
