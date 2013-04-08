@@ -10,7 +10,6 @@ filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
-set directory=~/.vim/tmp  "Set temp directory (don't litter local dir with swp/tmp files)
 set synmaxcol=600         "Don't try to highlight lines with 600+ columns
 set history=100           "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
@@ -18,19 +17,21 @@ set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
 set keywordprg=:help      "Set shift+K to internal VIM Help
-set nobackup              "Get rid of backups, I don't use them
-set nowb                  "Get rid of backups on write
-set noswapfile            "Get rid of swp files, I have never used them
 set gdefault              "Apply substitutions globally on a line by default
 set ttyfast               "Speed up terminal connection
 
-"Turn persistent undo on - keeps change history even after quitting!
+" Centralize backups, swap files, and persistent undo
+set directory=~/.vim/tmp  "Set temp directory (don't litter local dir with swp/tmp files)
+set nobackup              "Get rid of backups, I don't use them
+set nowb                  "Get rid of backups on write
+set noswapfile            "Get rid of swp files, I have never used them
 if exists("&undodir")
-    set undofile
+    set undofile          "Persistent undo! Pure money.
     let &undodir=&directory
     set undolevels=500
     set undoreload=500
 endif
+set viminfo+=n$HOME/.vim/tmp/viminfo
 
 "Changes leader from \ to ,
 let mapleader = ","
@@ -132,7 +133,7 @@ set wrap
 set linebreak
 set textwidth=78
 set formatoptions=qrn1
-set showbreak=++\ \ 
+set showbreak=+\ \ 
 
 "Toggle paste
 set pastetoggle=<F5>
@@ -364,4 +365,6 @@ map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
 " MACHINE SPECIFIC SETTINGS
 "-----------------------------------------------------------------------------
 
-source ~/.vimrc.local
+if filereadable(glob("$HOME/.vimrc.local"))
+  source $HOME/.vimrc.local
+endif
