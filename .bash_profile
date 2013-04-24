@@ -4,9 +4,9 @@ for file in ~/.dotfiles/.{setup,exports,aliases,functions}; do
 done
 unset file
 
-# ~/.extra can be used for settings you don’t want to commit
-if [ -f ~/.extra ]; then
-   source ~/.extra
+# ~/.bashrc.local can be used for settings you don’t want to commit
+if [ -f ~/.bashrc.local ]; then
+   source ~/.bashrc.local
 fi
 
 # Load Bashmarks

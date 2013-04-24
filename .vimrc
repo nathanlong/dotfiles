@@ -358,8 +358,10 @@ vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
 "Vimbookmarks - my ghetto bookmarking system
-source ~/.vim/tmp/vimbookmarks.vim
-map <leader>9 :15sp ~/.vim/tmp/vimbookmarks.vim<cr>
+if filereadable(glob("$HOME/.vim/tmp/vimbookmarks.vim"))
+  source $HOME/.vim/tmp/vimbookmarks.vim
+endif
+map <leader>9 :15sp $HOME/.vim/tmp/vimbookmarks.vim<cr>
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
