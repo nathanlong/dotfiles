@@ -142,7 +142,7 @@ set pastetoggle=<F5>
 nnoremap <leader>l <esc>^vg_
 
 "-----------------------------------------------------------------------------
-" MOVING AROUND IN TEXT, TABS, BUFFERS, AND FILES
+" EXTRA COMMANDS AND EXTENDED FUNCTIONALITY
 "-----------------------------------------------------------------------------
 
 "Easier window navigation, control+letter moves in that direction
@@ -189,6 +189,13 @@ inoremap <C-a> <C-o>I
 "remap tab in normal and visual mode to match brackets
 nnoremap <tab> %
 vnoremap <tab> %
+
+" Bubble single lines - uses unimpaired plugin actions
+nmap <C-Up> [e
+nmap <C-Down> ]e
+" Bubble multiple lines
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
 
 "Duplicate lines above and below
 imap <C-A-down> <esc>Ypk
@@ -348,14 +355,6 @@ let g:Powerline_colorscheme = 'solarized'
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
-
-"Unimpared bubble lines
-" Bubble single lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
 
 "Vimbookmarks - my ghetto bookmarking system
 if filereadable(glob("$HOME/.vim/tmp/vimbookmarks.vim"))

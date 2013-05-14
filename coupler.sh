@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo "Initializing dotfile transfer..."
 cd "$(dirname "$0")"
 git pull
@@ -19,10 +19,8 @@ else
 	fi
 fi
 unset linkIt
-mkdir ~/.dotfiles/.vim/sessions
 mkdir ~/.dotfiles/.vim/tmp
-touch ~/.dotfiles/.vim/tmp/vimbookmarks
-touch ~/.vimrc.local
 source ~/.bash_profile
 echo "Transfer complete."
+
 
