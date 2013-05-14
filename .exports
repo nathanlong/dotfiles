@@ -5,11 +5,21 @@
 # Make macvim the default editor
 export EDITOR="mvim"
 
+# Make some commands not show up in history
+export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
+
+# Prefer US English and use UTF-8
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
 # Highlight section titles in manual pages
 export LESS_TERMCAP_md="$ORANGE"
 
 # Do not put duplicate items in the history
 export HISTCONTROL=ignoredups
 
-# Make some commands not show up in history
-export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
+# Always enable colored `grep` output
+export GREP_OPTIONS="--color=auto"
+
+# Link Homebrew casks in `/Applications` rather than `~/Applications`
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
