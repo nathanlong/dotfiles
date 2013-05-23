@@ -319,9 +319,11 @@ nnoremap <F2> :GundoToggle<CR>
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
 
-"Change Command-T mapping
-nmap <silent> <C-> :CommandT<CR>
-nmap <silent> <C-\> :CommandTBuffer<CR>
+"Ctrlp
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_map = '<C->'
+map <C-\> :CtrlPBuffer<cr>
 
 "Change zen coding plugin expansion key to command + e
 let g:user_zen_expandabbr_key = '<D-e>'
