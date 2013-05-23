@@ -37,7 +37,6 @@ function installcask() {
 	fi
 }
 
-installcask alfred
 installcask app-cleaner
 installcask cyberduck
 installcask google-chrome-canary
