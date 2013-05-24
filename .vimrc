@@ -187,8 +187,8 @@ inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
 inoremap <C-a> <C-o>I
 
 "remap tab in normal and visual mode to match brackets
-nnoremap <tab> %
-vnoremap <tab> %
+" nnoremap <tab> %
+" vnoremap <tab> %
 
 " Bubble single lines - uses unimpaired plugin actions
 nmap <C-Up> [e
