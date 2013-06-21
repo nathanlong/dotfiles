@@ -6,8 +6,8 @@ declare -a files=(
     $HOME/.dotfiles/bash/bash_aliases # Aliases
     $HOME/.dotfiles/bash/bash_functions # Functions
     $HOME/.dotfiles/bash/bash_prompt # Custom bash prompt
-    $HOME/.bashrc.local # Local and private settings not under version control
-    $HOME/.dotfiles/bash/bash_paths # Path modifications (must source after `.bashrc.local` in case of custom `brew` location)
+    $HOME/.bashrc.local # Local and private settings not under version control (e.g. git credentials)
+    $HOME/.dotfiles/bash/bash_paths # Path modifications (must source after `.bash_profile.local` in case of custom `brew` location)
     $HOME/.dotfiles/bin/bashmarks.sh # Bookmark utility
 )
 
