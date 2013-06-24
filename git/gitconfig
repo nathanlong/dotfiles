@@ -1,8 +1,14 @@
 [include]
     path = ~/.gitconfig.local
-[color]
-    ui = true
 [alias]
+    
+    # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
+    # `git gc`: cleanup unnecessary files and optimize the local repository
+    # `git clean -df`: remove untracked files and directories from the working tree
+    # `git stash clear`: remove all stashed states
+    trim = !git remote prune origin && git gc
+    cleanup = !git clean -df && git stash clear
+
     st = status -s                              # short status
 
     a = add                                     # add
@@ -16,6 +22,11 @@
     b = branch -v                               # show branches (verbose)
     co = checkout                               # checkout
     nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
+
+    # Diff what is staged for the next commit
+    diffc = diff --cached
+    # Diff overview
+    diffst = diff --stat
     
     lg = log -p
     l = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -42,5 +53,17 @@
     undopush = push -f origin HEAD^:master      # go back before last commit, with files in uncommitted state
     filelog = log -u                            # show changes to a file
     mt = mergetool                              # fire up the merge tool
+
+[color]
+    ui = true
+
+[core]
+    # Use custom `.gitignore` and `.gitattributes`
+    excludesfile = ~/.gitignore
+    #attributesfile = ~/.gitattributes
+
+[diff]
+    tool = mvimdiff
+
 [credential]
     helper = osxkeychain

@@ -25,30 +25,5 @@ brew install rename
 brew install webkit2png
 brew install git-ftp
 
-# Install native apps
-brew tap phinze/homebrew-cask
-brew install brew-cask
-
-function installcask() {
-	if brew cask info "${@}" | grep "Not installed" > /dev/null; then
-		brew cask install "${@}"
-	else
-		echo "${@} is already installed."
-	fi
-}
-
-installcask app-cleaner
-installcask cyberduck
-installcask google-chrome-canary
-installcask imagealpha
-installcask imageoptim
-installcask iterm2
-installcask macvim
-installcask notational-velocity
-installcask the-unarchiver
-installcask transmission
-installcask spectacle
-installcask vlc
-
 # Remove outdated versions from the cellar
 brew cleanup

@@ -1,6 +1,4 @@
-# ============================================================================== 
-# Exports
-# ============================================================================== 
+# bash_exports
 
 # Make macvim the default editor
 export EDITOR="mvim"
@@ -13,13 +11,14 @@ export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 
 # Highlight section titles in manual pages
-export LESS_TERMCAP_md="$ORANGE"
+export LESS_TERMCAP_md="$SOLAR_ORANGE"
 
 # Do not put duplicate items in the history
 export HISTCONTROL=ignoredups
 
+# Don't clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"

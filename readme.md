@@ -1,6 +1,6 @@
 # Dotfiles
 
-### AKA VIMTASTIC FRONT END DEVELOPMENT SETTINGS
+AKA Vimtastic Front-End Development settings
 
 ## Installation
 
@@ -8,35 +8,25 @@ Clone the files into your home directory:
 
     git clone git://github.com/nathanlong/dotfiles.git ~/.dotfiles
 
-`cd` into the dotfile directory and run the coupler
+`cd` into the dotfile directory and run the installer
 
-    ./coupler.sh
-
-This will initialize all submodules and create symlinks for all relevant
-files. It will overwrite any files that already exist, so... fair warning!
-
-**Note:** If you move the repo from `~/.dotfiles` you will need to change the file
-sourcing in `.bash_profile`.
+    ./bin/install.sh
 
 ## Local Overrides
 
 For quick settings, or environment specific settings use the following files,
 all are sourced by default.
 
-Bash = `~/.extra`
+Bash = `~/.bashrc.local`
 
 Vim = `~/.vimrc.local`
 
 Git = `~/.gitconfig.local`
 
-**Note:** The `coupler.sh` will create a blank `.vimrc.local` in your home dir
-by default so that Vim doesn't get all mad and throw a fit when it can't find
-it.
-
-## Extra Folders and Bookmarks for Vim
+## Vim's Bookmarks and Junk Drawer
 
 I keep Vim's persistent undo and plugin support files in a directory called
-`tmp` that sits inside the `.vim` directory. `coupler.sh` will create this
+`tmp` that sits inside the `.vim` directory. `install.sh` will create this
 directory for you.
 
 I also keep a file called `vimbookmarks` in that directory that allows me to

@@ -1,10 +1,6 @@
 # osx defaults - taken from https://github.com/mathiasbynens/dotfiles/blob/master/.osx
 # I only used a fraction of the settings there, go check it out
 
-# =============================================================================
-# General UI/UX
-# =============================================================================
-
 # Menu bar: disable transparency
 defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool false
 
@@ -23,10 +19,6 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 # Disable automatic termination of inactive apps
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
-# =============================================================================
-# Input 
-# =============================================================================
-
 # Disable “natural” (Lion-style) scrolling
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
@@ -35,10 +27,6 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 0
-
-# =============================================================================
-# Finder and Dock
-# =============================================================================
 
 # Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "$HOME/Desktop"
@@ -74,11 +62,6 @@ defaults write com.apple.dock wvous-tr-modifier -int 0
 # Bottom left screen corner - Mission Control
 defaults write com.apple.dock wvous-bl-corner -int 2
 defaults write com.apple.dock wvous-bl-modifier -int 0
-
-
-# =============================================================================
-# Kill affected applications
-# =============================================================================
 
 for app in Finder Dock SystemUIServer; do
 	killall "$app" > /dev/null 2>&1

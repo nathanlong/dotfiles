@@ -1,4 +1,4 @@
-# Bash Prompt
+# bash_prompt
 # Based on nicolas's prompt: https://github.com/necolas/dotfiles/
 
 # Check that terminfo exists before changing TERM var to xterm-256color
