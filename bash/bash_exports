@@ -10,8 +10,8 @@ export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
 export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 
-# Highlight section titles in manual pages
-export LESS_TERMCAP_md="$SOLAR_ORANGE"
+# Highlight section titles in manual pages in solarized blue
+export LESS_TERMCAP_md=$(tput setaf 33)
 
 # Do not put duplicate items in the history
 export HISTCONTROL=ignoredups

@@ -27,6 +27,13 @@ mirrorfiles() {
     link "vim/gvimrc"         ".gvimrc"
     link "vim/vimrc"          ".vimrc"
 
+    # Create vim junk drawer
+    mkdir ~/.dotfiles/vim/tmp
+
+    # Initialize git submodules
+    git submodule init
+    git submodule update
+
     echo "Dotfiles update complete!"
 }
 
