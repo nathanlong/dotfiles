@@ -2,7 +2,7 @@
 .netrwhist
 .VimballRecord
 .DS_store
-UltiSnips/*
-UltiSnips
+./UltiSnips/*
+./UltiSnips
 sessions/*
 tmp/*

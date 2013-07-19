@@ -34,6 +34,13 @@ mirrorfiles() {
     git submodule init
     git submodule update
 
+    # Connect Ultisnip files
+    echo "Where do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
+    read ultipath
+    if [[ $ultipath ]]; then
+        ln -fs "$ultipath" "${DOTFILES_DIRECTORY}/vim/UltiSnips"
+    fi
+
     echo "Dotfiles update complete!"
 }
 
