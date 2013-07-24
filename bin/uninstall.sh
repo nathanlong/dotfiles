@@ -13,6 +13,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm ${HOME}/.bash_profile
     rm ${HOME}/.inputrc
     rm ${HOME}/.gitconfig
+    rm ${HOME}/.gitignore
     rm ${HOME}/.vim
     rm ${HOME}/.gvimrc
     rm ${HOME}/.vimrc
