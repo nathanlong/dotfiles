@@ -27,6 +27,15 @@ function serverpy() {
     python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
+# Start a PHP server from a directory, optionally specifying the port
+# (Requires PHP 5.4.0+.)
+function phpserver() {
+	local port="${1:-4000}"
+	local ip=$(ipconfig getifaddr en1)
+	sleep 1 && open "http://${ip}:${port}/" &
+	php -S "${ip}:${port}"
+}
+
 # Start webrick server from current directory
 function server {
     local port=$1
@@ -34,24 +43,4 @@ function server {
     open "http://localhost:${port}/"
     ruby -rwebrick -e"s = WEBrick::HTTPServer.new(:Port => $port, :DocumentRoot => Dir.pwd, :MimeTypes => WEBrick::HTTPUtils::load_mime_types('/etc/apache2/mime.types')); trap(%q(INT)) { s.shutdown }; s.start"
 }
-
-# Update submodules in a git repo
-function update_submodules(){
-    git submodule foreach git pull
-}
-
-# New blank compass project that loads my preferred file structure
-function cblank() {
-    compass create ${1} --bare --sass-dir "sass" --css-dir "css" --javascripts-dir "js" --images-dir "img"
-    cd ${1}
-    mkdir css
-    mkdir js
-    mkdir img
-}
-
-# Print where dem gemz at
-function gemdir {
-  echo `gem env gemdir`
-}
-
 

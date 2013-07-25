@@ -13,10 +13,11 @@ alias lf='ls -AGFoh'     # long form, no user, file size
 alias a="ack -ia"        # ack everything, case insensitive
 alias catn='cat -n'      # join and print with line numbers
 alias zz='exit'          # quick exit
-alias mp='mvim -p'       # open all files in macvim tabs
-alias mvimdiff='mvim -d' # open mvim with diff splits
-alias sudo='sudo '       # Enable aliases to be sudo’ed
+alias mvp='mvim -p'      # open all files in macvim tabs
+alias mvd='mvim -d'      # open mvim with diff splits
 alias v="mvim . "        # Open cd in mvim
+alias mm ="mvim && middleman" # Open in mvim then fire off middleman
+alias sudo='sudo '       # Enable aliases to be sudo’ed
 alias o="open"           # Open file with default application
 alias oo="open ."        # Open cd in Finder
 
@@ -28,16 +29,13 @@ alias localip0="ipconfig getifaddr en0"
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache"
 
-# View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
-
-# if on a proxy server dump traffic for en0
-alias httpdump0="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
-
 # System monitoring
 alias toc="top -o cpu"
 alias tor="top -o rsize"
+
+# Ring the terminal bell, and put a badge on Terminal.app’s Dock icon
+# (useful when executing time-consuming commands)
+alias badge="tput bel"
 
 # Empty the Trash on all mounted volumes and the main HDD
 # Also, clear Apple’s System Logs to improve shell startup speed
