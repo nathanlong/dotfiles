@@ -31,17 +31,19 @@ mirrorfiles() {
     mkdir ~/.dotfiles/vim/tmp
 
     # Initialize git submodules
-    git submodule init
-    git submodule update
+    echo -e "\nInitializing git submodules..."
+    git submodule --quiet init
+    git submodule --quiet update
+    echo "Complete!"
 
     # Connect Ultisnip files
-    echo -e "\nWhere do you keep your Ultisnip files? Enter the path or hit ENTER to skip.\n"
+    echo -e "\nWhere do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
     read -e -p "> " ultipath
     if [[ $ultipath ]]; then
         ln -fs "$ultipath" "${DOTFILES_DIRECTORY}/vim/UltiSnips"
     fi
 
-    echo "Dotfiles update complete!"
+    echo -e "\nDotfile installation complete."
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
