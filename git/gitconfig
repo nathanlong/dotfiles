@@ -1,7 +1,6 @@
 [include]
     path = ~/.gitconfig.local
 [alias]
-    
     # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
     # `git gc`: cleanup unnecessary files and optimize the local repository
     # `git clean -df`: remove untracked files and directories from the working tree
@@ -56,14 +55,13 @@
 
 [color]
     ui = true
-
 [core]
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
     #attributesfile = ~/.gitattributes
-
 [diff]
     tool = mvimdiff
-
 [credential]
     helper = osxkeychain
+[push]
+	default = simple
