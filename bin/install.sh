@@ -39,6 +39,7 @@ mirrorfiles() {
     # Connect Ultisnip files
     echo -e "\nWhere do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
     read -e -p "> " ultipath
+    eval $ultipath = $ultipath #expands variables and ~
     if [[ $ultipath ]]; then
         ln -fs "$ultipath" "${DOTFILES_DIRECTORY}/vim/UltiSnips"
     fi
