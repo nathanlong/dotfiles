@@ -214,9 +214,9 @@ nnoremap k gk
 imap <C-Enter> <C-o>o
 imap <C-S-Enter> <C-o>O
 
-"Map space to / (search) and c-space to ? (backwards search)
+"Map space to search and shift-space to backwards search
 map <space> /
-map <c-space> ?
+map <S-space> ?
 
 "Map for removing search highlighting
 map <silent> <leader><cr> :noh<cr>

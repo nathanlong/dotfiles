@@ -26,6 +26,7 @@
     diffc = diff --cached
     # Diff overview
     diffst = diff --stat
+    dt = difftool                               # fire difftool (mvim)
     
     lg = log -p
     l = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -59,9 +60,13 @@
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
     #attributesfile = ~/.gitattributes
-[diff]
-    tool = mvimdiff
 [credential]
     helper = osxkeychain
 [push]
 	default = simple
+[diff]
+	tool = mvimdiff
+[difftool "mvimdiff"]
+	cmd = mvim -f -d \"$LOCAL\" \"$REMOTE\"
+[difftool]
+    prompt = false
