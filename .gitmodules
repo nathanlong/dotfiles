@@ -11,9 +11,6 @@
 	path = vim/bundle/vimwiki
 	url = git://github.com/vim-scripts/vimwiki.git
 	ignore = dirty
-[submodule "vim/bundle/zencoding"]
-	path = vim/bundle/zencoding
-	url = git://github.com/mattn/zencoding-vim.git
 [submodule "vim/bundle/gundo"]
 	path = vim/bundle/gundo
 	url = git://github.com/sjl/gundo.vim.git
@@ -95,3 +92,6 @@
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
 	url = git@github.com:SirVer/ultisnips.git
+[submodule "vim/bundle/emmet"]
+	path = vim/bundle/emmet
+	url = git@github.com:mattn/emmet-vim.git

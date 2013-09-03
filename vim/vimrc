@@ -326,8 +326,8 @@ let g:ctrlp_map = '<C->'
 map <C-\> :CtrlPBuffer<cr>
 
 "Change zen coding plugin expansion key to command + e
-let g:user_zen_expandabbr_key = '<D-e>'
-let g:user_zen_next_key = '<C-f>'
+let g:user_emmet_expandabbr_key = '<D-e>'
+let g:user_emmet_next_key = '<C-f>'
 
 " VimWiki
 let g:vimwiki_menu=''
