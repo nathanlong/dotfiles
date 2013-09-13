@@ -27,6 +27,9 @@ map <D-F> :Ack<space>
 macmenu &Tools.List\ Errors key=<nop>
 map <D-l> <esc>^vg_"+y
 
+"Kill Make key for markdown bolding in writer plugin
+macmenu &Tools.Make key=<nop>
+
 " Other stuff
 " ----------------------------------------------------------------------------
 
