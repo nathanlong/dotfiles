@@ -101,12 +101,10 @@ nmap <silent> <leader>s :setlocal spell!<CR>
 set laststatus=2          "Always show status line
 
 "Syntastic Status Line
-let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
+" let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line (if not powerline)
-if !exists('g:Powerline_loaded') || !g:Powerline_loaded
-  set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
-endif
+" set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -342,9 +340,10 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
 
-"Powerline
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_colorscheme = 'solarized'
+"Airline
+" let g:airline_powerline_fonts=0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
