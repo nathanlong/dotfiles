@@ -54,7 +54,7 @@ set mouse=a
 " INTERFACE
 "-----------------------------------------------------------------------------
 
-set linespace=3           "Slightly higher linespace
+set linespace=2           "Slightly higher linespace
 set number                "Show line numbers
 set more                  "Adds the more prompt to long screen prints
 set ruler                 "Cursor position in lower right
@@ -72,11 +72,6 @@ set lazyredraw            "Does not redraw while macro is running (faster)
 set scrolloff=3           "Always keeps cursor three lines from bottom
 set sidescrolloff=7       "Keeps 7 chars onscreen when nowrap set
 set sidescroll=1          "Minimum number of columns to scroll sideways
-
-"Use solarized dark scheme, very nice!
-let g:solarized_menu=0    "Remove solarized menubar from gui
-colorscheme solarized     "Set colorscheme
-set background=dark       "Set solarized theme style
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>L :set list!<CR>
@@ -101,10 +96,10 @@ nmap <silent> <leader>s :setlocal spell!<CR>
 set laststatus=2          "Always show status line
 
 "Syntastic Status Line
-" let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
+let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
-"Status line (if not powerline)
-" set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
+"Status line (overriden by airline)
+set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -120,28 +115,25 @@ set autoindent
 "Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-"Indentation like textmate
-nmap <D-[> <<
-nmap <D-]> >>
-vmap <D-[> <gv
-vmap <D-]> >gv
-
 "Better line wrapping
 set wrap
 set linebreak
 set textwidth=78
 set formatoptions=qrn1
-set showbreak=+\ \ 
+set showbreak=+++
 
 "Toggle paste
-set pastetoggle=<F5>
-
-"Copy a line without trailing whitespace or linebreaks
-nnoremap <leader>l <esc>^vg_
+set pastetoggle=<F4>
 
 "-----------------------------------------------------------------------------
 " EXTRA COMMANDS AND EXTENDED FUNCTIONALITY
 "-----------------------------------------------------------------------------
+
+"Indentation like textmate
+nmap <D-[> <<
+nmap <D-]> >>
+vmap <D-[> <gv
+vmap <D-]> >gv
 
 "Easier window navigation, control+letter moves in that direction
 nmap <C-h> <C-w>h
@@ -176,10 +168,6 @@ imap <D-0> <esc>:tablast<CR>
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
 inoremap <C-a> <C-o>I
 
-"remap tab in normal and visual mode to match brackets
-" nnoremap <tab> %
-" vnoremap <tab> %
-
 " Bubble single lines - uses unimpaired plugin actions
 nmap <C-Up> [e
 nmap <C-Down> ]e
@@ -194,6 +182,9 @@ vmap <C-A-down> y`>pgv
 imap <C-A-up> <esc>YPj
 nmap <C-A-up> YPj
 vmap <C-A-up> y`<Pgv
+
+"Select a line without trailing whitespace or linebreaks
+nnoremap <leader>l <esc>^vg_
 
 "Remap j and k to act as expected when used on long, wrapped, lines
 nnoremap j gj
@@ -288,8 +279,8 @@ if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt set filetype=text
     au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-    au FileType javascript,php setlocal ts=4 sts=4 sw=4 noexpandtab 
-    au FileType text setlocal textwidth=78 
+    au FileType javascript,php setlocal ts=4 sts=4 sw=4 noexpandtab
+    au FileType text setlocal textwidth=78
 endif
 
 "Easy filetype switching
@@ -341,9 +332,16 @@ let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
 
 "Airline
-" let g:airline_powerline_fonts=0
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
 
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
