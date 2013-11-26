@@ -4,6 +4,8 @@ DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 
 cd ${DOTFILES_DIRECTORY}
 
+source ./lib/utils
+
 link() {
     # Force create/replace the symlink.
     ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
@@ -31,29 +33,46 @@ mirrorfiles() {
     mkdir ~/.dotfiles/vim/tmp
 
     # Initialize git submodules
-    echo -e "\nInitializing git submodules..."
+    e_header "\nInitializing git submodules..."
     git submodule --quiet init
     git submodule --quiet update
-    echo "Complete!"
+    e_success "Submodules initialized."
+
+    # Connect local vim overrides
+    e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
+    read -e -p "> " vimpath
+    eval $vimpath = $vimpath #expands variables and ~
+    if [[ $vimpath ]]; then
+        ln -fs "$vimpath" "${HOME}/.vimrc.local"
+    fi
+
+    # Connect local git overrides
+    e_header "Where do you keep your local git overrides? Enter the path or hit ENTER to skip."
+    read -e -p "> " gitpath
+    eval $gitpath = $gitpath #expands variables and ~
+    if [[ $gitpath ]]; then
+        ln -fs "$gitpath" "${HOME}/.gitconfig.local"
+    fi
 
     # Connect Ultisnip files
-    echo -e "\nWhere do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
+    e_header "Where do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
     read -e -p "> " ultipath
     eval $ultipath = $ultipath #expands variables and ~
     if [[ $ultipath ]]; then
         ln -fs "$ultipath" "${DOTFILES_DIRECTORY}/vim/UltiSnips"
     fi
 
-    echo -e "\nDotfile installation complete."
+    e_success "Dotfile installation complete."
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	mirrorfiles
+# Ask before potentially overwriting files
+seek_confirmation "Warning: This step may overwrite your existing dotfiles."
+
+if is_confirmed; then
+    mirrorfiles
+    source ${HOME}/.bash_profile
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		mirrorfiles
-	fi
+    printf "Aborting...\n"
+    exit 1
 fi
 
