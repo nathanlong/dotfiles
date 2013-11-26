@@ -33,7 +33,7 @@ mirrorfiles() {
     mkdir ~/.dotfiles/vim/tmp
 
     # Initialize git submodules
-    e_header "\nInitializing git submodules..."
+    e_header "Initializing git submodules..."
     git submodule --quiet init
     git submodule --quiet update
     e_success "Submodules initialized."
@@ -55,7 +55,7 @@ mirrorfiles() {
     fi
 
     # Connect Ultisnip files
-    e_header "Where do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
+    e_header "Where do you keep your Ultisnip files (no trailing /)? Enter the path or hit ENTER to skip."
     read -e -p "> " ultipath
     eval $ultipath = $ultipath #expands variables and ~
     if [[ $ultipath ]]; then

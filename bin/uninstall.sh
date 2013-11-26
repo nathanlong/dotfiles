@@ -18,9 +18,19 @@ if is_confirmed; then
     rm ${HOME}/.vim
     rm ${HOME}/.gvimrc
     rm ${HOME}/.vimrc
-
-    e_success "Dotfiles removed."
 else
     printf "Aborting...\n"
     exit 1
 fi
+
+seek_confirmation "Remove local overrides too?"
+
+if is_confirmed; then
+    rm ${HOME}/.bashrc.local
+    rm ${HOME}/.gitconfig.local
+    rm ${HOME}/.vimrc.loca
+else
+    printf "Skipping...\n"
+fi
+
+e_success "Dotfiles removed."
