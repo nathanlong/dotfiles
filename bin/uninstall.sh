@@ -28,7 +28,7 @@ seek_confirmation "Remove local overrides too?"
 if is_confirmed; then
     rm ${HOME}/.bashrc.local
     rm ${HOME}/.gitconfig.local
-    rm ${HOME}/.vimrc.loca
+    rm ${HOME}/.vimrc.local
 else
     printf "Skipping...\n"
 fi
