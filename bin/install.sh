@@ -41,25 +41,22 @@ mirrorfiles() {
     # Connect local vim overrides
     e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
     read -e -p "> " vimpath
-    eval echo $vimpath = $vimpath #expands variables and ~
     if [[ $vimpath ]]; then
-        ln -fs "$vimpath" "${HOME}/.vimrc.local"
+        ln -fs `eval echo $vimpath` "${HOME}/.vimrc.local"
     fi
 
     # Connect local git overrides
     e_header "Where do you keep your local git overrides? Enter the path or hit ENTER to skip."
     read -e -p "> " gitpath
-    eval echo $gitpath = $gitpath #expands variables and ~
     if [[ $gitpath ]]; then
-        ln -fs "$gitpath" "${HOME}/.gitconfig.local"
+        ln -fs `eval echo $gitpath` "${HOME}/.gitconfig.local"
     fi
 
     # Connect Ultisnip files
-    e_header "Where do you keep your Ultisnip files (no trailing /)? Enter the path or hit ENTER to skip."
+    e_header "Where do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
     read -e -p "> " ultipath
-    eval echo $ultipath = $ultipath #expands variables and ~
     if [[ $ultipath ]]; then
-        ln -fs "$ultipath" "${DOTFILES_DIRECTORY}/vim/UltiSnips"
+        ln -fs `eval echo $ultipath` "${DOTFILES_DIRECTORY}/vim/UltiSnips"
     fi
 
     e_success "Dotfile installation complete."
