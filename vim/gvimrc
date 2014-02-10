@@ -5,7 +5,7 @@ set guioptions-=r           "Do not use scrollbars
 set guioptions-=R           "Do not use scrollbars
 set guioptions-=l           "Do not use scrollbars
 set guioptions-=L           "Do not use scrollbars
-set guifont=Consolas:h16    "Set font type and size.
+set guifont=Consolas:h15    "Set font type and size.
 set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 

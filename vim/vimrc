@@ -99,7 +99,7 @@ set laststatus=2          "Always show status line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line (overriden by airline)
-set statusline=%f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%
+set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%\ 
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
