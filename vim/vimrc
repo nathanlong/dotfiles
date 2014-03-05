@@ -2,10 +2,13 @@
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
+"The super basic stuff:
 set encoding=utf-8        "UTF8 All day, every day
 set nocompatible          "Use vim settins, not vi settings. Affects a lot.
-call pathogen#infect()    "Initialize Pathogen
-call pathogen#helptags()  "Update the help file tags for plugins
+execute pathogen#infect()   
+execute pathogen#helptags()  
+
+"Basic stuff
 filetype on               "Enable filetypes
 filetype plugin on        "Enable filetype plugins
 filetype indent on        "Enable filetype indent - loads indent.vim
@@ -98,7 +101,7 @@ set laststatus=2          "Always show status line
 "Syntastic Status Line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
-"Status line (overriden by airline)
+"Status line
 set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%\ 
 
 "-----------------------------------------------------------------------------
@@ -129,9 +132,11 @@ set pastetoggle=<F4>
 " EXTRA COMMANDS AND EXTENDED FUNCTIONALITY
 "-----------------------------------------------------------------------------
 
-"Indentation like textmate
+"Indentation like textmate/sublime
 nmap <D-[> <<
 nmap <D-]> >>
+imap <D-[> <esc><<A
+imap <D-]> <esc>>>A
 vmap <D-[> <gv
 vmap <D-]> >gv
 
@@ -300,13 +305,15 @@ nnoremap <F2> :GundoToggle<CR>
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
 
-"Ctrlp
+"Ctrl-P - see gvimrc for remappings
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_map = '<C->'
-map <C-\> :CtrlPBuffer<cr>
 
-"Change zen coding plugin expansion key to command + e
+"Quick Timestamps
+nmap <c-d> $:r!date "+\%m-\%d-\%y \| \%H:\%M"<cr>kJ
+imap <c-d> <esc>$:r!date "+\%m-\%d-\%y \| \%H:\%M"<cr>kJ
+
+"Change emmet expansion key to command + e
 let g:user_emmet_expandabbr_key = '<D-e>'
 let g:user_emmet_next_key = '<C-f>'
 
@@ -318,6 +325,8 @@ nmap <leader>tt <Plug>VimwikiToggleListItem
 "YankRing Bindings
 let g:yankring_history_dir = '~/.vim/tmp'
 let g:yankring_default_menu_mode = 0
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
 
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
@@ -331,27 +340,9 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
 
-"Airline
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
-
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
-
-"Vimbookmarks - my ghetto bookmarking system
-if filereadable(glob("$HOME/.vim/tmp/vimbookmarks.vim"))
-  source $HOME/.vim/tmp/vimbookmarks.vim
-endif
-map <leader>9 :15sp $HOME/.vim/tmp/vimbookmarks.vim<cr>
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS

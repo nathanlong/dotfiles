@@ -37,6 +37,12 @@ map <D-l> <esc>^vg_"+y
 " Kill Make key for markdown bolding in writer plugin
 macmenu &Tools.Make key=<nop>
 
+" Control P like sublime text
+macmenu &File.Print key=<nop>
+map <D-p> :CtrlP<cr>
+map <D-S-P> :CtrlPBuffer<cr>
+
+
 " Other stuff
 " ----------------------------------------------------------------------------
 
