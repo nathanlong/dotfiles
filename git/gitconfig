@@ -22,12 +22,10 @@
     co = checkout                               # checkout
     nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
 
-    # Diff what is staged for the next commit
-    diffc = diff --cached
-    # Diff overview
-    diffst = diff --stat
+    diffc = diff --cached                       # Diff what is staged for the next commit
+    diffst = diff --stat                        # Diff overview
     dt = difftool                               # fire difftool (mvim)
-    
+
     lg = log -p
     l = log --graph --decorate --pretty=oneline --abbrev-commit
     la = log --graph --decorate --pretty=oneline --abbrev-commit --all
@@ -54,6 +52,8 @@
     filelog = log -u                            # show changes to a file
     mt = mergetool                              # fire up the merge tool
 
+    # show the modified files for a specified commit
+    nameonly = diff-tree --no-commit-id --name-only -r
 [color]
     ui = true
 [core]

@@ -4,7 +4,7 @@
 
 "The super basic stuff:
 set encoding=utf-8        "UTF8 All day, every day
-set nocompatible          "Use vim settins, not vi settings. Affects a lot.
+set nocompatible          "Use vim settings, not vi settings. Affects a lot.
 execute pathogen#infect()   
 execute pathogen#helptags()  
 
@@ -22,6 +22,7 @@ set foldmethod=marker     "Use {{{ and }}} to define folds
 set keywordprg=:help      "Set shift+K to internal VIM Help
 set gdefault              "Apply substitutions globally on a line by default
 set ttyfast               "Speed up terminal connection
+" set clipboard=unnamed     "Give yank commands access to system clipboard
 
 " Centralize backups, swap files, and persistent undo
 set directory=~/.vim/tmp  "Set temp directory (don't litter local dir with swp/tmp files)
@@ -123,7 +124,7 @@ set wrap
 set linebreak
 set textwidth=78
 set formatoptions=qrn1
-set showbreak=+++
+set showbreak=+\ 
 
 "Toggle paste
 set pastetoggle=<F4>
@@ -282,10 +283,9 @@ endif
 
 if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
-    au BufRead,BufNewFile *.txt set filetype=text
+    au BufRead,BufNewFile *.txt,*.text set filetype=markdown
     au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
     au FileType javascript,php setlocal ts=4 sts=4 sw=4 noexpandtab
-    au FileType text setlocal textwidth=78
 endif
 
 "Easy filetype switching

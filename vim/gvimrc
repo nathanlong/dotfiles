@@ -5,7 +5,7 @@ set guioptions-=r           "Do not use scrollbars
 set guioptions-=R           "Do not use scrollbars
 set guioptions-=l           "Do not use scrollbars
 set guioptions-=L           "Do not use scrollbars
-set guifont=Consolas:h15    "Set font type and size.
+set guifont=Consolas:h16    "Set font type and size.
 set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 
@@ -33,6 +33,7 @@ map <D-F> :Ack<space>
 " Unmap D-L use for copy-line command
 macmenu &Tools.List\ Errors key=<nop>
 map <D-l> <esc>^vg_"+y
+imap <D-l> <esc>^vg_"+y
 
 " Kill Make key for markdown bolding in writer plugin
 macmenu &Tools.Make key=<nop>
@@ -42,6 +43,9 @@ macmenu &File.Print key=<nop>
 map <D-p> :CtrlP<cr>
 map <D-S-P> :CtrlPBuffer<cr>
 
+" Commentary controls like Sublime Text
+nmap <D-/> \\\
+vmap <D-/> \\
 
 " Other stuff
 " ----------------------------------------------------------------------------
