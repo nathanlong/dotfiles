@@ -16,7 +16,7 @@ set background=dark         "Set solarized theme style
 let g:solarized_menu=0      "Remove solarized menubar from gui
 call togglebg#map("<F5>")   "Background toggle for solarized
 
-" Keybindings
+" Mac Specific Keybindings
 " ----------------------------------------------------------------------------
 
 " Command-Return for fullscreen
@@ -41,11 +41,17 @@ macmenu &Tools.Make key=<nop>
 " Control P like sublime text
 macmenu &File.Print key=<nop>
 map <D-p> :CtrlP<cr>
-map <D-S-P> :CtrlPBuffer<cr>
+map <D-P> :CtrlPBuffer<cr>
 
 " Commentary controls like Sublime Text
 nmap <D-/> \\\
 vmap <D-/> \\
+
+" Writer
+map <D-r> :WriterInitOff<CR>
+imap <D-r> <esc>:WriterInitOff<CR>
+map <D-R> :WriterInitOn<CR>
+imap <D-R> <esc>:WriterInitOn<CR>
 
 " Other stuff
 " ----------------------------------------------------------------------------

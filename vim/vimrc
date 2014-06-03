@@ -1,12 +1,59 @@
 "-----------------------------------------------------------------------------
-" GENERAL SETTINGS
+" SETUP
 "-----------------------------------------------------------------------------
 
 "The super basic stuff:
 set encoding=utf-8        "UTF8 All day, every day
 set nocompatible          "Use vim settings, not vi settings. Affects a lot.
-execute pathogen#infect()   
-execute pathogen#helptags()  
+
+" Vundle Setup
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+"Let vundle update itself
+Plugin 'gmarik/Vundle.vim'
+
+"Plugins
+Plugin 'mileszs/ack.vim'
+Plugin 'briandoll/change-inside-surroundings.vim'
+Plugin 'tpope/vim-commentary'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vim-scripts/delimitMate.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'mattn/emmet-vim'
+Plugin 'sjl/gundo.vim'
+Plugin 'gregsexton/MatchTag'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-repeat'
+Plugin 'ervandew/supertab'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
+Plugin 'godlygeek/tabular'
+Plugin 'SirVer/ultisnips'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-scripts/vimwiki'
+Plugin 'vim-scripts/ZoomWin'
+Plugin 'vim-scripts/matchit.zip'
+
+" Syntax
+Plugin 'tpope/vim-haml'
+Plugin 'othree/html5.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'nono/jquery.vim'
+Plugin 'groenewege/vim-less'
+Plugin 'tpope/vim-liquid'
+Plugin 'nathanlong/vim-markdown'
+
+
+" Colorschemes
+Plugin 'nathanlong/vim-colors-solarized'
+Plugin 'nathanlong/vim-colors-writer'
+
+call vundle#end()
+
+"-----------------------------------------------------------------------------
+" GENERAL SETTINGS
+"-----------------------------------------------------------------------------
 
 "Basic stuff
 filetype on               "Enable filetypes
@@ -103,7 +150,7 @@ set laststatus=2          "Always show status line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,%c%V%)%6.6p%%\ 
+set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c%V%)%6.6p%%\ 
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
