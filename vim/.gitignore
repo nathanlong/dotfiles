@@ -3,6 +3,6 @@
 .VimballRecord
 .DS_store
 UltiSnips
-!bundle/ultisnips
+bundle/*
 sessions/*
 tmp/*
