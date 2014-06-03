@@ -29,14 +29,15 @@ mirrorfiles() {
     link "vim/gvimrc"         ".gvimrc"
     link "vim/vimrc"          ".vimrc"
 
-    # Create vim junk drawer
+    # Create untracked directories
     mkdir ~/.dotfiles/vim/tmp
+    mkdir ~/.dotfiles/vim/bundle
 
-    # Initialize git submodules
-    e_header "Initializing git submodules..."
-    git submodule --quiet init
-    git submodule --quiet update
-    e_success "Submodules initialized."
+    # Add vundle for vim plugins
+    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    e_success "Added Vundle to manage Vim plugins. Initializing plugins..."
+    vim +PluginInstall +qall
+    e_success "Plugins initialized."
 
     # Connect local vim overrides
     e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
