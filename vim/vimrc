@@ -169,7 +169,7 @@ set backspace=indent,eol,start
 "Better line wrapping
 set wrap
 set linebreak
-set textwidth=78
+" set textwidth=78
 set formatoptions=qrn1
 set showbreak=+\ 
 

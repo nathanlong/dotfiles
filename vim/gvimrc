@@ -48,10 +48,10 @@ nmap <D-/> \\\
 vmap <D-/> \\
 
 " Writer
-map <D-r> :WriterInitOff<CR>
-imap <D-r> <esc>:WriterInitOff<CR>
-map <D-R> :WriterInitOn<CR>
-imap <D-R> <esc>:WriterInitOn<CR>
+map <D-r> :WriterToggle<CR>
+imap <D-r> <esc>:WriterToggle<CR>
+map <D-R> :WriterInitQuiet<CR>
+imap <D-R> <esc>:WriterInitQuiet<CR>
 
 " Other stuff
 " ----------------------------------------------------------------------------
