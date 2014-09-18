@@ -5,16 +5,12 @@ set guioptions-=r           "Do not use scrollbars
 set guioptions-=R           "Do not use scrollbars
 set guioptions-=l           "Do not use scrollbars
 set guioptions-=L           "Do not use scrollbars
-set guifont=Consolas:h16    "Set font type and size.
+set guifont=Consolas:h15    "Set font type and size.
 set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 
-" Solarized dark settings
-let g:solarized_menu=0      "Remove solarized menubar from gui
-colorscheme solarized       "Set colorscheme
-set background=dark         "Set solarized theme style
-let g:solarized_menu=0      "Remove solarized menubar from gui
-call togglebg#map("<F5>")   "Background toggle for solarized
+" Colorscheme
+colorscheme Tomorrow-Night-Eighties       "Set colorscheme
 
 " Mac Specific Keybindings
 " ----------------------------------------------------------------------------
