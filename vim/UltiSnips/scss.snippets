@@ -1,0 +1,24 @@
+extends css
+
+snippet + "include"
+@include 
+endsnippet
+
+snippet ex "extends"
+@extend
+endsnippet
+
+snippet rm "respond-min"
+@include respond-min(${1}) {
+  ${2}
+}
+endsnippet
+
+snippet sco1 "SASS Comment Block"
+// ${1}
+// ----------------------------------------------------------------------------
+endsnippet
+
+snippet sco2 "SASS Comment Style 2"
+// ---------- ${1} ---------- //
+endsnippet

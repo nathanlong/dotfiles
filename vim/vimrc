@@ -7,6 +7,8 @@ set encoding=utf-8        "UTF8 All day, every day
 set nocompatible          "Use vim settings, not vi settings. Affects a lot.
 
 " Vundle Setup
+" Force vundle to see ftdetects
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -46,22 +48,22 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-liquid'
 Plugin 'nathanlong/vim-markdown'
 
-
 " Colorschemes
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
 Plugin 'nathanlong/vim-colors-writer'
 
 call vundle#end()
+filetype plugin indent on
 
 "-----------------------------------------------------------------------------
 " GENERAL SETTINGS
 "-----------------------------------------------------------------------------
 
 "Basic stuff
-filetype on               "Enable filetypes
-filetype plugin on        "Enable filetype plugins
-filetype indent on        "Enable filetype indent - loads indent.vim
+" filetype on               "Enable filetypes
+" filetype plugin on        "Enable filetype plugins
+" filetype indent on        "Enable filetype indent - loads indent.vim
 syntax on                 "Enables syntax highlighting
 set synmaxcol=600         "Don't try to highlight lines with 600+ columns
 set history=100           "Sets how many lines of history VIM has to remember
@@ -393,6 +395,9 @@ let NERDTreeShowHidden = 1
 "ChangeInside
 nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
+
+"Ultisnips
+let g:UltiSnipsEditSplit="vertical"
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS

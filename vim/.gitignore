@@ -2,7 +2,6 @@
 .netrwhist
 .VimballRecord
 .DS_store
-UltiSnips
 bundle/*
 sessions/*
 tmp/*
