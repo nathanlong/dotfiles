@@ -53,13 +53,6 @@ mirrorfiles() {
         ln -fs `eval echo $gitpath` "${HOME}/.gitconfig.local"
     fi
 
-    # Connect Ultisnip files
-    e_header "Where do you keep your Ultisnip files? Enter the path or hit ENTER to skip."
-    read -e -p "> " ultipath
-    if [[ $ultipath ]]; then
-        ln -fs `eval echo $ultipath` "${DOTFILES_DIRECTORY}/vim/UltiSnips"
-    fi
-
     e_success "Dotfile installation complete."
 }
 
