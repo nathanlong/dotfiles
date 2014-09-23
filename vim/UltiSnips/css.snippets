@@ -437,62 +437,6 @@ snippet zi "zi"
 z-index: ${1:1};$0
 endsnippet
 
-snippet brad "brad"
-@include border-radius(${1:4px});$0
-endsnippet
-
-snippet sh "sh"
-@include box-shadow(${1:0 2px 3px rgba(${2:black}, ${3:0.2})});$0
-endsnippet
-
-snippet grad "grad"
-@include background(linear-gradient(top, ${1:white, black}));$0
-endsnippet
-
-snippet in "border-box"
-@include box-sizing(border-box);
-endsnippet
-
-snippet import "import"
-@import '${1:compass/css3}';$0
-endsnippet
-
-snippet @ "import"
-@import '${1:compass/css3}';$0
-endsnippet
-
-snippet i "import"
-@import '${1:compass/css3}';$0
-endsnippet
-
-snippet ra "rgba"
-rgba(${1:black, ${2:0.2}})$0
-endsnippet
-
-snippet rb "rgba(black)"
-rgba(black, ${2:0.2})$0
-endsnippet
-
-snippet rw "rgba(white)" !
-rgba(white, ${2:0.2})$0
-endsnippet
-
-snippet mw "mix()"
-mix(${1:white}, ${2:black}, ${3:50%})
-endsnippet
-
-snippet shade "mix(black, x, %)"
-mix(black, ${1:white, 10%})
-endsnippet
-
-snippet tint "mix(white, x, %)"
-mix(white, ${1:black, 10%})
-endsnippet
-
-snippet cf "@include pie-clearfix"
-@include pie-clearfix;
-endsnippet
-
 snippet or "outline: red"
 outline: dotted 1px red;
 endsnippet
@@ -551,7 +495,6 @@ snippet { "auto bracket"
 endsnippet
 
 snippet 3br "CSS3 Border Radius"
--webkit-border-radius: ${1:5}px;
 border-radius:         ${2:$1}px;
 endsnippet
 
