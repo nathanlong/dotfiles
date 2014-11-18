@@ -44,10 +44,8 @@ nmap <D-/> \\\
 vmap <D-/> \\
 
 " Writer
-map <D-r> :WriterToggle<CR>
-imap <D-r> <esc>:WriterToggle<CR>
-map <D-R> :WriterInitQuiet<CR>
-imap <D-R> <esc>:WriterInitQuiet<CR>
+map <D-R> :WriterToggle<CR>
+imap <D-R> <esc>:WriterToggle<CR>
 
 " Other stuff
 " ----------------------------------------------------------------------------

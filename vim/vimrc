@@ -373,12 +373,6 @@ let g:vimwiki_menu=''
 let g:vimwiki_ext2syntax = {}
 nmap <leader>tt <Plug>VimwikiToggleListItem
 
-"YankRing Bindings
-let g:yankring_history_dir = '~/.vim/tmp'
-let g:yankring_default_menu_mode = 0
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
-
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
 

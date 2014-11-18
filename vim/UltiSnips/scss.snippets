@@ -15,8 +15,26 @@ snippet rm "respond-min"
 endsnippet
 
 snippet rs "respond"
-@include respond(${1:$sm-screen}) {
+@include respond-min(${1:$sm-screen}) {
   ${2}
+}
+endsnippet
+
+snippet sm "small screen mq"
+@include small-screen {
+  ${1}
+}
+endsnippet
+
+snippet md "medium screen mq"
+@include medium-screen {
+  ${1}
+}
+endsnippet
+
+snippet lg "large screen mq"
+@include large-screen {
+  ${1}
 }
 endsnippet
 
