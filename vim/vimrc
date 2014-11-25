@@ -182,6 +182,14 @@ set showbreak=+\
 "Toggle paste
 set pastetoggle=<F4>
 
+"Toggle to different paste modes
+nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap \R :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+
+"Toggle wrap mode
+nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+
 "-----------------------------------------------------------------------------
 " EXTRA COMMANDS AND EXTENDED FUNCTIONALITY
 "-----------------------------------------------------------------------------
@@ -283,6 +291,10 @@ map <leader>et :tabe %%
 "Change current directory to that of the file in the buffer with CMD + D
 map <silent> <D-d> :cd %:p:h<cr>
 
+"Jump back to last edited buffer
+nmap <D-b> :e#<CR>
+imap <D-b> <esc>:e#<CR>
+
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
 "-----------------------------------------------------------------------------
@@ -363,6 +375,10 @@ inoremap <silent> <F3> <ESC>:YRShow<cr>
 "Ctrl-P - see gvimrc for remappings
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn|node_modules)$',
+  \ 'file': '\v\.(exe|so|dll|jpg|gif|png)$',
+  \ }
 
 "Change emmet expansion key to command + e
 let g:user_emmet_expandabbr_key = '<D-e>'
