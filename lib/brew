@@ -23,6 +23,7 @@ run_brew() {
             'node'
             'git-ftp'
             'heroku-toolbelt'
+            'the_silver_searcher'
         )
 
         for index in ${!desired_formulae[*]}

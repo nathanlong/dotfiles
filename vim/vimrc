@@ -70,7 +70,6 @@ set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
 set foldmethod=marker     "Use {{{ and }}} to define folds
-set keywordprg=:help      "Set shift+K to internal VIM Help
 set gdefault              "Apply substitutions globally on a line by default
 set ttyfast               "Speed up terminal connection
 " set clipboard=unnamed     "Give yank commands access to system clipboard
@@ -272,6 +271,7 @@ map <silent> <leader><cr> :noh<cr>
 "Shortcut for editing my vimrc and gvimrc in a new tab
 nmap <leader>vv :tabedit $MYVIMRC<cr>
 nmap <leader>vg :tabedit $MYGVIMRC<cr>
+nmap <leader>vl :tabedit ~/.vimrc.local<cr>
 
 "Commands for opening the current file or directory in another application
 map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
@@ -371,6 +371,26 @@ nnoremap <F1> :NERDTreeToggle<cr>
 nnoremap <F2> :GundoToggle<CR>
 nnoremap <silent> <F3> :YRShow<cr>
 inoremap <silent> <F3> <ESC>:YRShow<cr>
+
+" The Silver Searcher
+" http://robots.thoughtbot.com/faster-grepping-in-vim
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" bind \ (backward slash) to grep shortcut
+" command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
 
 "Ctrl-P - see gvimrc for remappings
 set runtimepath^=~/.vim/bundle/ctrlp.vim
