@@ -37,6 +37,8 @@ Plugin 'vim-scripts/vimwiki'
 Plugin 'vim-scripts/ZoomWin'
 Plugin 'vim-scripts/matchit.zip'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'gcmt/wildfire.vim'
+Plugin 'myusuf3/numbers.vim'
 
 " Syntax
 Plugin 'tpope/vim-haml'
@@ -108,8 +110,8 @@ set mouse=a
 " INTERFACE
 "-----------------------------------------------------------------------------
 
+set autoread              "reload files when changed on disk
 set linespace=2           "Slightly higher linespace
-" set number                "Show line numbers - Disabled for relative numbers
 set relativenumber        "Relative numbers make for easy movement
 set more                  "Adds the more prompt to long screen prints
 set ruler                 "Cursor position in lower right
@@ -389,8 +391,9 @@ endif
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " bind \ (backward slash) to grep shortcut
-" command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
+
 
 "Ctrl-P - see gvimrc for remappings
 set runtimepath^=~/.vim/bundle/ctrlp.vim
