@@ -8,7 +8,7 @@ declare -a dirs_to_prepend=(
 # Directories to be appended to PATH
 declare -a dirs_to_append=(
     "/usr/bin"
-    "$HOME/bin"
+    # "$HOME/bin"
     # "$HOME/.dotfiles/bin"
     # "$HOME/.rvm/bin"
     # "$(brew --prefix coreutils)/libexec/gnubin" # Add brew-installed GNU core utilities bin

@@ -16,29 +16,28 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 "Plugins
-Plugin 'mileszs/ack.vim'
 Plugin 'briandoll/change-inside-surroundings.vim'
-Plugin 'tpope/vim-commentary'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'vim-scripts/delimitMate.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'mattn/emmet-vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'gregsexton/MatchTag'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-repeat'
 Plugin 'ervandew/supertab'
-Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
-Plugin 'godlygeek/tabular'
-Plugin 'SirVer/ultisnips'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/vimwiki'
-Plugin 'vim-scripts/ZoomWin'
-Plugin 'vim-scripts/matchit.zip'
-Plugin 'terryma/vim-multiple-cursors'
 Plugin 'gcmt/wildfire.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'gregsexton/MatchTag'
+Plugin 'lokaltog/vim-easymotion'
+Plugin 'mattn/emmet-vim'
 Plugin 'myusuf3/numbers.vim'
+Plugin 'rking/ag.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-scripts/ZoomWin'
+Plugin 'vim-scripts/delimitMate.vim'
+Plugin 'vim-scripts/matchit.zip'
+Plugin 'vim-scripts/vimwiki'
 
 " Syntax
 Plugin 'tpope/vim-haml'
@@ -54,6 +53,11 @@ Plugin 'nathanlong/vim-markdown'
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
 Plugin 'nathanlong/vim-colors-writer'
+
+" Plugins that don't play well with the terminal
+if has("gui_running")
+  Plugin 'SirVer/ultisnips'
+endif
 
 call vundle#end()
 
@@ -389,11 +393,6 @@ endif
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-" bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Ag<SPACE>
-
 
 "Ctrl-P - see gvimrc for remappings
 set runtimepath^=~/.vim/bundle/ctrlp.vim

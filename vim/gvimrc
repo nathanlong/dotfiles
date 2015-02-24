@@ -26,7 +26,7 @@ imap <D-;> <esc>A;
 nmap <D-;> A;
 
 " Command-Shift-F for Ack
-map <D-F> :Ack<space>
+map <D-F> :Ag<space>
 
 " Unmap D-L use for copy-line command
 macmenu &Tools.List\ Errors key=<nop>
