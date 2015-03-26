@@ -96,12 +96,12 @@ set viminfo+=n$HOME/.vim/tmp/viminfo
 "Changes leader from \ to ,
 let mapleader = ","
 
-"Map : to ; then ; to , in normal mode, massive pinky-saver
-nore ; :
-nore , ;
+"Map : to ; (then remap ;) -- massive pinky-saver
+noremap ; :
+noremap <M-;> ;
 
 "Map escape key to jj -- much faster
-imap jj <esc>
+inoremap jj <esc>
 
 "More useful command-line completion
 set wildmode=list:longest
@@ -148,7 +148,7 @@ set winminheight=0
 set winminwidth=0
 
 "Toggle spellcheck
-nmap <silent> <leader>s :setlocal spell!<CR>
+nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 "-----------------------------------------------------------------------------
 " STATUS LINE
@@ -188,72 +188,71 @@ set showbreak=+\
 set pastetoggle=<F4>
 
 "Toggle to different paste modes
-nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nmap \R :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nnoremap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap \R :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
 
 "Toggle wrap mode
-nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 "-----------------------------------------------------------------------------
 " EXTRA COMMANDS AND EXTENDED FUNCTIONALITY
 "-----------------------------------------------------------------------------
 
 "Indentation like textmate/sublime
-nmap <D-[> <<
-nmap <D-]> >>
-imap <D-[> <esc><<A
-imap <D-]> <esc>>>A
-vmap <D-[> <gv
-vmap <D-]> >gv
+nnoremap <D-[> <<
+nnoremap <D-]> >>
+inoremap <D-[> <esc><<A
+inoremap <D-]> <esc>>>A
+xnoremap <D-[> <gv
+xnoremap <D-]> >gv
 
 "Easier window navigation, control+letter moves in that direction
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 "Firefox-style tab selection with command+number, mac only
-map <D-1> 1gt
-map <D-2> 2gt
-map <D-3> 3gt
-map <D-4> 4gt
-map <D-5> 5gt
-map <D-6> 6gt
-map <D-7> 7gt
-map <D-8> 8gt
-map <D-9> 9gt
-map <D-0> :tablast<CR>
-imap <D-1> <esc>1gt
-imap <D-2> <esc>2gt
-imap <D-3> <esc>3gt
-imap <D-4> <esc>4gt
-imap <D-5> <esc>5gt
-imap <D-6> <esc>6gt
-imap <D-7> <esc>7gt
-imap <D-8> <esc>8gt
-imap <D-9> <esc>9gt
-imap <D-0> <esc>:tablast<CR>
+nnoremap <D-1> 1gt
+nnoremap <D-2> 2gt
+nnoremap <D-3> 3gt
+nnoremap <D-4> 4gt
+nnoremap <D-5> 5gt
+nnoremap <D-6> 6gt
+nnoremap <D-7> 7gt
+nnoremap <D-8> 8gt
+nnoremap <D-9> 9gt
+nnoremap <D-0> :tablast<CR>
+inoremap <D-1> <esc>1gt
+inoremap <D-2> <esc>2gt
+inoremap <D-3> <esc>3gt
+inoremap <D-4> <esc>4gt
+inoremap <D-5> <esc>5gt
+inoremap <D-6> <esc>6gt
+inoremap <D-7> <esc>7gt
+inoremap <D-8> <esc>8gt
+inoremap <D-9> <esc>9gt
+inoremap <D-0> <esc>:tablast<CR>
 
 "emacs style jump to end of line in insert mode
 "prevents conflict with autocomplete
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
 inoremap <C-a> <C-o>I
 
-" Bubble single lines - uses unimpaired plugin actions
-nmap <C-Up> [e
-nmap <C-Down> ]e
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
+" Bubble lines, preserves indentation, courtesy of -romainl-
+nnoremap <silent> <C-Up>   :move-2<CR>==
+nnoremap <silent> <C-Down> :move+<CR>==
+xnoremap <silent> <C-Up>   :move-2<CR>gv=gv
+xnoremap <silent> <C-Down> :move'>+<CR>gv=gv
 
 "Duplicate lines above and below
-imap <C-A-down> <esc>Ypk
-nmap <C-A-down> Ypk
-vmap <C-A-down> y`>pgv
-imap <C-A-up> <esc>YPj
-nmap <C-A-up> YPj
-vmap <C-A-up> y`<Pgv
+inoremap <C-A-down> <esc>Ypk
+nnoremap <C-A-down> Ypk
+xnoremap <C-A-down> y`>pgv
+inoremap <C-A-up> <esc>YPj
+nnoremap <C-A-up> YPj
+xnoremap <C-A-up> y`<Pgv
 
 "Select a line without trailing whitespace or linebreaks
 nnoremap <leader>l <esc>^vg_
@@ -264,50 +263,50 @@ nnoremap k gk
 
 "Open line above (ctrl-shift-o much easier than ctrl-o shift-O)
 "SO USEFUL!!!
-imap <C-Enter> <C-o>o
-imap <C-S-Enter> <C-o>O
+inoremap <C-Enter> <C-o>o
+inoremap <C-S-Enter> <C-o>O
 
 "Map space to search and shift-space to backwards search
-map <space> /
-map <S-space> ?
+nnoremap <space> /
+nnoremap <S-space> ?
 
 "Map for removing search highlighting
-map <silent> <leader><cr> :noh<cr>
+nnoremap <silent> <leader><cr> :noh<cr>
 
 "Shortcut for editing my vimrc and gvimrc in a new tab
-nmap <leader>vv :tabedit $MYVIMRC<cr>
-nmap <leader>vg :tabedit $MYGVIMRC<cr>
-nmap <leader>vl :tabedit ~/.vimrc.local<cr>
+nnoremap <leader>vv :tabedit $MYVIMRC<cr>
+nnoremap <leader>vg :tabedit $MYGVIMRC<cr>
+nnoremap <leader>vl :tabedit ~/.vimrc.local<cr>
 
 "Commands for opening the current file or directory in another application
-map <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
-map <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
-map <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
-map <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
-map <silent> <leader>oi :silent !open .<cr>
+nnoremap <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
+nnoremap <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
+nnoremap <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
+nnoremap <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
+nnoremap <silent> <leader>oi :silent !open .<cr>
 
 "Will open files in current directory, allows you to leave the working cd in
 "the project root. You can also use %% anywhere in the command line to expand.
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>ew :e %%
-map <leader>es :sp %%
-map <leader>ev :vsp %%
-map <leader>et :tabe %%
+nmap <leader>ew :e %%
+nmap <leader>es :sp %%
+nmap <leader>ev :vsp %%
+nmap <leader>et :tabe %%
 
 "Change current directory to that of the file in the buffer with CMD + D
-map <silent> <D-d> :cd %:p:h<cr>
+nnoremap <silent> <D-d> :cd %:p:h<cr>
 
 "Jump back to last edited buffer
-nmap <D-b> :e#<CR>
-imap <D-b> <esc>:e#<CR>
+nnoremap <D-b> <C-^>
+inoremap <D-b> <esc><C-^>
 
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
 "-----------------------------------------------------------------------------
 
 "Jump to last cursor position when opening a file
-autocmd BufReadPost * call SetCursorPosition()
-function! SetCursorPosition()
+autocmd BufReadPost * call s:SetCursorPosition()
+function! s:SetCursorPosition()
     if &filetype !~ 'svn\|commit\c'
         if line("'\"") > 0 && line("'\"") <= line("$")
             exe "normal! g`\""
@@ -318,8 +317,8 @@ endfunction
 
 "Autoclose unactive buffers - activate with :call CloseHiddenBuffers()
 "http://stackoverflow.com/questions/2974192/how-can-i-pare-down-vims-buffer-list-to-only-include-active-buffers
-command! -nargs=* Only call CloseHiddenBuffers()
-function! CloseHiddenBuffers()
+command! -nargs=* Only call s:CloseHiddenBuffers()
+function! s:CloseHiddenBuffers()
   " figure out which buffers are visible in any tab
   let visible = {}
   for t in range(1, tabpagenr('$'))
@@ -409,7 +408,7 @@ let g:user_emmet_next_key = '<C-f>'
 " VimWiki
 let g:vimwiki_menu=''
 let g:vimwiki_ext2syntax = {}
-nmap <leader>tt <Plug>VimwikiToggleListItem
+nnoremap <leader>tt <Plug>VimwikiToggleListItem
 
 "EasyMotion
 let g:EasyMotion_leader_key = ',,'
@@ -422,10 +421,11 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
+let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store']
 
 "ChangeInside
-nmap <silent> <Leader>c :ChangeInsideSurrounding<CR>
-nmap <silent> <Leader>C :ChangeAroundSurrounding<CR>
+nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
+nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 
 "Ultisnips
 let g:UltiSnipsEditSplit="vertical"
