@@ -21,6 +21,7 @@ run_brew() {
             'git'
             'ack'
             'node'
+            'fasd'
             'git-ftp'
             'heroku-toolbelt'
             'the_silver_searcher'

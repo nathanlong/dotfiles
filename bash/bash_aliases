@@ -15,11 +15,14 @@ alias catn='cat -n'      # join and print with line numbers
 alias zz='exit'          # quick exit
 alias mvp='mvim -p'      # open all files in macvim tabs
 alias mvd='mvim -d'      # open mvim with diff splits
-alias v="mvim . "        # Open cd in mvim
 alias mm="mvim && middleman" # Open in mvim then fire off middleman
 alias sudo='sudo '       # Enable aliases to be sudo’ed
 alias o="open"           # Open file with default application
 alias oo="open ."        # Open cd in Finder
+
+#fasd
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+
 
 # IP Addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
