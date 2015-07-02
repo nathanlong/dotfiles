@@ -21,6 +21,7 @@ run_brew() {
             'git'
             'ack'
             'node'
+            'par'
             'fasd'
             'git-ftp'
             'heroku-toolbelt'

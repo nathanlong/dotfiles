@@ -26,28 +26,23 @@ imap <D-;> <esc>A;
 nmap <D-;> A;
 
 " Command-Shift-F for Ack
-map <D-F> :Ag<space>
+nnoremap <D-F> :Ag<space>
 
 " Unmap D-L use for copy-line command
 macmenu &Tools.List\ Errors key=<nop>
-map <D-l> <esc>^vg_"+y
-imap <D-l> <esc>^vg_"+y
+nnoremap <D-l> <esc>^vg_"+y
+inoremap <D-l> <esc>^vg_"+y
 
 " Kill Make key for markdown bolding in writer plugin
 macmenu &Tools.Make key=<nop>
 
-" Control P like sublime text
-macmenu &File.Print key=<nop>
-map <D-p> :CtrlP<cr>
-map <D-P> :CtrlPBuffer<cr>
-
 " Commentary controls like Sublime Text
-nmap <D-/> \\\
-vmap <D-/> \\
+nmap <D-/> :Commentary<cr>
+vmap <D-/> :Commentary<cr>
 
 " Writer
-map <D-R> :WriterToggle<CR>
-imap <D-R> <esc>:WriterToggle<CR>
+nnoremap <D-R> :WriterToggle<CR>
+inoremap <D-R> <esc>:WriterToggle<CR>
 
 " Other stuff
 " ----------------------------------------------------------------------------
@@ -66,3 +61,21 @@ inoremap <F17> <esc>:set lines=999 columns=100<cr>a
 " Resize to tallest
 nnoremap <F18> :set lines=999<cr>
 inoremap <F18> <esc>:set lines=999<cr>a
+
+" GUI Plugins
+" ----------------------------------------------------------------------------
+
+" Airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+"Disable whitespace checks
+let g:airline#extensions#whitespace#enabled = 0
+
+" unicode symbols
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
+"Ultisnips
+let g:UltiSnipsEditSplit="vertical"

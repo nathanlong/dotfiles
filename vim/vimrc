@@ -24,7 +24,6 @@ Plugin 'godlygeek/tabular'
 Plugin 'gregsexton/MatchTag'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'mattn/emmet-vim'
-" Plugin 'myusuf3/numbers.vim'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -34,7 +33,6 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/ZoomWin'
 Plugin 'vim-scripts/delimitMate.vim'
 Plugin 'vim-scripts/matchit.zip'
 Plugin 'vim-scripts/vimwiki'
@@ -56,6 +54,7 @@ Plugin 'nathanlong/vim-colors-writer'
 
 " Plugins that don't play well with the terminal
 if has("gui_running")
+  Plugin 'bling/vim-airline'
   Plugin 'SirVer/ultisnips'
 endif
 
@@ -93,8 +92,8 @@ if exists("&undodir")
 endif
 set viminfo+=n$HOME/.vim/tmp/viminfo
 
-"Changes leader from \ to ,
-let mapleader = ","
+"Changes leader from \ to space - REACHABLE BY BOTH HANDS, WAT?!
+let mapleader = "\<space>"
 
 "Map : to ; (then remap ;) -- massive pinky-saver
 noremap ; :
@@ -160,7 +159,7 @@ set laststatus=2          "Always show status line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c%V%)%6.6p%%\ 
+set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c%V%)%6.6p%%\
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -257,6 +256,9 @@ xnoremap <C-A-up> y`<Pgv
 "Select a line without trailing whitespace or linebreaks
 nnoremap <leader>l <esc>^vg_
 
+"Quickly select text you just pasted
+noremap gV `[v`]
+
 "Remap j and k to act as expected when used on long, wrapped, lines
 nnoremap j gj
 nnoremap k gk
@@ -265,10 +267,6 @@ nnoremap k gk
 "SO USEFUL!!!
 inoremap <C-Enter> <C-o>o
 inoremap <C-S-Enter> <C-o>O
-
-"Map space to search and shift-space to backwards search
-nnoremap <space> /
-nnoremap <S-space> ?
 
 "Map for removing search highlighting
 nnoremap <silent> <leader><cr> :noh<cr>
@@ -317,8 +315,8 @@ endfunction
 
 "Autoclose unactive buffers - activate with :call CloseHiddenBuffers()
 "http://stackoverflow.com/questions/2974192/how-can-i-pare-down-vims-buffer-list-to-only-include-active-buffers
-command! -nargs=* Only call s:CloseHiddenBuffers()
-function! s:CloseHiddenBuffers()
+command! -nargs=* Only call CloseHiddenBuffers()
+function! CloseHiddenBuffers()
   " figure out which buffers are visible in any tab
   let visible = {}
   for t in range(1, tabpagenr('$'))
@@ -355,7 +353,7 @@ if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt,*.text set filetype=markdown
     au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,php,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-    au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+    au FileType javascript,otl,votl setlocal ts=4 sts=4 sw=4 noexpandtab
     au FileType css,scss,sass setlocal iskeyword+=-
     au FileType markdown setlocal spell
 endif
@@ -374,8 +372,9 @@ nnoremap _pp :set ft=php<CR>
 "Quick Mappings
 nnoremap <F1> :NERDTreeToggle<cr>
 nnoremap <F2> :GundoToggle<CR>
-nnoremap <silent> <F3> :YRShow<cr>
-inoremap <silent> <F3> <ESC>:YRShow<cr>
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " The Silver Searcher
 " http://robots.thoughtbot.com/faster-grepping-in-vim
@@ -390,10 +389,9 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-"Ctrl-P - see gvimrc for remappings
+"Ctrl-P Settings
+nnoremap <leader>o :CtrlP<cr>
+nnoremap <leader>O :CtrlPBuffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_custom_ignore = {
@@ -411,7 +409,7 @@ let g:vimwiki_ext2syntax = {}
 nnoremap <leader>tt <Plug>VimwikiToggleListItem
 
 "EasyMotion
-let g:EasyMotion_leader_key = ',,'
+" let g:EasyMotion_leader_key = '\\'
 
 "Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
@@ -426,9 +424,6 @@ let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store']
 "ChangeInside
 nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
-
-"Ultisnips
-let g:UltiSnipsEditSplit="vertical"
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
