@@ -18,3 +18,7 @@ Thumbs.db
 *.sass-cache
 *.sw?
 *.vi
+
+# Git in ur SVN..?
+.svn
+.svn*

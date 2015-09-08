@@ -5,7 +5,7 @@ set guioptions-=r           "Do not use scrollbars
 set guioptions-=R           "Do not use scrollbars
 set guioptions-=l           "Do not use scrollbars
 set guioptions-=L           "Do not use scrollbars
-set guifont=Consolas:h15    "Set font type and size.
+set guifont=Consolas:h16    "Set font type and size.
 set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 
@@ -15,6 +15,7 @@ colorscheme Tomorrow-Night-Eighties       "Set colorscheme
 " Mac Specific Keybindings
 " ----------------------------------------------------------------------------
 
+" Use option key as meta key
 set macmeta
 
 " Command-Return for fullscreen
@@ -40,10 +41,6 @@ macmenu &Tools.Make key=<nop>
 nmap <D-/> :Commentary<cr>
 vmap <D-/> :Commentary<cr>
 
-" Writer
-nnoremap <D-R> :WriterToggle<CR>
-inoremap <D-R> <esc>:WriterToggle<CR>
-
 " Other stuff
 " ----------------------------------------------------------------------------
 
@@ -61,21 +58,3 @@ inoremap <F17> <esc>:set lines=999 columns=100<cr>a
 " Resize to tallest
 nnoremap <F18> :set lines=999<cr>
 inoremap <F18> <esc>:set lines=999<cr>a
-
-" GUI Plugins
-" ----------------------------------------------------------------------------
-
-" Airline
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-"Disable whitespace checks
-let g:airline#extensions#whitespace#enabled = 0
-
-" unicode symbols
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-
-"Ultisnips
-let g:UltiSnipsEditSplit="vertical"

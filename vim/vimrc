@@ -50,12 +50,12 @@ Plugin 'nathanlong/vim-markdown'
 " Colorschemes
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
-Plugin 'nathanlong/vim-colors-writer'
 
 " Plugins that don't play well with the terminal
-if has("gui_running")
+if has("gui_running") 
   Plugin 'bling/vim-airline'
   Plugin 'SirVer/ultisnips'
+  Plugin 'nathanlong/vim-colors-writer'
 endif
 
 call vundle#end()
@@ -159,7 +159,7 @@ set laststatus=2          "Always show status line
 let g:syntastic_stl_format = '[%E{Err: L%fe #%e}%B{, }%W{Warn: L%fw #%w}]'
 
 "Status line
-set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c%V%)%6.6p%%\
+set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c%V%)%6.6p%%\ 
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -277,11 +277,11 @@ nnoremap <leader>vg :tabedit $MYGVIMRC<cr>
 nnoremap <leader>vl :tabedit ~/.vimrc.local<cr>
 
 "Commands for opening the current file or directory in another application
-nnoremap <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
-nnoremap <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
-nnoremap <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
-nnoremap <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
-nnoremap <silent> <leader>oi :silent !open .<cr>
+" nnoremap <silent> <leader>oc :silent !open -a /Applications/Google\ Chrome.app/ %<cr>
+" nnoremap <silent> <leader>of :silent !open -a /Applications/Firefox.app/ %<cr>
+" nnoremap <silent> <leader>os :silent !open -a /Applications/Safari.app/ %<cr>
+" nnoremap <silent> <leader>ot :silent !open -a /Applications/iTerm.app/ %:p:h<cr>
+" nnoremap <silent> <leader>oi :silent !open .<cr>
 
 "Will open files in current directory, allows you to leave the working cd in
 "the project root. You can also use %% anywhere in the command line to expand.
@@ -355,7 +355,7 @@ if has("autocmd")
     au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,php,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
     au FileType javascript,otl,votl setlocal ts=4 sts=4 sw=4 noexpandtab
     au FileType css,scss,sass setlocal iskeyword+=-
-    au FileType markdown setlocal spell
+    au FileType markdown setlocal ts=2 sts=2 sw=2 noexpandtab spell
 endif
 
 "Easy filetype switching
@@ -391,7 +391,7 @@ endif
 
 "Ctrl-P Settings
 nnoremap <leader>o :CtrlP<cr>
-nnoremap <leader>O :CtrlPBuffer<cr>
+nnoremap <leader>p :CtrlPBuffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_custom_ignore = {
@@ -424,6 +424,20 @@ let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store']
 "ChangeInside
 nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
+
+"GUI Plugins
+if has("gui_running")
+  "Airline
+  "Disable whitespace checks
+  let g:airline#extensions#whitespace#enabled = 0
+  "Remove fancy separators, keepin it plain yo
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+
+  "Ultisnips
+  "Edit snippets in a vertical split
+  let g:UltiSnipsEditSplit="vertical"
+endif
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
