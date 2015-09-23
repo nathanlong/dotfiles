@@ -419,7 +419,7 @@ let g:syntastic_mode_map = { 'mode': 'passive',
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden = 1
-let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store']
+let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store', '.svn']
 
 "ChangeInside
 nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>

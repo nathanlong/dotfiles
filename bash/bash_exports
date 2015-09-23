@@ -1,7 +1,7 @@
 # bash_exports
 
-# Make macvim the default editor
-export EDITOR="mvim"
+# Make vim the default editor
+export EDITOR="vim"
 
 # Make some commands not show up in history
 export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
