@@ -395,7 +395,7 @@ nnoremap <leader>p :CtrlPBuffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|node_modules)$',
+  \ 'dir':  '\v[\/](node_modules|build)|(\.(swp|git|svn))$',
   \ 'file': '\v\.(exe|so|dll|jpg|gif|png)$',
   \ }
 

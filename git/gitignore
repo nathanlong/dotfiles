@@ -22,3 +22,6 @@ Thumbs.db
 # Git in ur SVN..?
 .svn
 .svn*
+
+# Node
+node_modules
