@@ -35,7 +35,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/delimitMate.vim'
 Plugin 'vim-scripts/matchit.zip'
-Plugin 'vim-scripts/vimwiki'
+Plugin 'vimwiki/vimwiki'
 
 " Syntax
 Plugin 'tpope/vim-haml'
@@ -46,6 +46,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-liquid'
 Plugin 'nathanlong/vim-markdown'
+Plugin 'captbaritone/better-indent-support-for-php-with-html'
 
 " Colorschemes
 Plugin 'nathanlong/vim-colors-solarized'
@@ -74,12 +75,11 @@ set history=100           "Sets how many lines of history VIM has to remember
 set timeoutlen=500        "lowers leader+command timeout.
 set hidden                "Switch between buffers without saving
 set visualbell            "Use visual bell instead of beep add t_vb= to disable
-set foldmethod=marker     "Use {{{ and }}} to define folds
 set gdefault              "Apply substitutions globally on a line by default
 set ttyfast               "Speed up terminal connection
 " set clipboard=unnamed     "Give yank commands access to system clipboard
 
-" Centralize backups, swap files, and persistent undo
+" Temp files, backups, and undos
 set directory=~/.vim/tmp  "Set temp directory (don't litter local dir with swp/tmp files)
 set nobackup              "Get rid of backups, I don't use them
 set nowb                  "Get rid of backups on write
@@ -99,8 +99,8 @@ let mapleader = "\<space>"
 noremap ; :
 noremap <M-;> ;
 
-"Map escape key to jj -- much faster
-inoremap jj <esc>
+"Map escape key to jk -- much faster
+inoremap jk <esc>
 
 "More useful command-line completion
 set wildmode=list:longest
@@ -126,6 +126,7 @@ set ignorecase            "case insensitive search
 set smartcase             "case insensitive search
 set mousehide             "hide mouse when typing
 set foldenable            "Enable code folding
+set foldmethod=marker     "Use {{{ and }}} to define folds
 set splitbelow            "Split windows below the current window
 set splitright            "Split vertical windows on the right
 set lazyredraw            "Does not redraw while macro is running (faster)
@@ -337,6 +338,20 @@ endfun
 
 map <leader>bc :call CloseHiddenBuffers()<cr>
 
+" toggle between number and relativenumber
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set nonumber
+        set relativenumber
+    endif
+endfunc
+
+map <leader>tn :call ToggleNumber()<cr>
+
+
 "Make .vimrc edits active without relaunch
 if has("autocmd")
   augroup myvimrchooks
@@ -352,7 +367,7 @@ endif
 if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt,*.text set filetype=markdown
-    au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,php,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+    au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,php,coffee,vim,sh setlocal ts=2 sts=2 sw=2 expandtab
     au FileType javascript,otl,votl setlocal ts=4 sts=4 sw=4 noexpandtab
     au FileType css,scss,sass setlocal iskeyword+=-
     au FileType markdown setlocal ts=2 sts=2 sw=2 noexpandtab spell
