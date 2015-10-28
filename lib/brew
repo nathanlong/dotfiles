@@ -22,9 +22,6 @@ run_brew() {
             'ack'
             'node'
             'par'
-            'fasd'
-            'git-ftp'
-            'heroku-toolbelt'
             'the_silver_searcher'
         )
 

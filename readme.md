@@ -1,28 +1,15 @@
 # Nate's Dotfiles
 
-AKA Vimtastic Front-End Development settings
-
-**Dependencies**
-
-- [Homebrew](http://brew.sh/) (to install Git)
-- [Git](http://git-scm.com/) (for Vundle)
+AKA Vimtastic Front-End Development settings.
 
 ## How to install
 
-Run this:
+    bash -c "$(curl -fsSL raw.github.com/nathanlong/dotfiles/master/bin/install.sh)"
 
-    git clone git@github.com:nathanlong/dotfiles.git ~/.dotfiles
-    cd ~/.dotfiles
-    ./bin/install.sh
-
-This will clone a copy, move into the new directory, and run the installation
-script. If you want to install the brew formulas and osx defaults run:
-
-    ./lib/brew
-    ./lib/osx
-
-These are optional and only necessary during initial setup. (I might possibly
-integrate these into the install script sometime in the future.)
+This grabs down the install script which fetches the source from Github, moves
+it into `~/.dotfiles`, fetches Homebrew, Node, RVM, and their specified
+packages, then reconnects the source to the repository and creates symlinks
+into your local system.
 
 ## To Update
 
@@ -38,6 +25,70 @@ run:
     :PluginUpdate
 
 Boom. Everything will be up to date.
+
+## Installation List
+
+Homebrew formulae:
+
+- Git
+- Ack
+- Node
+- Par
+- The Silver Searcher
+
+Node packages (global):
+
+- Gulp
+- JSHint
+- CSSLint
+
+Ruby gems (managed through RVM):
+
+- Compass
+- Boom
+
+Vim plugins:
+
+- Ag
+- Airline
+- Change Inside Surroundings
+- Commentary
+- CtrlP
+- delimitMate
+- EasyMotion
+- Emmet
+- Gundo
+- MatchTag
+- Matchit
+- Multiple Cursors
+- Nerdtree
+- Repeat
+- Supertab
+- Surround
+- Syntastic
+- Tabular
+- Ultisnips
+- Unimpaired
+- VimWiki
+- Wildfire
+
+Vim syntax plugins:
+
+- Better PHP indenting
+- Haml syntax
+- html5 syntax
+- Javascript syntax
+- jQuery syntax
+- Less syntax
+- Liquid syntax
+- Markdown syntax (custom)
+- Ruby syntax
+
+Vim colorschemes:
+
+- Solarized
+- Tomorrow (custom)
+- Writer (custom)
 
 ## Local Overrides
 
