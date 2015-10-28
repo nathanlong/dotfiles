@@ -1,8 +1,5 @@
 # bash_options
 
-# Enable fasd
-eval "$(fasd --init auto)"
-
 # Enable list colors
 export CLICOLOR=1
 
