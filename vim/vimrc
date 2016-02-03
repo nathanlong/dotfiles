@@ -150,6 +150,9 @@ set winminwidth=0
 "Toggle spellcheck
 nnoremap <silent> <leader>s :setlocal spell!<CR>
 
+"Colorscheme
+colorscheme solarized
+
 "-----------------------------------------------------------------------------
 " STATUS LINE
 "-----------------------------------------------------------------------------
@@ -409,10 +412,8 @@ nnoremap <leader>o :CtrlP<cr>
 nnoremap <leader>p :CtrlPBuffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|build)|(\.(swp|git|svn))$',
-  \ 'file': '\v\.(exe|so|dll|jpg|gif|png)$',
-  \ }
+" Commented out because Silver searcher uses .gitignore and .agignore
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|build)|(\.(swp|ico|git|svn))$'
 
 "Change emmet expansion key to command + e
 let g:user_emmet_expandabbr_key = '<D-e>'

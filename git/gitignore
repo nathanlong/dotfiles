@@ -25,3 +25,7 @@ Thumbs.db
 
 # Node
 node_modules
+
+# Generated Files
+
+assets/build
