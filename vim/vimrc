@@ -35,7 +35,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-scripts/delimitMate.vim'
 Plugin 'vim-scripts/matchit.zip'
-Plugin 'vimwiki/vimwiki'
 
 " Syntax
 Plugin 'tpope/vim-haml'
@@ -237,6 +236,9 @@ inoremap <D-7> <esc>7gt
 inoremap <D-8> <esc>8gt
 inoremap <D-9> <esc>9gt
 inoremap <D-0> <esc>:tablast<CR>
+
+"Open a new window with current directory
+map <D-N> :silent !mvim<cr>
 
 "emacs style jump to end of line in insert mode
 "prevents conflict with autocomplete

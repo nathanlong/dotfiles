@@ -37,6 +37,9 @@ inoremap <D-l> <esc>^vg_"+y
 " Kill Make key for markdown bolding in writer plugin
 macmenu &Tools.Make key=<nop>
 
+" Kill Print key for preview functions
+macmenu &File.Print key=<nop>
+
 " Commentary controls like Sublime Text
 nmap <D-/> :Commentary<cr>
 vmap <D-/> :Commentary<cr>
