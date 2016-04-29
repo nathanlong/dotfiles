@@ -24,12 +24,15 @@ Plugin 'godlygeek/tabular'
 Plugin 'gregsexton/MatchTag'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'mattn/emmet-vim'
+Plugin 'pbrisbin/vim-mkdir'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
@@ -149,8 +152,9 @@ set winminwidth=0
 "Toggle spellcheck
 nnoremap <silent> <leader>s :setlocal spell!<CR>
 
-"Colorscheme
+"Colorscheme (gui scheme set in .gvimrc)
 colorscheme solarized
+set bg=dark
 
 "-----------------------------------------------------------------------------
 " STATUS LINE
@@ -175,6 +179,8 @@ set shiftround
 set expandtab
 set smartindent            "Indent stuff
 set autoindent
+set textwidth=80
+set colorcolumn=+1         "Make it obvious where 80 chars is
 
 "Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -414,6 +420,7 @@ nnoremap <leader>o :CtrlP<cr>
 nnoremap <leader>p :CtrlPBuffer<cr>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
+let g:ctrlp_root_markers = ['gulpfile.js', 'package.json']
 " Commented out because Silver searcher uses .gitignore and .agignore
 " let g:ctrlp_custom_ignore = '\v[\/](node_modules|build)|(\.(swp|ico|git|svn))$'
 

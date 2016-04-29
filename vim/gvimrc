@@ -61,3 +61,12 @@ inoremap <F17> <esc>:set lines=999 columns=100<cr>a
 " Resize to tallest
 nnoremap <F18> :set lines=999<cr>
 inoremap <F18> <esc>:set lines=999<cr>a
+
+"-----------------------------------------------------------------------------
+" MACHINE SPECIFIC SETTINGS
+"-----------------------------------------------------------------------------
+
+if filereadable(glob("$HOME/.gvimrc.local"))
+  source $HOME/.gvimrc.local
+endif
+
