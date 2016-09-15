@@ -24,7 +24,7 @@
 
     diffc = diff --cached                       # Diff what is staged for the next commit
     diffst = diff --stat                        # Diff overview
-    dt = difftool                               # fire difftool (mvim)
+    dt = difftool                               # fire difftool (vim)
 
     lg = log -p
     l = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -65,8 +65,6 @@
 [push]
 	default = simple
 [diff]
-	tool = mvimdiff
-[difftool "mvimdiff"]
-	cmd = mvim -f -d \"$LOCAL\" \"$REMOTE\"
+	tool = vimdiff
 [difftool]
     prompt = false

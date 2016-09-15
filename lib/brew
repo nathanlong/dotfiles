@@ -19,6 +19,7 @@ run_brew() {
         local -a missing_formulae
         local -a desired_formulae=(
             'git'
+            'svn'
             'ack'
             'node'
             'par'

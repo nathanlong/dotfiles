@@ -9,9 +9,6 @@ set guifont=Consolas:h16    "Set font type and size.
 set fuopt=maxvert,maxhorz   "Sets max height when entering fullscreen
 set fuopt=background:Normal "Set fullscreen bg to match the text bg
 
-" Load different colorscheme in the GUI
-colorscheme Tomorrow-Night-Eighties       "Set colorscheme
-
 " Mac Specific Keybindings
 " ----------------------------------------------------------------------------
 

@@ -30,6 +30,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-fugitive'
@@ -43,6 +44,7 @@ Plugin 'vim-scripts/matchit.zip'
 Plugin 'tpope/vim-haml'
 Plugin 'othree/html5.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'isRuslan/vim-es6'
 Plugin 'nono/jquery.vim'
 Plugin 'groenewege/vim-less'
 Plugin 'vim-ruby/vim-ruby'
@@ -53,12 +55,20 @@ Plugin 'captbaritone/better-indent-support-for-php-with-html'
 " Colorschemes
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
+Plugin 'nathanlong/oceanic-next'
+Plugin 'nathanlong/vim-colors-writer'
+
+" Interface
+Plugin 'bling/vim-airline'
+
+" Writing
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'nathanlong/vim-writer'
 
 " Plugins that don't play well with the terminal
 if has("gui_running") 
-  Plugin 'bling/vim-airline'
   Plugin 'SirVer/ultisnips'
-  Plugin 'nathanlong/vim-colors-writer'
 endif
 
 call vundle#end()
@@ -152,8 +162,8 @@ set winminwidth=0
 "Toggle spellcheck
 nnoremap <silent> <leader>s :setlocal spell!<CR>
 
-"Colorscheme (gui scheme set in .gvimrc)
-colorscheme solarized
+"Colorscheme
+colorscheme OceanicNext
 set bg=dark
 
 "-----------------------------------------------------------------------------
@@ -306,7 +316,7 @@ nmap <leader>et :tabe %%
 "Change current directory to that of the file in the buffer with CMD + D
 nnoremap <silent> <D-d> :cd %:p:h<cr>
 
-"Jump back to last edited buffer
+"Jump back to last edited buffer - SUPER USEFUL
 nnoremap <D-b> <C-^>
 inoremap <D-b> <esc><C-^>
 
@@ -450,17 +460,17 @@ let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store', '.svn']
 nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 
+"Airline
+let g:airline_theme="oceanicnext"
+"Disable whitespace checks
+let g:airline#extensions#whitespace#enabled = 0
+"Remove fancy separators, keepin it plain yo
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
 "GUI Plugins
 if has("gui_running")
-  "Airline
-  "Disable whitespace checks
-  let g:airline#extensions#whitespace#enabled = 0
-  "Remove fancy separators, keepin it plain yo
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = ''
-
-  "Ultisnips
-  "Edit snippets in a vertical split
+  "Ultisnips - Edit snippets in a vertical split
   let g:UltiSnipsEditSplit="vertical"
 endif
 
