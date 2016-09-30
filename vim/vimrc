@@ -52,6 +52,11 @@ Plugin 'tpope/vim-liquid'
 Plugin 'nathanlong/vim-markdown'
 Plugin 'captbaritone/better-indent-support-for-php-with-html'
 
+" Typescript and Angular
+Plugin 'leafgarland/typescript-vim'
+" Plugin 'Shougo/vimproc.vim'
+" Plugin 'Quramy/tsuquyomi'
+
 " Colorschemes
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
