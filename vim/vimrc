@@ -18,7 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 "Plugins
 Plugin 'briandoll/change-inside-surroundings.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'gregsexton/MatchTag'
@@ -70,11 +70,11 @@ Plugin 'bling/vim-airline'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'nathanlong/vim-writer'
+Plugin 'SirVer/ultisnips'
 
 " Plugins that don't play well with the terminal
-if has("gui_running") 
-  Plugin 'SirVer/ultisnips'
-endif
+" if has("gui_running") 
+" endif
 
 call vundle#end()
 
@@ -130,6 +130,8 @@ set mouse=a
 " INTERFACE
 "-----------------------------------------------------------------------------
 
+set termguicolors         "Enable true color (only works in some terminals)
+set title                 "Update the title of window or terminal
 set autoread              "reload files when changed on disk
 set linespace=2           "Slightly higher linespace
 set relativenumber        "Relative numbers make for easy movement
@@ -169,6 +171,13 @@ nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 "Colorscheme
 colorscheme OceanicNext
+
+" enable italics, disabled by default
+let g:oceanic_next_terminal_italic = 1
+
+" enable bold, disabled by default
+let g:oceanic_next_terminal_bold = 1
+
 set bg=dark
 
 "-----------------------------------------------------------------------------
@@ -246,7 +255,6 @@ nnoremap <D-6> 6gt
 nnoremap <D-7> 7gt
 nnoremap <D-8> 8gt
 nnoremap <D-9> 9gt
-nnoremap <D-0> :tablast<CR>
 inoremap <D-1> <esc>1gt
 inoremap <D-2> <esc>2gt
 inoremap <D-3> <esc>3gt
@@ -256,7 +264,6 @@ inoremap <D-6> <esc>6gt
 inoremap <D-7> <esc>7gt
 inoremap <D-8> <esc>8gt
 inoremap <D-9> <esc>9gt
-inoremap <D-0> <esc>:tablast<CR>
 
 "Open a new window with current directory
 map <D-N> :silent !mvim<cr>

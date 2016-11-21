@@ -21,7 +21,6 @@ cd ${DOTFILES_DIRECTORY}
 source ./lib/utils # Script functions
 source ./lib/brew  # Sources run_brew(), but doesn't run it yet
 source ./lib/npm   # Sources run_npm(), but doesn't run it yet
-source ./lib/rvm   # Sources run_rvm(), but doesn't run it yet
 
 # Before relying on Homebrew, check that packages can be compiled
 if ! type_exists 'gcc'; then
@@ -45,12 +44,6 @@ if ! type_exists 'git'; then
   brew install git
 fi
 
-# Check for RVM, if not then install with latest stable ruby
-if ! type_exists 'rvm'; then
-  e_header "Installing RVM..."
-  \curl -sSL https://get.rvm.io | bash -s stable --ruby
-fi
-
 # Initialize the git repository if it's missing
 if ! is_git_repo; then
   e_header "Initializing git repository..."
@@ -62,6 +55,19 @@ if ! is_git_repo; then
   git reset --hard FETCH_HEAD
   # Remove any untracked files
   git clean -fd
+fi
+
+
+# Install and update packages
+seek_confirmation "Install homebrew and npm packages?"
+if is_confirmed; then
+    printf "Updating packages...\n"
+    # Install Homebrew formulae
+    run_brew
+    # Install Node packages
+    run_npm
+else
+    printf "Skipped package installations.\n"
 fi
 
 link() {
@@ -131,19 +137,4 @@ if is_confirmed; then
   e_success "OS X settings updated! You may need to restart."
 else
   printf "Skipping OSX settings...\n"
-fi
-
-# Ask about packages
-seek_confirmation "Warning: this will install packages for Homebrew, Node, and Ruby. Is this ok?"
-if is_confirmed; then
-  printf "Updating packages...\n"
-  # Install Homebrew formulae
-  run_brew
-  # Install Node packages
-  run_npm
-  # Install Ruby gems
-  run_rvm
-  e_success "Packages installed"
-else
-  printf "Skipping packages... \n"
 fi

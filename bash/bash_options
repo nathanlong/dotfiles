@@ -3,6 +3,9 @@
 # Enable list colors
 export CLICOLOR=1
 
+# Set colors to match iterm2 colors
+export TERM=xterm-256color
+
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 

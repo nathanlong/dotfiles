@@ -41,6 +41,10 @@ macmenu &File.Print key=<nop>
 nmap <D-/> :Commentary<cr>
 vmap <D-/> :Commentary<cr>
 
+" Restore font defaults
+nnoremap <D-0> :set guifont=Consolas\:h16<cr>
+inoremap <D-0> :set guifont=Consolas\:h16<cr>
+
 " Other stuff
 " ----------------------------------------------------------------------------
 
