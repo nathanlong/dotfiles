@@ -29,6 +29,9 @@ alias sudo='sudo '       # Enable aliases to be sudo’ed
 alias o="open"           # Open file with default application
 alias oo="open ."        # Open cd in Finder
 
+# SVN
+alias svnst='svn st --ignore-externals'
+
 # IP Addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en1"

@@ -173,7 +173,7 @@ nnoremap <silent> <leader>s :setlocal spell!<CR>
 colorscheme OceanicNext
 
 " enable italics, disabled by default
-let g:oceanic_next_terminal_italic = 1
+let g:oceanic_next_terminal_italic = 0
 
 " enable bold, disabled by default
 let g:oceanic_next_terminal_bold = 1
@@ -196,11 +196,11 @@ set statusline=\ %f\ %m\ %r%=%{SyntasticStatuslineFlag()}\ \ \ %y%12.12(%l\,\ %c
 " TEXT AND TAB SETTINGS
 "-----------------------------------------------------------------------------
 
-set tabstop=2              "Tab stuff
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4              "Tab stuff
+set shiftwidth=4
+set softtabstop=4
 set shiftround
-set expandtab
+set noexpandtab
 set smartindent            "Indent stuff
 set autoindent
 set textwidth=80
@@ -400,9 +400,7 @@ endif
 if has("autocmd")
     au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
     au BufRead,BufNewFile *.txt,*.text set filetype=markdown
-    au FileType html,xhtml,css,scss,ruby,eruby,liquid,pml,yaml,php,coffee,vim,sh setlocal ts=2 sts=2 sw=2 expandtab
-    au FileType javascript,otl,votl setlocal ts=4 sts=4 sw=4 noexpandtab
-    au FileType css,scss,sass setlocal iskeyword+=-
+    au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 iskeyword+=-
     au FileType markdown setlocal ts=2 sts=2 sw=2 noexpandtab spell
 endif
 

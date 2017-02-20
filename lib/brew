@@ -25,6 +25,7 @@ run_brew() {
             'rbenv'
             'par'
             'the_silver_searcher'
+            'vim --with-python3'
         )
 
         for index in ${!desired_formulae[*]}

@@ -4,7 +4,7 @@
 export EDITOR="vim"
 
 # Make some commands not show up in history
-export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:.."
+export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:..:svn up:svn ci:jrnl *"
 
 # Prefer US English and use UTF-8
 export LANG="en_US"
