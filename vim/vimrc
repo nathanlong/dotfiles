@@ -67,6 +67,7 @@ Plugin 'nathanlong/vim-colors-writer'
 Plugin 'bling/vim-airline'
 
 " Writing
+Plugin 'vimwiki/vimwiki'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'nathanlong/vim-writer'
