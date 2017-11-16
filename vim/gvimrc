@@ -19,7 +19,7 @@ set macmeta
 macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
 
 " Darn semi-colons, make my life a little easier, but first unmap <D-;>
-macmenu &Tools.Spelling.To\ Next\ error key=<nop>
+macmenu &Tools.Spelling.To\ Next\ Error key=<nop>
 imap <D-;> <esc>A;
 nmap <D-;> A;
 

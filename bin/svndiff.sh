@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Configure your favorite diff program here.
-DIFF="vimdiff"
+DIFF="vimdiff --not-a-term"
 
 # Subversion provides the paths we need as the sixth and seventh
 # parameters.

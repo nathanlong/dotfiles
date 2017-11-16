@@ -18,7 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 "Plugins
 Plugin 'briandoll/change-inside-surroundings.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'gregsexton/MatchTag'
@@ -61,7 +61,8 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'nathanlong/vim-colors-solarized'
 Plugin 'nathanlong/vim-colors-tomorrow'
 Plugin 'nathanlong/oceanic-next'
-Plugin 'nathanlong/vim-colors-writer'
+" Add text
+" Plugin 'nathanlong/vim-colors-writer'
 
 " Interface
 Plugin 'bling/vim-airline'
@@ -419,9 +420,6 @@ nnoremap _pp :set ft=php<CR>
 "Quick Mappings
 nnoremap <F1> :NERDTreeToggle<cr>
 nnoremap <F2> :GundoToggle<CR>
-
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " The Silver Searcher
 " http://robots.thoughtbot.com/faster-grepping-in-vim
