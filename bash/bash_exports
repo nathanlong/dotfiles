@@ -1,7 +1,7 @@
 # bash_exports
 
-# Make vim the default editor
-export EDITOR="vim"
+# Make neovim the default editor
+export EDITOR="nvim"
 
 # Make some commands not show up in history
 export HISTIGNORE="ls:ls *:ll:lf:cd:cd -:pwd;exit:date:* --help:zz:..:svn up:svn ci:jrnl *"

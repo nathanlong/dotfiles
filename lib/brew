@@ -24,8 +24,10 @@ run_brew() {
             'node'
             'rbenv'
             'par'
+			'python'
+			'markdown'
             'the_silver_searcher'
-            'vim --with-python3'
+			'neovim'
         )
 
         for index in ${!desired_formulae[*]}

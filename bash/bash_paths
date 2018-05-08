@@ -11,6 +11,7 @@ declare -a dirs_to_append=(
   "/usr/bin"
   "/usr/local/sbin" # Homebrew
   "$(brew --prefix)/share/npm/bin" # Add npm-installed package bin
+  "/Applications/MacVim.app/Contents/bin" #mvim wrapper script
 )
 
 # Prepend directories to PATH

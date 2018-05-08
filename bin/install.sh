@@ -70,6 +70,14 @@ else
     printf "Skipped package installations.\n"
 fi
 
+# Enable python support in neovim
+seek_confirmation "Enable python support in neovim?"
+if is_confirmed; then
+	pip3 install --upgrade neovim
+    e_success "Added python provider to neovim."
+else
+	printf "Skipping neovim python support.\n"
+
 link() {
   # Force create/replace the symlink.
   ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
@@ -81,6 +89,9 @@ mirrorfiles() {
         rm -rf "${HOME}/.vim"
     fi
 
+	# Create neovim directory
+	mkdir ~/.config/nvim
+
     # Create the necessary symbolic links between the `.dotfiles` and `HOME`
     # directory. The `bash_profile` sources other files directly from the
     # `.dotfiles` repository.
@@ -89,25 +100,41 @@ mirrorfiles() {
     link "bash/inputrc"       ".inputrc"
     link "git/gitconfig"      ".gitconfig"
     link "git/gitignore"      ".gitignore"
-    link "vim"                ".vim"
-    link "vim/gvimrc"         ".gvimrc"
-    link "vim/vimrc"          ".vimrc"
+    link "vim/init.vim"	      ".config/nvim/init.vim"
+    # link "vim"                ".vim"
+    # link "vim/gvimrc"         ".gvimrc"
+    # link "vim/vimrc"          ".vimrc"
 
     # Create untracked directories
     mkdir ~/.dotfiles/vim/tmp
     mkdir ~/.dotfiles/vim/bundle
 
+	# Disabling vim in favor of neovim, but not deleting configs yet...
     # Add vundle for vim plugins
-    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    e_success "Added Vundle to manage Vim plugins. Initializing plugins..."
-    vim +PluginInstall +qall
-    e_success "Plugins initialized."
+    # git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    # e_success "Added Vundle to manage Vim plugins. Initializing plugins..."
+    # vim +PluginInstall +qall
+    # e_success "Plugins initialized."
 
     # Connect local vim overrides
-    e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
-    read -e -p "> " vimpath
-    if [[ $vimpath ]]; then
-        ln -fs `eval echo $vimpath` "${HOME}/.vimrc.local"
+    # e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
+    # read -e -p "> " vimpath
+    # if [[ $vimpath ]]; then
+    #     ln -fs `eval echo $vimpath` "${HOME}/.vimrc.local"
+    # fi
+
+	# Add vim plug for neovim
+	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    e_success "Added vim plug to manage neovim plugins. Initializing plugins..."
+    nvim +PlugInstall +qall
+    e_success "Plugins initialized."
+
+    # Connect local neovim overrides
+    e_header "Where do you keep your local neovim overrides? Enter the path or hit ENTER to skip."
+    read -e -p "> " nvimpath
+    if [[ $nvimpath ]]; then
+        ln -fs `eval echo $nvimpath` "${HOME}/.config/nvim/local.vim"
     fi
 
     # Connect local git overrides
