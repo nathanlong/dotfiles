@@ -77,6 +77,7 @@ if is_confirmed; then
     e_success "Added python provider to neovim."
 else
 	printf "Skipping neovim python support.\n"
+fi
 
 link() {
   # Force create/replace the symlink.
