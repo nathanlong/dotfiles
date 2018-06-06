@@ -4,25 +4,33 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 "General
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'briandoll/change-inside-surroundings.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ervandew/supertab'
 Plug 'gregsexton/MatchTag'
 Plug 'lokaltog/vim-easymotion'
 Plug 'mattn/emmet-vim'
+Plug 'neomake/neomake'
+Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'SirVer/ultisnips'
+Plug 'sjl/gundo.vim'
 Plug 'vim-scripts/delimitMate.vim'
 Plug 'vim-scripts/matchit.zip'
-Plug 'neomake/neomake'
-Plug 'SirVer/ultisnips'
 Plug 'vimwiki/vimwiki'
 "Syntax
+Plug 'captbaritone/better-indent-support-for-php-with-html'
+Plug 'nathanlong/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'nathanlong/vim-markdown'
+"Autocomplete
+Plug 'carlitux/deoplete-ternjs'
 "Interface
+Plug 'junegunn/goyo.vim'
 Plug 'nathanlong/oceanic-next'
 Plug 'vim-airline/vim-airline'
 call plug#end()
@@ -34,10 +42,23 @@ call plug#end()
 
 set hidden "Switch between buffers without saving
 set gdefault "Apply substitutions globally on a line by default
-set timeoutlen=500        "lowers leader+command timeout.
+set timeoutlen=500 "lowers leader+command timeout.
 set nobackup "Get rid of backups
 set nowb "Get rid of backups on write
 set noswapfile "Get rid of swp files
+set clipboard=unnamed "Give yank commands access to system clipboard
+
+" Temp files, backups, and undos
+set directory=~/.local/share/nvim/tmp  "Set temp directory
+set nobackup              "Get rid of backups, I don't use them
+set nowb                  "Get rid of backups on write
+set noswapfile            "Get rid of swp files, I have never used them
+
+"Persistent undo.
+set undofile
+let &undodir=&directory
+set undolevels=500
+set undoreload=500
 
 "Changes leader from \ to space - REACHABLE BY BOTH HANDS, WAT?!
 let mapleader = "\<space>"
@@ -45,6 +66,10 @@ let mapleader = "\<space>"
 "Map : to ; (then remap ;) -- massive pinky-saver
 noremap ; :
 noremap <M-;> ;
+
+"More useful command-line completion
+set wildmode=list:longest
+set wildmenu
 
 "In many terminal emulators the mouse works just fine, so have at it.
 set mouse=a
@@ -55,6 +80,7 @@ set mouse=a
 
 set termguicolors "Enable true color
 set title "Update the title
+set autoread "Refresh files when changed outside of vim
 set relativenumber "Relative numbers for easy movement
 set more "Adds more prompt for long screen prints
 set ruler "Cursor position in lower right
@@ -66,7 +92,6 @@ set splitright "split vertical windows to the right
 set scrolloff=3 "always keeps cursor 3 lines from bottom
 set sidescrolloff=7 "keep 7 chars onscreen when nowrap is iset
 set sidescroll=1 "minimum number of columns to scroll sideways
-
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>L :set list!<CR>
@@ -100,6 +125,7 @@ set textwidth=80
 set colorcolumn=+1         "Make it obvious where 80 chars is
 set wrap
 set linebreak
+set formatoptions=qrn1
 
 "Toggle to different paste modes
 nnoremap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
@@ -125,7 +151,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"Firefox-style tab selection with command+number, mac only
+"Tab selection
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
 nnoremap <leader>3 3gt
@@ -135,22 +161,13 @@ nnoremap <leader>6 6gt
 nnoremap <leader>7 7gt
 nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
-" inoremap <leader>1 <esc>1gt
-" inoremap <leader>2 <esc>2gt
-" inoremap <leader>3 <esc>3gt
-" inoremap <leader>4 <esc>4gt
-" inoremap <leader>5 <esc>5gt
-" inoremap <leader>6 <esc>6gt
-" inoremap <leader>7 <esc>7gt
-" inoremap <leader>8 <esc>8gt
-" inoremap <leader>9 <esc>9gt
 
 "emacs style jump to end of line in insert mode
 "prevents conflict with autocomplete
 inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
 inoremap <C-a> <C-o>I
 
-" Bubble lines, preserves indentation, courtesy of -romainl-
+"Bubble lines, preserves indentation, courtesy of -romainl-
 nnoremap <silent> <C-Up>   :move-2<CR>==
 nnoremap <silent> <C-Down> :move+<CR>==
 xnoremap <silent> <C-Up>   :move-2<CR>gv=gv
@@ -195,11 +212,26 @@ nnoremap <silent> <D-d> :cd %:p:h<cr>
 
 "Jump back to last edited buffer - SUPER USEFUL
 nnoremap <leader>b <C-^>
-" inoremap <leader>b <esc><C-^>
 
 "Shortcut for editing my vimrc and gvimrc in a new tab
 nnoremap <leader>vv :tabedit $MYVIMRC<cr>
 nnoremap <leader>vl :tabedit ~/.config/nvim/local.vim<cr>
+
+
+"-----------------------------------------------------------------------------
+" HELPER FUNCTIONS
+"-----------------------------------------------------------------------------
+
+"Jump to last cursor position when opening a file
+autocmd BufReadPost * call s:SetCursorPosition()
+function! s:SetCursorPosition()
+    if &filetype !~ 'svn\|commit\c'
+        if line("'\"") > 0 && line("'\"") <= line("$")
+            exe "normal! g`\""
+            normal! zz
+        endif
+    end
+endfunction
 
 "-------------------"
 "" FILETYPE SETTINGS
@@ -223,6 +255,7 @@ nnoremap _pp :set ft=php<CR>
 
 "Quick Mappings
 nnoremap <F1> :NERDTreeToggle<cr>
+nnoremap <F2> :GundoToggle<CR>
 
 " The Silver Searcher
 " http://robots.thoughtbot.com/faster-grepping-in-vim
@@ -238,18 +271,16 @@ if executable('ag')
 endif
 
 "Ctrl-P Settings
+"Change default mappings
 nnoremap <leader>o :CtrlP<cr>
 nnoremap <leader>p :CtrlPBuffer<cr>
 " set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_root_markers = ['gulpfile.js', 'package.json']
+let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'wp-config.php']
 
-"Change emmet expansion key to command + e
-let g:user_emmet_expandabbr_key = '<D-e>'
-let g:user_emmet_next_key = '<C-f>'
-
-"EasyMotion
-" let g:EasyMotion_leader_key = '\\'
+"Emmet
+"Change emmet expansion key to command + s
+let g:user_emmet_expandabbr_key = '<c-s>'
 
 "NerdTree
 let NERDTreeMinimalUI = 1
@@ -262,6 +293,7 @@ nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 
 "Airline
+"Set theme
 let g:airline_theme="oceanicnext"
 "Disable whitespace checks
 let g:airline#extensions#whitespace#enabled = 0
@@ -284,6 +316,30 @@ call neomake#configure#automake('nw', 750)
 " normal mode (after 1s; no delay when writing).
 " call neomake#configure#automake('nrwi', 500)
 " let g:neomake_javascript_enabled_makers = ['eslint']
+
+"Deoplete
+"https://gist.github.com/afnanenayet/8c2ee0fdabb8d1e292b788f9723673c5
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+
+" disable autocomplete by default
+" let b:deoplete_disable_auto_complete=1 
+" let g:deoplete_disable_auto_complete=1
+" call deoplete#custom#buffer_option('auto_complete', v:false)
+
+" if !exists('g:deoplete#omni#input_patterns')
+"     let g:deoplete#omni#input_patterns = {}
+" endif
+
+" Disable the candidates in Comment/String syntaxes.
+call deoplete#custom#source('_',
+            \ 'disabled_syntaxes', ['Comment', 'String'])
+
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+"Supertab
+let g:SuperTabCrMapping = 1
+
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
