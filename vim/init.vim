@@ -67,6 +67,9 @@ let mapleader = "\<space>"
 noremap ; :
 noremap <M-;> ;
 
+"Better escape from insert mode
+inoremap jk <Esc>
+
 "More useful command-line completion
 set wildmode=list:longest
 set wildmenu
@@ -276,7 +279,7 @@ nnoremap <leader>o :CtrlP<cr>
 nnoremap <leader>p :CtrlPBuffer<cr>
 " set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'wp-config.php']
+let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'wp-config.php', '.git']
 
 "Emmet
 "Change emmet expansion key to command + s
