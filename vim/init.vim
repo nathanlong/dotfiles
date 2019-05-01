@@ -27,6 +27,7 @@ Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'nathanlong/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'sukima/vim-tiddlywiki'
 "Autocomplete
 Plug 'carlitux/deoplete-ternjs'
 "Interface
@@ -124,8 +125,8 @@ set shiftround
 set noexpandtab
 set smartindent            "Indent stuff
 set autoindent
-set textwidth=80
-set colorcolumn=+1         "Make it obvious where 80 chars is
+set textwidth=78
+set colorcolumn=+1         "Make it obvious where the text width ends
 set wrap
 set linebreak
 set formatoptions=qrn1
@@ -171,18 +172,22 @@ inoremap <expr> <c-e> pumvisible() ? "\<c-e>" : "\<c-o>A"
 inoremap <C-a> <C-o>I
 
 "Bubble lines, preserves indentation, courtesy of -romainl-
-nnoremap <silent> <C-Up>   :move-2<CR>==
-nnoremap <silent> <C-Down> :move+<CR>==
-xnoremap <silent> <C-Up>   :move-2<CR>gv=gv
-xnoremap <silent> <C-Down> :move'>+<CR>gv=gv
+nnoremap <silent> <M-Up>   :move-2<CR>==
+nnoremap <silent> <M-Down> :move+<CR>==
+xnoremap <silent> <M-Up>   :move-2<CR>gv=gv
+xnoremap <silent> <M-Down> :move'>+<CR>gv=gv
 
 "Duplicate lines above and below
-inoremap <C-A-down> <esc>Ypk
-nnoremap <C-A-down> Ypk
-xnoremap <C-A-down> y`>pgv
-inoremap <C-A-up> <esc>YPj
-nnoremap <C-A-up> YPj
-xnoremap <C-A-up> y`<Pgv
+inoremap <S-C-down> <esc>Ypk
+nnoremap <S-C-down> Ypk
+xnoremap <S-C-down> y`>pgv
+inoremap <S-C-up> <esc>YPj
+nnoremap <S-C-up> YPj
+xnoremap <S-C-up> y`<Pgv
+
+"Select inside common things I need to replace
+nnoremap <leader>' vi'p
+nnoremap <leader>" vi"p
 
 "Select a line without trailing whitespace or linebreaks
 nnoremap <leader>l <esc>^vg_
@@ -241,9 +246,9 @@ endfunction
 "-------------------"
 
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
-au BufRead,BufNewFile *.txt,*.text set filetype=markdown
+au BufRead,BufNewFile *.txt,*.text set filetype=markdown 
 au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 iskeyword+=-
-au FileType markdown setlocal ts=2 sts=2 sw=2 noexpandtab spell
+au FileType markdown,vimwiki setlocal ts=2 sts=2 sw=2 expandtab spell
 
 "Easy filetype switching
 nnoremap _md :set ft=markdown<CR>
@@ -259,6 +264,9 @@ nnoremap _pp :set ft=php<CR>
 "Quick Mappings
 nnoremap <F1> :NERDTreeToggle<cr>
 nnoremap <F2> :GundoToggle<CR>
+
+" Gundo
+let g:gundo_prefer_python3 = 1
 
 " The Silver Searcher
 " http://robots.thoughtbot.com/faster-grepping-in-vim
@@ -300,9 +308,10 @@ nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 let g:airline_theme="oceanicnext"
 "Disable whitespace checks
 let g:airline#extensions#whitespace#enabled = 0
+let g:airline_powerline_fonts = 1
 "Remove fancy separators, keepin it plain yo
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
+" let g:airline_left_sep = ''
+" let g:airline_right_sep = ''
 
 "Ultisnips - Edit snippets in a vertical split
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.dotfiles/vim/UltiSnips']
