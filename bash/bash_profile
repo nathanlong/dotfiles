@@ -22,4 +22,4 @@ done
 unset files
 
 # Load rbenv
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"

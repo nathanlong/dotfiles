@@ -4,7 +4,7 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 "General
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'briandoll/change-inside-surroundings.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
@@ -17,6 +17,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'SirVer/ultisnips'
 Plug 'sjl/gundo.vim'
 Plug 'vim-scripts/delimitMate.vim'
@@ -28,10 +30,7 @@ Plug 'nathanlong/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'sukima/vim-tiddlywiki'
-"Autocomplete
-Plug 'carlitux/deoplete-ternjs'
 "Interface
-Plug 'junegunn/goyo.vim'
 Plug 'nathanlong/oceanic-next'
 Plug 'vim-airline/vim-airline'
 call plug#end()
@@ -329,29 +328,25 @@ call neomake#configure#automake('nw', 750)
 " call neomake#configure#automake('nrwi', 500)
 " let g:neomake_javascript_enabled_makers = ['eslint']
 
-"Deoplete
-"https://gist.github.com/afnanenayet/8c2ee0fdabb8d1e292b788f9723673c5
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-
-" disable autocomplete by default
-" let b:deoplete_disable_auto_complete=1 
-" let g:deoplete_disable_auto_complete=1
-" call deoplete#custom#buffer_option('auto_complete', v:false)
-
-" if !exists('g:deoplete#omni#input_patterns')
-"     let g:deoplete#omni#input_patterns = {}
-" endif
-
-" Disable the candidates in Comment/String syntaxes.
-call deoplete#custom#source('_',
-            \ 'disabled_syntaxes', ['Comment', 'String'])
-
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
 "Supertab
 let g:SuperTabCrMapping = 1
 
+"Fugitive
+nnoremap <space>ga :Git add -A<CR>
+nnoremap <space>gs :Gstatus<CR>
+" nnoremap <space>gc :Gcommit -v -q<CR>
+" nnoremap <space>gt :Gcommit -v -q %:p<CR>
+nnoremap <space>gd :Gdiff<CR>
+" nnoremap <space>ge :Gedit<CR>
+" nnoremap <space>gr :Gread<CR>
+" nnoremap <space>gw :Gwrite<CR><CR>
+nnoremap <space>gl :Glog<CR>
+nnoremap <space>gp :Gpush<Space>
+nnoremap <space>gm :Gmove<Space>
+nnoremap <space>gb :Git branch<Space>
+nnoremap <space>go :Git checkout<Space>
+nnoremap <space>gps :Dispatch! git push<CR>
+nnoremap <space>gpl :Dispatch! git pull<CR>
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
