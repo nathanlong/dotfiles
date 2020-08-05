@@ -19,6 +19,7 @@
     amend = commit --amend                      # ammend your last commit
 
     b = branch -v                               # show branches (verbose)
+    br = branch -rv                             # show branches (verbose)
     co = checkout                               # checkout
     nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
 

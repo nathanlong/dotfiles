@@ -340,13 +340,15 @@ nnoremap <space>gd :Gdiff<CR>
 " nnoremap <space>ge :Gedit<CR>
 " nnoremap <space>gr :Gread<CR>
 " nnoremap <space>gw :Gwrite<CR><CR>
+nnoremap <space>gb :Gblame<CR>
 nnoremap <space>gl :Glog<CR>
-nnoremap <space>gp :Gpush<Space>
-nnoremap <space>gm :Gmove<Space>
-nnoremap <space>gb :Git branch<Space>
-nnoremap <space>go :Git checkout<Space>
-nnoremap <space>gps :Dispatch! git push<CR>
-nnoremap <space>gpl :Dispatch! git pull<CR>
+nnoremap <space>gp :Gpush<CR>
+nnoremap <space>go :Gbrowse<CR>
+" nnoremap <space>gm :Gmove<Space>
+" nnoremap <space>gb :Git branch<Space>
+" nnoremap <space>go :Git checkout<Space>
+" nnoremap <space>gps :Dispatch! git push<CR>
+" nnoremap <space>gpl :Dispatch! git pull<CR>
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
