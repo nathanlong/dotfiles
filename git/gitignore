@@ -24,8 +24,7 @@ Thumbs.db
 .svn*
 
 # Node
-node_modules
+# node_modules
 
 # Generated Files
-
-assets/build
+# assets/build

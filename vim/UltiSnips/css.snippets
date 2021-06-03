@@ -525,3 +525,13 @@ snippet 3tr "CSS3 Transitions"
 -o-transition:      ${4:$1};
 transition:         ${5:$1};
 endsnippet
+
+snippet var "CSS Variables"
+var(--${1})
+endsnippet
+
+snippet media "Media query min-width"
+@media all and (min-width: ${1}) {
+	${2}
+}
+endsnippet

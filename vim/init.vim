@@ -23,13 +23,12 @@ Plug 'SirVer/ultisnips'
 Plug 'sjl/gundo.vim'
 Plug 'vim-scripts/delimitMate.vim'
 Plug 'vim-scripts/matchit.zip'
-Plug 'vimwiki/vimwiki'
 "Syntax
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'nathanlong/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'sukima/vim-tiddlywiki'
+Plug 'MaxMEllon/vim-jsx-pretty'
 "Interface
 Plug 'nathanlong/oceanic-next'
 Plug 'vim-airline/vim-airline'
@@ -47,6 +46,7 @@ set nobackup "Get rid of backups
 set nowb "Get rid of backups on write
 set noswapfile "Get rid of swp files
 set clipboard=unnamed "Give yank commands access to system clipboard
+set foldmethod=marker
 
 " Temp files, backups, and undos
 set directory=~/.local/share/nvim/tmp  "Set temp directory
@@ -84,7 +84,8 @@ set mouse=a
 set termguicolors "Enable true color
 set title "Update the title
 set autoread "Refresh files when changed outside of vim
-set relativenumber "Relative numbers for easy movement
+set number "Relative numbers for easy movement
+" set relativenumber "Relative numbers for easy movement
 set more "Adds more prompt for long screen prints
 set ruler "Cursor position in lower right
 set ignorecase "case insensitive search
@@ -332,23 +333,19 @@ call neomake#configure#automake('nw', 750)
 let g:SuperTabCrMapping = 1
 
 "Fugitive
-nnoremap <space>ga :Git add -A<CR>
-nnoremap <space>gs :Gstatus<CR>
+nnoremap <leader>ga :Git add -A<CR>
+nnoremap <leader>gs :Gstatus<CR>
 " nnoremap <space>gc :Gcommit -v -q<CR>
 " nnoremap <space>gt :Gcommit -v -q %:p<CR>
-nnoremap <space>gd :Gdiff<CR>
+nnoremap <leader>gd :Gdiff<CR>
 " nnoremap <space>ge :Gedit<CR>
 " nnoremap <space>gr :Gread<CR>
 " nnoremap <space>gw :Gwrite<CR><CR>
-nnoremap <space>gb :Gblame<CR>
-nnoremap <space>gl :Glog<CR>
-nnoremap <space>gp :Gpush<CR>
-nnoremap <space>go :Gbrowse<CR>
-" nnoremap <space>gm :Gmove<Space>
-" nnoremap <space>gb :Git branch<Space>
-" nnoremap <space>go :Git checkout<Space>
-" nnoremap <space>gps :Dispatch! git push<CR>
-" nnoremap <space>gpl :Dispatch! git pull<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gl :Glog<CR>
+nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gh :Gpush<CR>
+nnoremap <leader>go :Gbrowse<CR>
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS

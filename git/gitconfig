@@ -69,3 +69,5 @@
 	tool = vimdiff
 [difftool]
     prompt = false
+[pull]
+	rebase = false
