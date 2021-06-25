@@ -1,0 +1,138 @@
+# ----------------------------------------------------------------------------
+# SOURCE CUSTOM UTILITIES
+# ----------------------------------------------------------------------------
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Prompt
+source ~/.config/p10k/powerlevel10k.zsh-theme
+
+# Bashmarks
+source ~/.dotfiles/bin/bashmarks.sh
+
+# ----------------------------------------------------------------------------
+# OPTIONS
+# ----------------------------------------------------------------------------
+
+# Completion
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+# Changing/making/removing directory
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus
+
+## History file configuration
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
+[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+
+## History command configuration
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # share command history data
+
+# Misc
+setopt long_list_jobs
+setopt interactivecomments
+
+# ls colors
+autoload -U colors && colors
+
+# Enable ls colors
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+
+# this is a good alias, it works by default just using $LSCOLORS
+ls -G . &>/dev/null && alias ls='ls -G'
+
+# only use coreutils ls if there is a dircolors customization present ($LS_COLORS or .dircolors file)
+# otherwise, gls will use the default color scheme which is ugly af
+[[ -n "$LS_COLORS" || -f "$HOME/.dircolors" ]] && gls --color -d . &>/dev/null && alias ls='gls --color=tty'
+
+setopt auto_cd
+setopt multios
+setopt prompt_subst
+
+# ----------------------------------------------------------------------------
+# ALIASES
+# ----------------------------------------------------------------------------
+
+## super user alias
+alias _='sudo '
+
+# Basic navigation
+alias ..='cd ..'
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ~="cd ~"
+alias -- -="cd -"
+
+# Fancy lists
+alias ll='ls -laF'       # long form, everything
+alias lo='ls -oG'        # long form, no user group, no hidden
+alias lt='ls -toaG'      # order by last modified, everything
+alias lf='ls -AGFoh'     # long form, no user, file size
+
+# Shortcuts
+alias a="ack -ia"        # ack everything, case insensitive
+alias catn='cat -n'      # join and print with line numbers
+alias zz='exit'          # quick exit
+alias sudo='sudo '       # Enable aliases to be sudo’ed
+alias o="open"           # Open file with default application
+alias oo="open ."        # Open cd in Finder
+
+# IP Addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en1"
+alias localip0="ipconfig getifaddr en0"
+
+# Flush Directory Service cache
+alias flush="dscacheutil -flushcache"
+
+# System monitoring
+alias toc="top -o cpu"
+alias tor="top -o rsize"
+
+# Empty the Trash on all mounted volumes and the main HDD
+# Also, clear Apple’s System Logs to improve shell startup speed
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+
+# ----------------------------------------------------------------------------
+# ENVIRONMENT MANAGEMENT
+# ----------------------------------------------------------------------------
+
+# Init nvm
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+
+# Init pyenv
+echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+
+# ----------------------------------------------------------------------------
+# ADDITIONAL SETTINGS
+# ----------------------------------------------------------------------------
+
+# Local Settings
+[[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+
+# Pace Settings
+[[ ! -f ~/.config/pace/pace.local ]] || source ~/.config/pace/pace.local
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

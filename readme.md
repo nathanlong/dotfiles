@@ -2,6 +2,19 @@
 
 AKA Vimtastic Front-End Development settings.
 
+— NOW reworking to use ZSH instead of Bash.
+
+Utilizes:
+
+- zsh
+  - p10k prompt
+- neovim
+- homebrew
+- node (managed by nvm)
+- python (managed by pyenv)
+
+# Old Installation Instructions (now deprecated)
+
 ## How to install
 
     bash -c "$(curl -fsSL raw.github.com/nathanlong/dotfiles/master/bin/install.sh)"
