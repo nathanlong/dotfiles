@@ -247,7 +247,7 @@ endfunction
 
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 au BufRead,BufNewFile *.txt,*.text set filetype=markdown 
-au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 iskeyword+=-
+au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-
 au FileType markdown,vimwiki setlocal ts=2 sts=2 sw=2 expandtab spell
 
 "Easy filetype switching
