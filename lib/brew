@@ -18,11 +18,7 @@ run_brew() {
         local list_formulae
         local -a missing_formulae
         local -a desired_formulae=(
-            'git'
-            'svn'
             'ack'
-            'node'
-            'rbenv'
             'par'
 			'python'
 			'markdown'

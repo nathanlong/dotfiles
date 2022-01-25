@@ -33,7 +33,8 @@ fi
 # Check for Homebrew
 if ! type_exists 'brew'; then
   e_header "Installing Homebrew..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  e_success "Homebrew installed"
 fi
 
 # Check for git
@@ -42,6 +43,7 @@ if ! type_exists 'git'; then
   brew update
   e_header "Installing Git..."
   brew install git
+  e_success "Git installed"
 fi
 
 # Initialize the git repository if it's missing
@@ -59,11 +61,19 @@ fi
 
 
 # Install and update packages
-seek_confirmation "Install homebrew and npm packages?"
+seek_confirmation "Install brew formulae?"
 if is_confirmed; then
     printf "Updating packages...\n"
     # Install Homebrew formulae
     run_brew
+else
+    printf "Skipped brew installations.\n"
+fi
+
+# Install global npm modules
+seek_confirmation "Install global npm packages?"
+if is_confirmed; then
+    printf "Updating packages...\n"
     # Install Node packages
     run_npm
 else
@@ -73,7 +83,7 @@ fi
 # Enable python support in neovim
 seek_confirmation "Enable python support in neovim?"
 if is_confirmed; then
-	pip3 install --upgrade neovim
+	python3 -m pip install --user --upgrade pynvim
     e_success "Added python provider to neovim."
 else
 	printf "Skipping neovim python support.\n"
@@ -85,20 +95,16 @@ link() {
 }
 
 mirrorfiles() {
-    # Force remove the vim directory if it's already there.
-    if [ -e "${HOME}/.vim" ]; then
-        rm -rf "${HOME}/.vim"
-    fi
-
 	# Create neovim directory
 	mkdir ~/.config/nvim
 
     # Create the necessary symbolic links between the `.dotfiles` and `HOME`
     # directory. The `bash_profile` sources other files directly from the
     # `.dotfiles` repository.
-    link "bash/bashrc"        ".bashrc"
-    link "bash/bash_profile"  ".bash_profile"
-    link "bash/inputrc"       ".inputrc"
+    # link "bash/bashrc"        ".bashrc"
+    # link "bash/bash_profile"  ".bash_profile"
+    # link "bash/inputrc"       ".inputrc"
+	link "zsh/zshrc"          ".zshrc"
     link "git/gitconfig"      ".gitconfig"
     link "git/gitignore"      ".gitignore"
     link "vim/init.vim"	      ".config/nvim/init.vim"
@@ -106,27 +112,9 @@ mirrorfiles() {
     # link "vim/gvimrc"         ".gvimrc"
     # link "vim/vimrc"          ".vimrc"
 
-    # Create untracked directories
-    mkdir ~/.dotfiles/vim/tmp
-    mkdir ~/.dotfiles/vim/bundle
-
-	# Disabling vim in favor of neovim, but not deleting configs yet...
-    # Add vundle for vim plugins
-    # git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    # e_success "Added Vundle to manage Vim plugins. Initializing plugins..."
-    # vim +PluginInstall +qall
-    # e_success "Plugins initialized."
-
-    # Connect local vim overrides
-    # e_header "Where do you keep your local vim overrides? Enter the path or hit ENTER to skip."
-    # read -e -p "> " vimpath
-    # if [[ $vimpath ]]; then
-    #     ln -fs `eval echo $vimpath` "${HOME}/.vimrc.local"
-    # fi
-
 	# Add vim plug for neovim
-	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     e_success "Added vim plug to manage neovim plugins. Initializing plugins..."
     nvim +PlugInstall +qall
     e_success "Plugins initialized."
@@ -156,13 +144,4 @@ if is_confirmed; then
 else
     printf "Aborting...\n"
     exit 1
-fi
-
-# Ask before potentially overwriting OS X defaults
-seek_confirmation "Warning: This step may modify your OSX system defaults. Is this ok?"
-if is_confirmed; then
-  bash ./lib/osx
-  e_success "OS X settings updated! You may need to restart."
-else
-  printf "Skipping OSX settings...\n"
 fi

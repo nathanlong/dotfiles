@@ -7,7 +7,7 @@ run_npm() {
         e_header "Installing Node.js packages..."
 
         # List of npm packages
-        local packages="gulp-cli jshint csslint tern"
+        local packages="gulp-cli jshint csslint tern tiddlywiki"
 
         # Install packages globally and quietly
         npm install $packages --global --quiet

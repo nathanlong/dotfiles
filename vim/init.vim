@@ -3,8 +3,12 @@
 "-----------------------------------------------------------------------------
 
 call plug#begin('~/.local/share/nvim/plugged')
-"General
+"Autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = [
+  \ 'coc-tsserver'
+  \ ]
+"General
 Plug 'briandoll/change-inside-surroundings.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
@@ -18,22 +22,36 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'SirVer/ultisnips'
 Plug 'sjl/gundo.vim'
 Plug 'vim-scripts/delimitMate.vim'
 Plug 'vim-scripts/matchit.zip'
+Plug 'editorconfig/editorconfig-vim'
 "Syntax
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'nathanlong/vim-markdown'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'nelsyeung/twig.vim'
+"Formatting
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 "Interface
 Plug 'nathanlong/oceanic-next'
 Plug 'vim-airline/vim-airline'
 call plug#end()
 
+"-----------------------------------------------------------------------------
+" NEOVIM EDITS
+"-----------------------------------------------------------------------------
+
+"Remove line yank from NeoVim default mappings
+unmap Y
 
 "-----------------------------------------------------------------------------
 " GENERAL SETTINGS
@@ -247,12 +265,13 @@ endfunction
 
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 au BufRead,BufNewFile *.txt,*.text set filetype=markdown 
+au BufRead,BufNewFile *.html set ft=html.twig.js.css
 au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-
 au FileType markdown,vimwiki setlocal ts=2 sts=2 sw=2 expandtab spell
 
 "Easy filetype switching
 nnoremap _md :set ft=markdown<CR>
-nnoremap _hh :set ft=html<CR>
+nnoremap _hh :set ft=html.twig.js.css<CR>
 nnoremap _js :set ft=javascript<CR>
 nnoremap _jq :set ft=javascript syntax=jQuery<CR>
 nnoremap _pp :set ft=php<CR>		
@@ -287,7 +306,7 @@ nnoremap <leader>o :CtrlP<cr>
 nnoremap <leader>p :CtrlPBuffer<cr>
 " set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'wp-config.php', '.git']
+let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'composer.json', 'wp-config.php', '.git']
 
 "Emmet
 "Change emmet expansion key to command + s
@@ -309,9 +328,6 @@ let g:airline_theme="oceanicnext"
 "Disable whitespace checks
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_powerline_fonts = 1
-"Remove fancy separators, keepin it plain yo
-" let g:airline_left_sep = ''
-" let g:airline_right_sep = ''
 
 "Ultisnips - Edit snippets in a vertical split
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.dotfiles/vim/UltiSnips']
@@ -331,21 +347,26 @@ call neomake#configure#automake('nw', 750)
 
 "Supertab
 let g:SuperTabCrMapping = 1
+let g:SuperTabDefaultCompletionType = "<c-n>" "Lets move forward instead of backwards
+
 
 "Fugitive
 nnoremap <leader>ga :Git add -A<CR>
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 " nnoremap <space>gc :Gcommit -v -q<CR>
 " nnoremap <space>gt :Gcommit -v -q %:p<CR>
 nnoremap <leader>gd :Gdiff<CR>
 " nnoremap <space>ge :Gedit<CR>
 " nnoremap <space>gr :Gread<CR>
 " nnoremap <space>gw :Gwrite<CR><CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gl :Glog<CR>
-nnoremap <leader>gp :Gpull<CR>
-nnoremap <leader>gh :Gpush<CR>
-nnoremap <leader>go :Gbrowse<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gl :Gclog<CR>
+nnoremap <leader>gp :Git pull<CR>
+nnoremap <leader>gh :Git push<CR>
+nnoremap <leader>go :GBrowse<CR>
+
+"editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
