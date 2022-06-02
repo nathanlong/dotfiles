@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 run_npm() {
 
@@ -7,7 +7,8 @@ run_npm() {
         e_header "Installing Node.js packages..."
 
         # List of npm packages
-        local packages="gulp-cli jshint csslint tern tiddlywiki"
+		# Many of these are LSPs for use with nvim
+        local packages="stylelint-lsp svelte-language-server @tailwindcss/language-server tiddlywiki typescript-language-server vscode-langservers-extracted"
 
         # Install packages globally and quietly
         npm install $packages --global --quiet

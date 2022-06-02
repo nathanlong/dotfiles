@@ -1,107 +1,17 @@
 # Nate's Dotfiles
 
-AKA Vimtastic Front-End Development settings.
+⚠️ I'm currently in the middle of translating some of these settings into newer,
+shinier NVIM equivalents
 
-— NOW reworking to use ZSH instead of Bash.
-
-Utilizes:
+## Basic toolkit:
 
 - zsh
   - p10k prompt
+  - bashmarks (cd shortcuts)
 - neovim
 - homebrew
 - node (managed by nvm)
-- python (managed by pyenv)
-
-# Old Installation Instructions (now deprecated)
-
-## How to install
-
-    bash -c "$(curl -fsSL raw.github.com/nathanlong/dotfiles/master/bin/install.sh)"
-
-This grabs down the install script which fetches the source from Github, moves
-it into `~/.dotfiles`, fetches Homebrew, Node, RVM, and their specified
-packages, then reconnects the source to the repository and creates symlinks
-into your local system.
-
-## To Update
-
-There are two processes to update everything:
-
-    cd ~/.dotfiles
-    git pull
-
-That'll grab everything except the Vim plugins, which are managed by
-[Vundle](https://github.com/gmarik/Vundle.vim). To update those, enter Vim and
-run:
-
-    :PluginUpdate
-
-Boom. Everything will be up to date.
-
-## Installation List
-
-Homebrew formulae:
-
-- Git
-- Ack
-- Node
-- Par
-- The Silver Searcher
-
-Node packages (global):
-
-- Gulp
-- JSHint
-- CSSLint
-
-Ruby gems (managed through RVM):
-
-- Compass
-- Boom
-
-Vim plugins:
-
-- Ag
-- Airline
-- Change Inside Surroundings
-- Commentary
-- CtrlP
-- delimitMate
-- EasyMotion
-- Emmet
-- Gundo
-- MatchTag
-- Matchit
-- Multiple Cursors
-- Nerdtree
-- Repeat
-- Supertab
-- Surround
-- Syntastic
-- Tabular
-- Ultisnips
-- Unimpaired
-- VimWiki
-- Wildfire
-
-Vim syntax plugins:
-
-- Better PHP indenting
-- Haml syntax
-- html5 syntax
-- Javascript syntax
-- jQuery syntax
-- Less syntax
-- Liquid syntax
-- Markdown syntax (custom)
-- Ruby syntax
-
-Vim colorschemes:
-
-- Solarized
-- Tomorrow (custom)
-- Writer (custom)
+- asdf (for managing other languages)
 
 ## Local Overrides
 

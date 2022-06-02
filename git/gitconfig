@@ -22,6 +22,7 @@
     br = branch -rv                             # show branches (verbose)
     co = checkout                               # checkout
     nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
+	db = branch -d								# delete branch
 
     diffc = diff --cached                       # Diff what is staged for the next commit
     diffst = diff --stat                        # Diff overview

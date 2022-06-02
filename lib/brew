@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 run_brew() {
 
@@ -14,14 +14,15 @@ run_brew() {
         brew upgrade
         [[ $? ]] && e_success "Done"
 
+		# Specify brew formulae, git is installed first in install.sh before this runs
         e_header "Checking status of desired Homebrew formulae..."
         local list_formulae
         local -a missing_formulae
         local -a desired_formulae=(
             'ack'
             'par'
-			'python'
 			'markdown'
+			'ffmpeg'
             'the_silver_searcher'
 			'neovim'
         )

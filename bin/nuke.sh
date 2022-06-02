@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/zsh
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 

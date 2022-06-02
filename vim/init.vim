@@ -3,32 +3,24 @@
 "-----------------------------------------------------------------------------
 
 call plug#begin('~/.local/share/nvim/plugged')
-"Autocomplete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = [
-  \ 'coc-tsserver'
-  \ ]
+
 "General
 Plug 'briandoll/change-inside-surroundings.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ervandew/supertab'
-Plug 'gregsexton/MatchTag'
-Plug 'lokaltog/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 Plug 'mattn/emmet-vim'
-Plug 'neomake/neomake'
 Plug 'rking/ag.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'shumphrey/fugitive-gitlab.vim'
-Plug 'SirVer/ultisnips'
 Plug 'sjl/gundo.vim'
-Plug 'vim-scripts/delimitMate.vim'
-Plug 'vim-scripts/matchit.zip'
+Plug 'Raimondi/delimitMate'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'SirVer/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 "Syntax
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'nathanlong/vim-markdown'
@@ -36,14 +28,34 @@ Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'jparise/vim-graphql'
 Plug 'nelsyeung/twig.vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'glench/vim-jinja2-syntax'
+Plug 'evanleck/vim-svelte'
 "Formatting
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 "Interface
+Plug 'folke/which-key.nvim'
+Plug 'lambdalisue/nerdfont.vim'
 Plug 'nathanlong/oceanic-next'
 Plug 'vim-airline/vim-airline'
+"Wilder
+function! UpdateRemotePlugins(...)
+	" Needed to refresh runtime files
+	let &rtp=&rtp
+	UpdateRemotePlugins
+endfunction
+Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+"LSP Integration
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+
 call plug#end()
 
 "-----------------------------------------------------------------------------
@@ -63,7 +75,7 @@ set timeoutlen=500 "lowers leader+command timeout.
 set nobackup "Get rid of backups
 set nowb "Get rid of backups on write
 set noswapfile "Get rid of swp files
-set clipboard=unnamed "Give yank commands access to system clipboard
+set clipboard=unnamedplus "Give yank commands access to system clipboard
 set foldmethod=marker
 
 " Temp files, backups, and undos
@@ -115,6 +127,9 @@ set scrolloff=3 "always keeps cursor 3 lines from bottom
 set sidescrolloff=7 "keep 7 chars onscreen when nowrap is iset
 set sidescroll=1 "minimum number of columns to scroll sideways
 
+" Enable highlighting for lua HERE doc inside vim script
+let g:vimsyn_embed = 'l'
+
 "Shortcut to rapidly toggle `set list` (shows invisibles)
 nmap <leader>L :set list!<CR>
 
@@ -122,11 +137,19 @@ nmap <leader>L :set list!<CR>
 set listchars=tab:›\ ,eol:¬,trail:⋅
 
 "Settings for diff mode
-set diffopt=filler,vertical
+set diffopt=
+set diffopt+=vertical  " show diff in vertical position
+set diffopt+=filler  " show filler for deleted lines
+set diffopt+=closeoff  " turn off diff when one file window is closed
+set diffopt+=context:3  " context for diff
+set diffopt+=internal,indent-heuristic,algorithm:histogram
 
 "Allows splits to be squashed to one line
 set winminheight=0
 set winminwidth=0
+
+" Set matching pairs of characters and highlight matching brackets
+set matchpairs+=<:>,“:”,‘:’
 
 "COLORS
 set bg=dark
@@ -237,12 +260,12 @@ nmap <leader>et :tabe %%
 nnoremap <silent> <D-d> :cd %:p:h<cr>
 
 "Jump back to last edited buffer - SUPER USEFUL
-nnoremap <leader>b <C-^>
+noremap <leader>b <C-^>
 
 "Shortcut for editing my vimrc and gvimrc in a new tab
-nnoremap <leader>vv :tabedit $MYVIMRC<cr>
-nnoremap <leader>vl :tabedit ~/.config/nvim/local.vim<cr>
-
+nnoremap <leader>vv :tabnew $MYVIMRC<cr>
+nnoremap <leader>vl :tabnew ~/.config/nvim/local.vim<cr>
+nnoremap <leader>vs :source $MYVIMRC<cr>
 
 "-----------------------------------------------------------------------------
 " HELPER FUNCTIONS
@@ -263,9 +286,8 @@ endfunction
 "" FILETYPE SETTINGS
 "-------------------"
 
-au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 au BufRead,BufNewFile *.txt,*.text set filetype=markdown 
-au BufRead,BufNewFile *.html set ft=html.twig.js.css
+" au BufRead,BufNewFile *.html set ft=html.twig.js.css
 au FileType css,scss,sass setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-
 au FileType markdown,vimwiki setlocal ts=2 sts=2 sw=2 expandtab spell
 
@@ -292,21 +314,39 @@ let g:gundo_prefer_python3 = 1
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 endif
 
-"Ctrl-P Settings
-"Change default mappings
-nnoremap <leader>o :CtrlP<cr>
-nnoremap <leader>p :CtrlPBuffer<cr>
-" set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_working_path_mode = 'rwa'
-let g:ctrlp_root_markers = ['gulpfile.js', 'package.json', 'composer.json', 'wp-config.php', '.git']
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+" noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+" noremap go :<C-U>Leaderf! rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+" let g:Lf_GtagsAutoGenerate = 0
+" let g:Lf_Gtagslabel = 'native-pygments'
+" noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+" noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+" noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+" noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 "Emmet
 "Change emmet expansion key to command + s
@@ -337,18 +377,13 @@ let g:UltiSnipsEditSplit="vertical"
 " When writing a buffer (no delay).
 " call neomake#configure#automake('w')
 " When writing a buffer (no delay), and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
+" call neomake#configure#automake('nw', 750)
 " When reading a buffer (after 1s), and when writing (no delay).
 " call neomake#configure#automake('rw', 1000)
 " Full config: when writing or reading a buffer, and on changes in insert and
 " normal mode (after 1s; no delay when writing).
 " call neomake#configure#automake('nrwi', 500)
 " let g:neomake_javascript_enabled_makers = ['eslint']
-
-"Supertab
-let g:SuperTabCrMapping = 1
-let g:SuperTabDefaultCompletionType = "<c-n>" "Lets move forward instead of backwards
-
 
 "Fugitive
 nnoremap <leader>ga :Git add -A<CR>
@@ -368,6 +403,49 @@ nnoremap <leader>go :GBrowse<CR>
 "editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+"Prettier
+"Remap
+nmap <leader>re <Plug>(Prettier)
+"Force async
+let g:prettier#exec_cmd_async = 1
+"Write before save
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
+"Autoformat if config present
+let g:prettier#autoformat_config_present = 1
+
+"Wilder
+" Default keys
+call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<Down>',
+      \ 'reject_key': '<Up>',
+      \ })
+call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline({
+      \       'language': 'python',
+      \       'fuzzy': 1,
+      \     }),
+      \     wilder#python_search_pipeline({
+      \       'pattern': wilder#python_fuzzy_pattern(),
+      \       'sorter': wilder#python_difflib_sorter(),
+      \       'engine': 're',
+      \     }),
+      \   ),
+      \ ])
+" 'highlighter' : applies highlighting to the candidates
+call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': wilder#basic_highlighter(),
+      \ 'left': [
+      \   ' ', wilder#popupmenu_devicons(),
+      \ ],
+      \ 'right': [
+      \   ' ', wilder#popupmenu_scrollbar(),
+      \ ],
+      \ }))
+
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
 "-----------------------------------------------------------------------------
@@ -375,3 +453,86 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 if filereadable(glob("$HOME/.config/nvim/local.vim"))
   source $HOME/.config/nvim/local.vim
 endif
+
+
+"-----------------------------------------------------------------------------
+" LSP + AUTOCOMPLETE SETUP
+"-----------------------------------------------------------------------------
+
+lua << EOF
+
+require("which-key").setup {}
+
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local lspconfig = require('lspconfig')
+
+local servers = { 'tailwindcss', 'tsserver', 'html', 'cssls', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte' }
+for _, lsp in pairs(servers) do
+  require('lspconfig')[lsp].setup {
+    on_attach = on_attach,
+	capabilites = capabilities,
+    flags = {
+      -- This will be the default in neovim 0.7+
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+-- Required for the visualstudio lsps?
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+lspconfig.cssls.setup {
+  capabilities = capabilities
+}
+
+lspconfig.html.setup {
+  capabilities = capabilities,
+}
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+       vim.fn["UltiSnips#Anon"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+  },
+}
+EOF

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/zsh
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 DOTFILES_TARBALL_PATH="https://github.com/nathanlong/dotfiles/tarball/master"
@@ -51,7 +51,7 @@ if ! is_git_repo; then
   e_header "Initializing git repository..."
   git init
   git remote add origin ${DOTFILES_GIT_REMOTE}
-  git fetch origin master
+  git fetch origin main
   # Reset the index and working tree to the fetched HEAD
   # (submodules are cloned in the subsequent sync step)
   git reset --hard FETCH_HEAD
@@ -101,16 +101,11 @@ mirrorfiles() {
     # Create the necessary symbolic links between the `.dotfiles` and `HOME`
     # directory. The `bash_profile` sources other files directly from the
     # `.dotfiles` repository.
-    # link "bash/bashrc"        ".bashrc"
-    # link "bash/bash_profile"  ".bash_profile"
     # link "bash/inputrc"       ".inputrc"
 	link "zsh/zshrc"          ".zshrc"
     link "git/gitconfig"      ".gitconfig"
     link "git/gitignore"      ".gitignore"
     link "vim/init.vim"	      ".config/nvim/init.vim"
-    # link "vim"                ".vim"
-    # link "vim/gvimrc"         ".gvimrc"
-    # link "vim/vimrc"          ".vimrc"
 
 	# Add vim plug for neovim
 	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -140,7 +135,7 @@ mirrorfiles() {
 seek_confirmation "Warning: This step may overwrite your existing dotfiles."
 if is_confirmed; then
     mirrorfiles
-    source ${HOME}/.bash_profile
+    source ${HOME}/.zshrc
 else
     printf "Aborting...\n"
     exit 1

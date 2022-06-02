@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/zsh
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
 
@@ -17,9 +17,6 @@ if is_confirmed; then
   rm ${HOME}/.inputrc
   rm ${HOME}/.gitconfig
   rm ${HOME}/.gitignore
-  rm ${HOME}/.vim
-  rm ${HOME}/.gvimrc
-  rm ${HOME}/.vimrc
   e_success "Dotfiles removed."
 else
   printf "Aborting...\n"
