@@ -66,9 +66,11 @@
     helper = osxkeychain
 [push]
 	default = simple
-[diff]
-	tool = vimdiff
 [difftool]
-    prompt = false
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [pull]
 	rebase = false
