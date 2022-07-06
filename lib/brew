@@ -23,7 +23,8 @@ run_brew() {
             'par'
 			'markdown'
 			'ffmpeg'
-            'the_silver_searcher'
+            'ripgrep'
+			'fd'
 			'neovim'
         )
 

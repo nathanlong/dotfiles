@@ -13,12 +13,13 @@ source ./lib/utils
 		'svelte-language-server' 
 		'@tailwindcss/language-server' 
 		'tiddlywiki' 
+		'typescript'
 		'typescript-language-server' 
 		'vscode-langservers-extracted'
 	)
 
-	# Install packages globally and quietly
-	npm install $packages --global --quiet
+	# Install packages globally
+	npm install -g $packages
 
 	[[ $? ]] && e_success "Done"
 # else

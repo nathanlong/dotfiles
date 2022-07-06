@@ -8,38 +8,44 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'briandoll/change-inside-surroundings.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mattn/emmet-vim'
-Plug 'rking/ag.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'sjl/gundo.vim'
+Plug 'simnalamburt/vim-mundo'
 Plug 'Raimondi/delimitMate'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'SirVer/ultisnips'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+"Fuzzy File Finding
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 "Syntax
-Plug 'captbaritone/better-indent-support-for-php-with-html'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nathanlong/vim-markdown'
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
+" Testing out treesitter, gonna keep these here for just a bit tho
+" Plug 'captbaritone/better-indent-support-for-php-with-html'
+" Plug 'othree/html5.vim'
+" Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'jparise/vim-graphql'
-Plug 'nelsyeung/twig.vim'
-Plug 'elixir-editors/vim-elixir'
-Plug 'lepture/vim-jinja'
-Plug 'evanleck/vim-svelte'
+" Plug 'jparise/vim-graphql'
+" Plug 'nelsyeung/twig.vim'
+" Plug 'elixir-editors/vim-elixir'
+" Plug 'lepture/vim-jinja'
+" Plug 'evanleck/vim-svelte'
+Plug 'sukima/vim-tiddlywiki'
 "Formatting
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
   \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 "Interface
 Plug 'folke/which-key.nvim'
-Plug 'nathanlong/oceanic-next'
+Plug 'folke/tokyonight.nvim'
+Plug 'junegunn/goyo.vim'
 "Statusline
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -56,8 +62,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
-"Dev Icons
-Plug 'ryanoasis/vim-devicons'
+Plug 'hrsh7th/cmp-buffer'
 
 
 call plug#end()
@@ -157,7 +162,7 @@ let g:vimsyn_embed = 'l'
 
 "COLORS
 set bg=dark
-colorscheme OceanicNext
+colorscheme tokyonight
 
 "-----------------------------------------------------------------------------
 " TEXT AND TAB SETTINGS
@@ -267,7 +272,7 @@ noremap <leader>b <C-^>
 
 "Shortcut for editing my vimrc and gvimrc in a new tab
 nnoremap <leader>vv :tabnew $MYVIMRC<cr>
-nnoremap <leader>vl :tabnew ~/.config/nvim/local.vim<cr>
+nnoremap <leader>vl :tabnew $HOME/.config/localconfig/local.vim<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
 
 "-----------------------------------------------------------------------------
@@ -307,53 +312,22 @@ nnoremap _pp :set ft=php<CR>
 
 "Quick Mappings --------------------------------------------------------------
 nnoremap <F1> :NERDTreeToggle<cr>
-nnoremap <F2> :GundoToggle<CR>
+nnoremap <F2> :MundoToggle<CR>
 
-" Gundo ----------------------------------------------------------------------
-let g:gundo_prefer_python3 = 1
-
-" The Silver Searcher --------------------------------------------------------
-" http://robots.thoughtbot.com/faster-grepping-in-vim
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+"Better Grep
+if executable('rg')
+  " Use rg over grep
+  set grepprg=rg\ --vimgrep
+  set grepformat=%f:%l:%c:%m
 endif
 
-" LeaderF - fuzzy file searching ---------------------------------------------
-" don't show the help in normal mode
-let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 0
-let g:Lf_UseVersionControlTool = 0
-let g:Lf_IgnoreCurrentBufferName = 1
+" Telescope
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>fm <cmd>lua require('telescope.builtin').oldfiles()<cr>
 
-" popup mode
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2" }
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-
-" mappings
-let g:Lf_ShortcutF = "<leader>ff"
-noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-" noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-
-noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-" search visually selected text literally
-xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-" noremap go :<C-U>Leaderf! rg --recall<CR>
-
-" Don't currently use tags, but keeping this here for later
-" should use `Leaderf gtags --update` first
-" let g:Lf_GtagsAutoGenerate = 0
-" let g:Lf_Gtagslabel = 'native-pygments'
-" noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-" noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
-" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
-" noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
-" noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 "Emmet - shortcut expansion --------------------------------------------------
 "Change emmet expansion key to command + s
@@ -375,7 +349,6 @@ nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 "let g:airline_powerline_fonts = 1
 
 "Ultisnips - Edit snippets in a vertical split -------------------------------
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.dotfiles/vim/UltiSnips']
 let g:UltiSnipsEditSplit="vertical"
 
 " Do not look for SnipMate snippets
@@ -412,7 +385,7 @@ nmap <leader>re <Plug>(Prettier)
 let g:prettier#exec_cmd_async = 1
 
 "Write before save
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html,.njk PrettierAsync
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html,.njk PrettierAsync
 
 "Autoformat if config present
 let g:prettier#autoformat_config_present = 1
@@ -456,8 +429,8 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer({
 " MACHINE SPECIFIC SETTINGS
 "-----------------------------------------------------------------------------
 
-if filereadable(glob("$HOME/.config/nvim/local.vim"))
-  source $HOME/.config/nvim/local.vim
+if filereadable(glob("$HOME/.config/localconfig/local.vim"))
+  source $HOME/.config/localconfig/local.vim
 endif
 
 "-----------------------------------------------------------------------------
@@ -468,7 +441,12 @@ endif
 lua << EOF
 
 -- Initialize plugins
-require('lualine').setup()
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight',
+  }, 
+}
+
 require("which-key").setup {}
 
 -- LSP + AUTOCOMPLETE
@@ -540,6 +518,45 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'ultisnips' },
+    { name = 'buffer' }
   },
 }
+
+-- Telescope with fzf
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').load_extension('fzf')
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "javascript", "html", "css", "php", "ruby", "scss", "typescript", "vim", "lua" },
+  highlight = { enable = true },
+  incremental_selection = {
+    enable = true,
+    -- super easy incremental selection, keep pressing <CR> to grow
+    keymaps = {
+      init_selection = '<CR>',
+      scope_incremental = '<CR>',
+      node_incremental = '<TAB>',
+      node_decremental = '<S-TAB>',
+    },
+  },
+}
+
+require'nvim-web-devicons'.setup {
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
+
 EOF

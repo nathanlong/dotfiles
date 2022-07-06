@@ -51,12 +51,16 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
-  use 'sjl/gundo.vim'
+  use 'simnalamburt/vim-mundo'
   use 'Raimondi/delimitMate'
   use 'editorconfig/editorconfig-vim'
   use 'SirVer/ultisnips'
   use 'quangnguyen30192/cmp-nvim-ultisnips'
   use { 'Yggdroot/LeaderF', run = ':LeaderfInstallCExtension' }
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   -- Syntax
   use 'captbaritone/better-indent-support-for-php-with-html'
   use 'nathanlong/vim-markdown'
@@ -96,8 +100,6 @@ return require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
-  -- Dev Icons
-  use 'ryanoasis/vim-devicons'
   -- if we bootstrapped packer then sync config
   if packer_bootstrap then
     require('packer').sync()
@@ -116,10 +118,10 @@ vim.opt.nowb = true -- Get rid of backups on write
 vim.opt.noswapfile = true -- Get rid of swp files
 vim.opt.clipboard = 'unnamedplus' -- Allow access to system clipboard
 vim.opt.foldmethod = 'marker'
-vim.opt.mouse = 'a'
+vim.opt.mouse = 'a' -- in most cases the mouse works just fine
 
 -- Temp files, backups, and undos
-vim.opt.directory = ~/.local/share/nvim/tmp  --Set temp directory
+vim.opt.directory = vim.fn.stdpath 'cache' .. '/tmp'  --Set temp directory
 vim.opt.nobackup = true --Get rid of backups, I don't use them
 vim.opt.nowb = true --Get rid of backups on write
 vim.opt.noswapfile = true --Get rid of swp files, I have never used them
@@ -154,11 +156,6 @@ vim.opt.matchpairs:append = { "<:>" }
 -- Set invisible/whitespace markers
 vim.opt.listchars = { tab = "›", eol = "¬", trail = "⋅"}
 
--- Colors
-vim.opt.termguicolors = true -- Enable true color
-vim.g.bg = "dark"
-vim.g.colorscheme = "OceanicNext"
-
 -- Tab and Text
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -173,6 +170,10 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.formatoptions = qrn1
 
+-- Colors
+vim.opt.termguicolors = true -- Enable true color
+vim.g.bg = "dark"
+vim.g.colorscheme = "OceanicNext"
 
 ------------------------------------------------------------------------------
 -- MAPPINGS
@@ -210,15 +211,33 @@ keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
+keymap("n", "<leader>b", "<C-^>", opts) -- last edited buffer
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
-keymap("n", "<leader>b", "<C-^>", opts) -- last edited buffer
 
 -- Indentation like other text editors
 keymap("n", "<leader>[", "<<", opts)
 keymap("n", "<leader>]", ">>", opts)
 keymap("x", "<leader>[", "<gv", opts)
 keymap("x", "<leader>]", ">gv", opts)
+
+-- Tab selection
+keymap("n", "<leader>1", "1gt", opts)
+keymap("n", "<leader>2", "2gt", opts)
+keymap("n", "<leader>3", "3gt", opts)
+keymap("n", "<leader>4", "4gt", opts)
+keymap("n", "<leader>5", "5gt", opts)
+keymap("n", "<leader>6", "6gt", opts)
+keymap("n", "<leader>7", "7gt", opts)
+keymap("n", "<leader>8", "8gt", opts)
+keymap("n", "<leader>9", "9gt", opts)
+
+-- emac style jump to end of line in insert mode
+-- checks for autocomplete menu
+keymap("i", "<C-e>", function()
+  return vim.fn.pumvisible() == 1 and "\<C-e>" or "/<C-o>A"
+end, opts)
+keymap("i", "<C-a>", "<C-o>I", opts)
 
 -- Better escape from insert mode
 keymap("i", "jk", "<Esc>", opts)
@@ -252,6 +271,15 @@ keymap("n", "<leader>es", ":sp %%", opts)
 keymap("n", "<leader>ev", ":vsp %%", opts)
 keymap("n", "<leader>et", ":tabe %%", opts)
 
+-- Select a line without trailing whitespace or linebreaks
+keymap("n", "<leader>l", "<esc>^vg_", opts)
+
+------------------------------------------------------------------------------
+-- HELPER FUNCTIONS
+------------------------------------------------------------------------------
+
+
+
 ------------------------------------------------------------------------------
 -- AUTOCOMMANDS
 ------------------------------------------------------------------------------
@@ -272,3 +300,15 @@ autocmd('Filetype', {
   pattern = {"markdown"},
   command = [[setlocal ts=2 sts=2 sw=2 expandtab spell]]
 })
+
+------------------------------------------------------------------------------
+-- PLUGINS
+------------------------------------------------------------------------------
+
+-- Quick mappings
+keymap("n", "<F1>", ":NERDTreeToggle<cr>", opts)
+keymap("n", "<F2>", ":MundoToggle<CR>", opts)
+
+if vim.fn.executable('ag') == 1 then
+  vim.g.grpprg = "ag\ --nogroup\ --nocolor"
+end

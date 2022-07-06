@@ -29,6 +29,9 @@ setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt always_to_end
 
+# Activate completion, including git completion
+autoload -Uz compinit && compinit
+
 # Changing/making/removing directory
 setopt auto_pushd
 setopt pushd_ignore_dups
