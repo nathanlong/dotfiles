@@ -86,9 +86,9 @@ alias ~="cd ~"
 alias -- -="cd -"
 
 # Fancy lists
-alias ll='ls -laF'       # long form, everything
+alias ll='exa --long --header --git --all'       # long form, everything
 alias lo='ls -oG'        # long form, no user group, no hidden
-alias lt='ls -toaG'      # order by last modified, everything
+alias lt='exa --tree --level=2 --long --all'      # tree view
 alias lf='ls -AGFoh'     # long form, no user, file size
 
 # Shortcuts
@@ -133,6 +133,11 @@ pick() {
 
 # ASDF
 [ -s "$(brew --prefix asdf)/libexec/asdf.sh" ] && \. $(brew --prefix asdf)/libexec/asdf.sh
+
+# --user-install Ruby Gems add to path
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
 
 # ----------------------------------------------------------------------------
 # ADDITIONAL SETTINGS

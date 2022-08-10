@@ -1,55 +1,65 @@
-"-----------------------------------------------------------------------------
+"------------------------------------------------------------------------------
 " PLUGINS
-"-----------------------------------------------------------------------------
+"------------------------------------------------------------------------------
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+"Utility (required by other plugins):
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 "General
 Plug 'briandoll/change-inside-surroundings.vim'
-Plug 'easymotion/vim-easymotion'
+Plug 'phaazon/hop.nvim'
 Plug 'mattn/emmet-vim'
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-commentary'
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'simnalamburt/vim-mundo'
-Plug 'Raimondi/delimitMate'
+Plug 'numToStr/Comment.nvim'
+Plug 'windwp/nvim-autopairs'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'SirVer/ultisnips'
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+"Snippets
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+"LUA Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 "Fuzzy File Finding
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 "Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"Syntax treesitter doesn't do well
 Plug 'nathanlong/vim-markdown'
+Plug 'nathanlong/vim-tiddlywiki'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
 " Testing out treesitter, gonna keep these here for just a bit tho
 " Plug 'captbaritone/better-indent-support-for-php-with-html'
 " Plug 'othree/html5.vim'
 " Plug 'pangloss/vim-javascript'
 " Plug 'leafgarland/typescript-vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
 " Plug 'jparise/vim-graphql'
 " Plug 'nelsyeung/twig.vim'
 " Plug 'elixir-editors/vim-elixir'
-" Plug 'lepture/vim-jinja'
 " Plug 'evanleck/vim-svelte'
-Plug 'sukima/vim-tiddlywiki'
+" Plug 'lepture/vim-jinja'
 "Formatting
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install --frozen-lockfile --production',
-  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-"Interface
+  \ 'for': ['javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html', 'ruby', 'erb', 'eruby'] }
+"Interface addons:
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'folke/todo-comments.nvim'
 Plug 'folke/which-key.nvim'
 Plug 'folke/tokyonight.nvim'
 Plug 'junegunn/goyo.vim'
-"Statusline
+"Statusline purtiness:
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-"Wilder
+"Wilder for command line completion:
 function! UpdateRemotePlugins(...)
   " Needed to refresh runtime files
   let &rtp=&rtp
@@ -58,11 +68,12 @@ endfunction
 Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-"LSP Integration and Autocomplete
+"LSP Integration and Autocomplete:
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
 
 
 call plug#end()
@@ -137,7 +148,7 @@ set sidescrolloff=7 "keep 7 chars onscreen when nowrap is iset
 set sidescroll=1 "minimum number of columns to scroll sideways
 
 "Shortcut to rapidly toggle `set list` (shows invisibles)
-nmap <leader>L :set list!<CR>
+nmap <leader>I :set list!<CR>
 
 "Use the similar symbols as TextMate for tabstops and EOLs
 set listchars=tab:›\ ,eol:¬,trail:⋅
@@ -175,7 +186,7 @@ set shiftround
 set noexpandtab
 set smartindent            "Indent stuff
 set autoindent
-set textwidth=78
+set textwidth=80
 set colorcolumn=+1         "Make it obvious where the text width ends
 set wrap
 set linebreak
@@ -240,7 +251,7 @@ nnoremap <leader>' vi'p
 nnoremap <leader>" vi"p
 
 "Select a line without trailing whitespace or linebreaks
-nnoremap <leader>l <esc>^vg_
+nnoremap <leader>li <esc>^vg_
 
 "Quickly select text you just pasted
 noremap gV `[v`]
@@ -275,9 +286,9 @@ nnoremap <leader>vv :tabnew $MYVIMRC<cr>
 nnoremap <leader>vl :tabnew $HOME/.config/localconfig/local.vim<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
 
-"-----------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
 " HELPER FUNCTIONS
-"-----------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
 
 "Jump to last cursor position when opening a file
 autocmd BufReadPost * call s:SetCursorPosition()
@@ -296,7 +307,7 @@ endfunction
 
 au BufRead,BufNewFile *.txt,*.text set filetype=markdown 
 " au BufRead,BufNewFile *.html set ft=html.twig.js.css
-" au BufRead, BufNewFile *.njk set ft=html.jinja
+au BufRead,BufNewFile *.njk set filetype=html
 au FileType css,scss,sass,vim,lua setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-
 au FileType markdown setlocal ts=2 sts=2 sw=2 expandtab spell
 
@@ -311,7 +322,7 @@ nnoremap _pp :set ft=php<CR>
 "-------------------"
 
 "Quick Mappings --------------------------------------------------------------
-nnoremap <F1> :NERDTreeToggle<cr>
+nnoremap <F1> :NvimTreeToggle<cr>
 nnoremap <F2> :MundoToggle<CR>
 
 "Better Grep
@@ -327,36 +338,25 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>fm <cmd>lua require('telescope.builtin').oldfiles()<cr>
-
+nnoremap <leader>ft :TodoTelescope<cr>
 
 "Emmet - shortcut expansion --------------------------------------------------
 "Change emmet expansion key to command + s
 let g:user_emmet_expandabbr_key = '<c-s>'
 
-"NerdTree - sidebar file browser ---------------------------------------------
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden = 1
-let NERDTreeIgnore=['.git[[dir]]', 'node_modules', '\.DS_Store', '.svn']
-
 "ChangeInside - change guts of common pairings -------------------------------
 nnoremap <silent> <Leader>c :ChangeInsideSurrounding<CR>
 nnoremap <silent> <Leader>C :ChangeAroundSurrounding<CR>
 
-""Airline - advanced status line ----------------------------------------------
-"let g:airline_theme="oceanicnext"
-""Disable whitespace checks
-"let g:airline#extensions#whitespace#enabled = 0
-"let g:airline_powerline_fonts = 1
-
 "Ultisnips - Edit snippets in a vertical split -------------------------------
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
 
 " Do not look for SnipMate snippets
-let g:UltiSnipsEnableSnipMate = 0
+" let g:UltiSnipsEnableSnipMate = 0
 
 " Shortcut to jump forward and backward in tabstop positions
-let g:UltiSnipsJumpForwardTrigger='<c-j>'
-let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+" let g:UltiSnipsJumpForwardTrigger='<c-j>'
+" let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 "Fugitive --------------------------------------------------------------------
 nnoremap <leader>ga :Git add -A<CR>
@@ -389,6 +389,20 @@ let g:prettier#exec_cmd_async = 1
 
 "Autoformat if config present
 let g:prettier#autoformat_config_present = 1
+
+"Luasnip s--------------------------------------------------------------------
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+" -1 for jumping backwards.
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+" For changing choices in choiceNodes (not strictly necessary for a basic setup).
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 
 "Wilder ----------------------------------------------------------------------
 
@@ -427,6 +441,7 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer({
 
 "-----------------------------------------------------------------------------
 " MACHINE SPECIFIC SETTINGS
+" requires the config to be in a specific location
 "-----------------------------------------------------------------------------
 
 if filereadable(glob("$HOME/.config/localconfig/local.vim"))
@@ -444,6 +459,7 @@ lua << EOF
 require('lualine').setup {
   options = {
     theme = 'tokyonight',
+    component_separators = { left = '', right = ''},
   }, 
 }
 
@@ -451,42 +467,63 @@ require("which-key").setup {}
 
 -- LSP + AUTOCOMPLETE
 
+-- LSP Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- Required for the visualstudio lsps?
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local lspconfig = require('lspconfig')
 
-local servers = { 'tailwindcss', 'tsserver', 'html', 'cssls', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte' }
+local servers = { 'tailwindcss', 'tsserver', 'html', 'cssls', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte', 'solargraph' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     capabilites = capabilities,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    }
   }
 end
-
--- Required for the visualstudio lsps?
--- Seems the Microsoft LSPs need to be initialized separately from the loop...
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lspconfig.cssls.setup {
-  capabilities = capabilities
-}
-
-lspconfig.html.setup {
-  capabilities = capabilities,
-}
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
     expand = function(args)
-       vim.fn["UltiSnips#Anon"](args.body)
+       -- vim.fn["UltiSnips#Anon"](args.body)
+       require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
   mapping = {
@@ -517,10 +554,15 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'ultisnips' },
-    { name = 'buffer' }
+    { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'path' }
   },
 }
+
+-- Luasnips
+
+
 
 -- Telescope with fzf
 require('telescope').setup {
@@ -539,8 +581,12 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "javascript", "html", "css", "php", "ruby", "scss", "typescript", "vim", "lua" },
-  highlight = { enable = true },
+  ensure_installed = { "javascript", "html", "css", "php", "scss", "typescript", "vim", "lua" },
+  highlight = { 
+    enable = true,
+    -- for things that may need additional help
+    additional_vim_regex_highlighting = {"lua"},
+  },
   incremental_selection = {
     enable = true,
     -- super easy incremental selection, keep pressing <CR> to grow
@@ -553,6 +599,46 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+-- Comments
+require('Comment').setup {}
+
+-- Autopairs
+require("nvim-autopairs").setup {}
+
+-- gitsigns
+require('gitsigns').setup {}
+
+-- todo Comments
+require("todo-comments").setup {}
+
+-- file tree
+require("nvim-tree").setup {
+  actions = {
+    open_file = {
+      window_picker = {
+        enable = false
+        }
+      }
+    }
+  }
+
+-- hop
+require'hop'.setup()
+-- hop mappings
+--mnemonic: word
+vim.api.nvim_set_keymap('', '<leader>w', ":HopWordAC<cr>", {})
+vim.api.nvim_set_keymap('', '<leader>W', ":HopWordBC<cr>", {})
+--mnemonic: line
+vim.api.nvim_set_keymap('', '<leader>l', ":HopLineAC<cr>", {})
+vim.api.nvim_set_keymap('', '<leader>L', ":HopLineBC<cr>", {})
+--mnemonic: hop (with hints)
+vim.api.nvim_set_keymap('', '<leader>h', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', '<leader>H', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+--mnemonic: to or till (with hints)
+vim.api.nvim_set_keymap('', '<leader>t', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+vim.api.nvim_set_keymap('', '<leader>T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+
+-- Devicons
 require'nvim-web-devicons'.setup {
  -- globally enable default icons (default to false)
  -- will get overriden by `get_icons` option

@@ -1,7 +1,2 @@
-.netrwbook
-.netrwhist
-.VimballRecord
 .DS_store
-bundle/*
-sessions/*
-tmp/*
+plugin/packer_compiled.lua
