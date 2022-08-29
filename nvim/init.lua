@@ -28,10 +28,8 @@ local g = vim.g
 local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 local optsnos = { noremap = true }
-local augid = vim.api.nvim_create_augroup('user', { clear = true })
-local autocmd = function(event, opts)
-  return vim.api.nvim_create_autocmd(event, vim.tbl_extend('force', { group = augid }, opts))
-end
+local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd   -- Create autocommand
 
 ------------------------------------------------------------------------------
 -- PLUGINS (plugin settings at bottom)
@@ -82,15 +80,16 @@ require('packer').startup({function(use)
   }
   -- Extra syntax and language specific plugins
   use 'nathanlong/vim-markdown'
+  use 'nathanlong/vim-tiddlywiki'
+  use 'nathanlong/twig.vim'
   use 'MaxMEllon/vim-jsx-pretty'
-  use 'sukima/vim-tiddlywiki'
   use 'vim-ruby/vim-ruby'
   use 'tpope/vim-rails'
   -- Formatting
   use {
     'prettier/vim-prettier', 
     run = 'yarn install --frozen-lockfile --production',
-    ft = {'javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'}
+    ft = {'javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html', 'twig', 'php'}
   }
   -- Interface
   use 'lewis6991/gitsigns.nvim'
@@ -116,7 +115,6 @@ end})
 ------------------------------------------------------------------------------
 -- SETTINGS
 ------------------------------------------------------------------------------
-
 
 o.hidden = true -- Switch between buffers without saving
 o.timeoutlen = 250 -- Lowers leader+command timeout.
@@ -157,7 +155,9 @@ o.winminheight = 0 -- Allow splits to be squashed to one line
 o.winminwidth = 0
 
 -- Set invisible/whitespace markers
-o.listchars = { tab = '› ', eol = '¬', trail = '⋅' }
+o.list = true
+-- o.listchars = { tab = '› ', eol = '¬', trail = '⋅' }
+o.listchars = { tab = ' ', eol = '¬', trail = '⋅' }
 
 -- Tab and Text
 o.tabstop = 4
@@ -201,6 +201,10 @@ g.maplocalleader = " "
 -- Map : to ; (then remap ;) -- massive pinky-saver
 keymap("n", ";", ":", opts)
 keymap("n", "<M-;>", ";", opts)
+
+-- Remap j and k to act as expected when used on wrapped lines
+keymap("n", "j", "gj", opts)
+keymap("n", "k", "gk", opts)
 
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
@@ -279,7 +283,7 @@ keymap("n", "<leader>et", ":tabe %%", {})
 
 -- Quickly edit and source $MYVIMRC
 keymap("n", "<leader>vv", ":tabnew $MYVIMRC<cr>", opts)
-keymap("n", "<leader>vl", ":tabnew $HOME/.config/localconfig/local.vim<cr>", opts)
+keymap("n", "<leader>vl", ":tabnew $HOME/.config/localconfig/local.lua<cr>", opts)
 keymap("n", "<leader>vs", ":source $MYVIMRC<cr>", opts)
 
 ------------------------------------------------------------------------------
@@ -296,24 +300,30 @@ end
 -- AUTOCOMMANDS
 ------------------------------------------------------------------------------
 
+augroup("setFiletype", { clear = true })
 autocmd("BufRead,BufNewFile", {
+  group = "setFiletype",
   pattern = {"*.txt","*.text"},
-  command = [[set filetype=markdown]]
+  command = "set filetype=markdown"
 })
 
 autocmd("BufRead,BufNewFile", {
-  pattern = {"*.njk"},
-  command = [[set filetype=html]]
+  group = "setFiletype",
+  pattern = "*.njk",
+  command = "set filetype=html"
 })
 
+augroup("setIndent", { clear = true })
 autocmd('Filetype', {
+  group = "setIndent",
   pattern = {"css", "scss", "vim", "lua"},
-  command = [[setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-]]
+  command = "setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-"
 })
 
 autocmd('Filetype', {
+  group = "setIndent",
   pattern = {"markdown"},
-  command = [[setlocal ts=2 sts=2 sw=2 expandtab spell]]
+  command = "setlocal ts=2 sts=2 sw=2 expandtab spell"
 })
 
 --------------------------------------------------------------------------------
@@ -360,19 +370,30 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- Capabilities required for the visualstudio lsps?
+-- Capabilities required for the visualstudio lsps (css, html, etc)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Activate LSPs
 -- All LSPs in this list need to be manually installed
 local lspconfig = require('lspconfig')
-local servers = { 'tailwindcss', 'tsserver', 'html', 'cssls', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte', 'solargraph' }
+local servers = { 'tailwindcss', 'tsserver', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte', 'solargraph' }
 for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
+  lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilites = capabilities,
   }
 end
+
+-- The Visual Studio LSPs seem to have to be initialized separately...?
+lspconfig.cssls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
+lspconfig.html.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
 
 -- CMP - Autocompletion
 local cmp = require 'cmp'
@@ -423,9 +444,15 @@ keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
 keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
 keymap("n", "<leader>fm", "<cmd>lua require('telescope.builtin').oldfiles()<cr>", opts)
+keymap("n", "<leader>fc", "<cmd>lua require('telescope.builtin').command_history()<cr>", opts)
+keymap("n", "<leader>fs", "<cmd>lua require('telescope.builtin').search_history()<cr>", opts)
+keymap("n", "<leader>fq", "<cmd>lua require('telescope.builtin').quickfix()<cr>", opts)
 keymap("n", "<leader>ft", ":TodoTelescope<cr>", opts)
 
 require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = { "%.meta" }
+  },
   extensions = {
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
@@ -563,6 +590,7 @@ require("which-key").setup {}
 
 -- Prettier
 keymap("n", "<leader>re", "<Plug>(Prettier)", opts)
+keymap("v", "<leader>re", ":PrettierFragment<cr>", opts)
 -- g.prettier#exec_cmd_async = 1
 -- g.prettier#autoformat_config_present = 1
 
