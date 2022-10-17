@@ -167,7 +167,7 @@ o.shiftround = true
 o.expandtab = false
 o.smartindent = true
 o.autoindent = true
-o.textwidth = 80
+o.textwidth = 78
 o.colorcolumn = "+1" 
 o.wrap = true
 o.linebreak = true
@@ -395,12 +395,26 @@ lspconfig.html.setup {
   capabilities = capabilities
 }
 
+-- Luasnip
+-- Load as needed by filetype by the luasnippets folder in the config dir
+local luasnip = require("luasnip")
+require("luasnip.loaders.from_lua").lazy_load()
+-- set keybinds for both INSERT and VISUAL.
+vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
+vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
+
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 -- CMP - Autocompletion
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
     expand = function(args)
-       -- vim.fn["UltiSnips#Anon"](args.body)
        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
@@ -415,20 +429,27 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback()
       end
-    end,
-    ['<S-Tab>'] = function(fallback)
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
-    end,
+    end, { "i", "s" }),
   },
   sources = {
     { name = 'nvim_lsp' },
