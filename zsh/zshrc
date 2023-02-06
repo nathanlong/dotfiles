@@ -130,6 +130,15 @@ if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
+# Init Homebrew, which adds environment variables
+eval "$(brew shellenv)"
+
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
+# 2. Otherwise, run compinit yourself
+autoload -U compinit
+compinit
+
 # ----------------------------------------------------------------------------
 # ADDITIONAL SETTINGS
 # ----------------------------------------------------------------------------

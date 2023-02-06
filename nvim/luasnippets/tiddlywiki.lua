@@ -18,26 +18,48 @@ local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 local events = require("luasnip.util.events")
 
+local function time()
+  return os.date("%I:%M %p")
+end
+
+
+local function date()
+  return os.date("%m/%d/%y")
+end
+
 return {
-  -- tag, non-printing
-  s("tag", { 
-    t("<% "), i(1), t(" %>")
+  -- mark time
+  s("mtime", { 
+    t("<<mark '"), f(time), t("' time>>")
   }),
 
-  -- expression, printing
-  s("expression", { 
-    t("<%= "), i(1), t(" %>")
+  -- mark date
+  s("mdate", { 
+    t("<<mark '"), f(date), t("' time>>")
   }),
 
-  -- comment
-  s("comment", { 
-    t("<%# "), i(1), t(" %>")
-  }),
-
-  -- if
-  s("if", {
-    t({"<% if "}), i(1, "condition"), t({" %>", ""}),
-    i(2, "body"), t({""}),
-    t({"<% end %>"}),
+  -- table time block
+  s("timeblock", {
+    t({"|Time |Plan |Rev. |h",
+    "|08| | |",
+    "|--|~|~|",
+    "|09|~|~|",
+    "|--|~|~|",
+    "|10|~|~|",
+    "|--|~|~|",
+    "|11|~|~|",
+    "|--|~|~|",
+    "|12|~|~|",
+    "|--|~|~|",
+    "|01|~|~|",
+    "|--|~|~|",
+    "|02|~|~|",
+    "|--|~|~|",
+    "|03|~|~|",
+    "|--|~|~|",
+    "|04|~|~|",
+    "|--|~|~|",
+    "|05|~|~|",
+    "|--|~|~|"}),
   })
 }

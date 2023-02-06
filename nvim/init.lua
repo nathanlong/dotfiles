@@ -1,14 +1,15 @@
-------------------------------------------------------------------------------
+------------------------------------------------------------------------------  
 -- Nathan's NeoVim Config   
+--
 -- Goals: 
--- * Single file (I tinker often, and I don't like hunting partials)
--- * Easy to reference (I forget my own mappings often)
--- * Prefer defaults when possible (minimal crazy config setup)
--- * Vetted tooling (The lastest and greatest plugins and features)
+-- * Single file (I tinker often, and I don't like hunting in partials)
+-- * Easy to reference (I forget my own mappings often...)
+-- * Prefer defaults when sensible (often the defaults are great)
+-- * Vetted but modern tooling (bruised but not bleeding edge)
 --
 -- Sections:
 -- * Lua/Vim bindings
--- * Plugin manager
+-- * Packer/Plugins
 -- * Settings
 -- * Mappings
 -- * Helper functions
@@ -47,7 +48,8 @@ require('packer').startup({function(use)
   use 'wbthomason/packer.nvim'
   -- General
   use 'briandoll/change-inside-surroundings.vim'
-  use 'phaazon/hop.nvim'
+  -- use 'phaazon/hop.nvim'
+  use 'ggandor/leap.nvim'
   use 'mattn/emmet-vim'
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
@@ -58,6 +60,7 @@ require('packer').startup({function(use)
   use 'windwp/nvim-autopairs'
   use 'gelguy/wilder.nvim'
   use 'editorconfig/editorconfig-vim'
+  use 'godlygeek/tabular'
   -- LSP integration and autocomplete
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
@@ -73,18 +76,32 @@ require('packer').startup({function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  -- Trouble - fancy diagnostics and lists
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
   -- Treesitter - syntax and context awareness
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
-  -- Extra syntax and language specific plugins
+  -- Extra syntax, language specific plugins,
+  -- and things Treesitter doesn't do well ... yet
   use 'nathanlong/vim-markdown'
   use 'nathanlong/vim-tiddlywiki'
   use 'nathanlong/twig.vim'
   use 'MaxMEllon/vim-jsx-pretty'
   use 'vim-ruby/vim-ruby'
   use 'tpope/vim-rails'
+  use 'NoahTheDuke/vim-just'
   -- Formatting
   use {
     'prettier/vim-prettier', 
@@ -140,6 +157,9 @@ o.wildmenu = true
 
 -- Interface
 o.title = true -- Update the title
+o.titlestring = ' %t' -- just the name, and a fancy icon, weeeeee
+o.titleold = 'zsh' -- does zsh not just reassert it's own title?
+o.titlelen = 70
 o.autoread = true -- Refresh files when changed outside of vim
 o.number = true -- Line numbers
 o.more = true -- Adds more prompt for long screen prints
@@ -153,22 +173,24 @@ o.eadirection = "hor" -- only equalize horz when splitting or closing
 o.sidescrolloff = 8 -- keep X chars onscreen when nowrap is set
 o.winminheight = 0 -- Allow splits to be squashed to one line
 o.winminwidth = 0
+o.laststatus = 3 -- v0.7+ only display one statusline for all splits, fancy!
+o.fillchars:append { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft  = '┫', vertright = '┣', verthoriz = '╋'}
 
--- Set invisible/whitespace markers
+-- Set invisible/whitespace markers, requires nerdfonts
 o.list = true
--- o.listchars = { tab = '› ', eol = '¬', trail = '⋅' }
-o.listchars = { tab = ' ', eol = '¬', trail = '⋅' }
+-- o.listchars:append { tab = ' ', eol = '¬', trail = '⋅' }
+o.listchars:append { tab = ' ', trail = '⋅' }
 
 -- Tab and Text
-o.tabstop = 4
-o.shiftwidth = 4
-o.softtabstop = 4
+o.tabstop = 2
+o.shiftwidth = 2
+o.softtabstop = 2
 o.shiftround = true
-o.expandtab = false
+o.expandtab = true -- I really don't care all that much... team preference
 o.smartindent = true
 o.autoindent = true
 o.textwidth = 78
-o.colorcolumn = "+1" 
+o.colorcolumn = "+3"
 o.wrap = true
 o.linebreak = true
 o.formatoptions = "qrn1"
@@ -213,21 +235,15 @@ keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- keymap("n", "<C-A-k>", ":resize -2<CR>", opts)
+-- keymap("n", "<C-A-j>", ":resize +2<CR>", opts)
+keymap("n", "<C-A-h>", ":vertical resize -2<CR>", opts)
+keymap("n", "<C-A-l>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
 keymap("n", "<leader>b", "<C-^>", opts) -- last edited buffer (super useful!)
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
-
--- Indentation like other text editors
-keymap("n", "<leader>[", "<<", opts)
-keymap("n", "<leader>]", ">>", opts)
-keymap("x", "<leader>[", "<gv", opts)
-keymap("x", "<leader>]", ">gv", opts)
 
 -- Tab selection
 keymap("n", "<leader>1", "1gt", opts)
@@ -248,12 +264,21 @@ keymap("i", "<C-a>", "<C-o>I", opts)
 -- Better escape from insert mode
 keymap("i", "jk", "<Esc>", opts)
 
+-- LINE MANIPULATION = <alt> + direction, + <shift> for duplication
 -- Bubble lines, move text up and down
 -- Make sure iTerm has the option ket set to 'Esc+' for Alt bindings
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+keymap("n", "<A-j>", ":m .+1<CR>==", opts)
+keymap("n", "<A-k>", ":m .-2<CR>==", opts)
+-- keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+-- keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+
+-- Map indent like line manipulation
+keymap("n", "<A-h>", "<<", opts)
+keymap("n", "<A-l>", ">>", opts)
+keymap("x", "<A-h>", "<gv", opts)
+keymap("x", "<A-l>", ">gv", opts)
 
 -- Duplicate lines above and below
 keymap("n", "<S-A-j>", "Ypk", opts)
@@ -316,15 +341,27 @@ autocmd("BufRead,BufNewFile", {
 augroup("setIndent", { clear = true })
 autocmd('Filetype', {
   group = "setIndent",
-  pattern = {"css", "scss", "vim", "lua"},
+  pattern = {"html", "css", "scss", "vim", "lua"},
   command = "setlocal ts=2 sts=2 sw=2 expandtab iskeyword+=-"
 })
 
 autocmd('Filetype', {
   group = "setIndent",
   pattern = {"markdown"},
-  command = "setlocal ts=2 sts=2 sw=2 expandtab spell"
+  command = "setlocal ts=2 sts=2 sw=2 fo=qrn1 expandtab spell"
 })
+
+-- autocommands I have yet to rewrite in lua...
+vim.cmd [[
+  augroup vimrcEx
+    autocmd!
+    " Open to last line after close
+    autocmd BufReadPost *
+      \ if &ft != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+  augroup END
+]]
 
 --------------------------------------------------------------------------------
 -- PLUGIN SETTINGS
@@ -354,21 +391,20 @@ local on_attach = function(client, bufnr)
   -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  -- vim.keymap.set('n', '<space>wl', function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, bufopts)
+  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  -- vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Capabilities required for the visualstudio lsps (css, html, etc)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -460,6 +496,9 @@ cmp.setup {
 }
 
 -- Telescope -------------------------------------------------------------------
+local actions = require("telescope.actions")
+local trouble = require("trouble.providers.telescope")
+
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", opts)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
@@ -468,11 +507,15 @@ keymap("n", "<leader>fm", "<cmd>lua require('telescope.builtin').oldfiles()<cr>"
 keymap("n", "<leader>fc", "<cmd>lua require('telescope.builtin').command_history()<cr>", opts)
 keymap("n", "<leader>fs", "<cmd>lua require('telescope.builtin').search_history()<cr>", opts)
 keymap("n", "<leader>fq", "<cmd>lua require('telescope.builtin').quickfix()<cr>", opts)
-keymap("n", "<leader>ft", ":TodoTelescope<cr>", opts)
+-- keymap("n", "<leader>ft", ":TodoTelescope<cr>", opts)
 
 require('telescope').setup {
   defaults = {
-    file_ignore_patterns = { "%.meta" }
+    file_ignore_patterns = { "%.meta" },
+    mappings = {
+      i = { ["<c-t>"] = trouble.open_with_trouble },
+      n = { ["<c-t>"] = trouble.open_with_trouble },
+    },
   },
   extensions = {
     fzf = {
@@ -495,7 +538,7 @@ require'nvim-treesitter.configs'.setup {
   highlight = { 
     enable = true,
     -- for things that may need additional synax help occasionally
-    additional_vim_regex_highlighting = {"lua"},
+    -- additional_vim_regex_highlighting = {"lua"},
   },
   incremental_selection = {
     enable = true,
@@ -507,6 +550,9 @@ require'nvim-treesitter.configs'.setup {
       node_decremental = '<S-TAB>',
     },
   },
+  indent = {
+    enable = true
+  }
 }
 
 -- Wilder ----------------------------------------------------------------------
@@ -572,21 +618,8 @@ keymap("n", "<leader>go", ":GBrowse<CR>", opts)
 -- gitsigns
 require('gitsigns').setup {}
 
--- hop
-require'hop'.setup()
--- hop mappings
---mnemonic: word
-vim.api.nvim_set_keymap('', '<leader>w', ":HopWordAC<cr>", {})
-vim.api.nvim_set_keymap('', '<leader>W', ":HopWordBC<cr>", {})
---mnemonic: line
-vim.api.nvim_set_keymap('', '<leader>l', ":HopLineAC<cr>", {})
-vim.api.nvim_set_keymap('', '<leader>L', ":HopLineBC<cr>", {})
---mnemonic: hop (with hints)
-vim.api.nvim_set_keymap('', '<leader>h', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', '<leader>H', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
---mnemonic: to or till (with hints)
-vim.api.nvim_set_keymap('', '<leader>t', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
-vim.api.nvim_set_keymap('', '<leader>T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+-- Leap
+require('leap').add_default_mappings()
 
 -- lualine
 require('lualine').setup {

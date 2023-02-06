@@ -22,8 +22,8 @@
     br = branch -rv                             # show branches (verbose)
     co = checkout                               # checkout
     nb = checkout -b                            # create and switch to new branch (mnemonic: "git new branch branchname...")
-	nbu = branch -u                             # create a branch and set upstream (requires setting origin/branchname)
-	db = branch -d								# delete branch
+    nbu = branch -u                             # create a branch and set upstream (requires setting origin/branchname)
+    db = branch -d                              # delete branch
 
     diffc = diff --cached                       # Diff what is staged for the next commit
     diffst = diff --stat                        # Diff overview
@@ -48,6 +48,7 @@
 
     pl = pull                                   # pull
     ps = push                                   # push
+    pf = push --force-with-lease                # politely force push
     r = remote -v                               # show remotes (verbose)
 
     unstage = reset HEAD                        # remove files from index

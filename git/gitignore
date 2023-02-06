@@ -19,13 +19,11 @@ Thumbs.db
 *.sw?
 *.vi
 
-# Git in ur SVN..?
-.svn
-.svn*
-
 # Node
 node_modules
 
 # Generated Files
-# assets/build
 auth.json
+
+# Testing out just, might delete later, lol
+justfile

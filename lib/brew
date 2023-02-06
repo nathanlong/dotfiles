@@ -20,12 +20,13 @@ run_brew() {
         local -a missing_formulae
         local -a desired_formulae=(
             'ack'
+            'fd'
+            'ffmpeg'
+            'just'
+            'markdown'
+            'neovim'
             'par'
-			'markdown'
-			'ffmpeg'
             'ripgrep'
-			'fd'
-			'neovim'
         )
 
         for index in ${!desired_formulae[*]}
