@@ -65,6 +65,7 @@ require('packer').startup({function(use)
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   -- Snippets
@@ -293,6 +294,9 @@ keymap("n", "<leader><cr>", ":noh<cr>", opts)
 
 -- Toggle invisibles
 keymap("n", "<leader>I", ":set list!<CR>", opts)
+
+-- Grab line without newline
+keymap("n", "<leader>l", "^vg_", opts)
  
 -- Will open files in current directory, allows you to leave the working cd in
 -- the project root. You can also use %% anywhere in the command line.
@@ -372,8 +376,9 @@ keymap("n", "<F1>", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<F2>", ":MundoToggle<CR>", opts)
 
 -- LSP + AUTOCOMPLETE ----------------------------------------------------------
--- LSP Mappings + Settings (pulled from default setup)
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+-- LSP Mappings + Settings
+-- Basic diagnostic mappings, these will navigate to or display diagnostics
+vim.keymap.set('n', '<space>d', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
@@ -388,15 +393,10 @@ local on_attach = function(client, bufnr)
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gk', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wl', function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, bufopts)
-  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', 'gK>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
@@ -410,9 +410,9 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Activate LSPs
--- All LSPs in this list need to be manually installed
+-- All LSPs in this list need to be manually installed via NPM/PNPM/whatevs
 local lspconfig = require('lspconfig')
-local servers = { 'tailwindcss', 'tsserver', 'jsonls', 'eslint', 'stylelint_lsp', 'svelte', 'solargraph' }
+local servers = { 'tailwindcss', 'tsserver', 'jsonls', 'eslint' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -420,7 +420,9 @@ for _, lsp in pairs(servers) do
   }
 end
 
--- The Visual Studio LSPs seem to have to be initialized separately...?
+-- This is an interesting one, for some reason these two LSPs need to be
+-- activated separately outside of the above loop. If someone can tell me why,
+-- send me a note...
 lspconfig.cssls.setup {
   on_attach = on_attach,
   capabilities = capabilities
@@ -431,7 +433,7 @@ lspconfig.html.setup {
   capabilities = capabilities
 }
 
--- Luasnip
+-- Luasnip ---------------------------------------------------------------------
 -- Load as needed by filetype by the luasnippets folder in the config dir
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_lua").lazy_load()
@@ -440,13 +442,16 @@ vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
 vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
-
+-- Set this check up for nvim-cmp tab mapping
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
+-- Set easy editing of snippets
+keymap("n", "<leader>sn", ":lua require('luasnip.loaders').edit_snippet_files()<cr>", opts)
 
--- CMP - Autocompletion
+
+-- CMP - Autocompletion --------------------------------------------------------
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
@@ -489,6 +494,7 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'path' }

@@ -48,7 +48,7 @@
 
     pl = pull                                   # pull
     ps = push                                   # push
-    pf = push --force-with-lease                # politely force push
+    pfl = push --force-with-lease               # politely force push
     r = remote -v                               # show remotes (verbose)
 
     unstage = reset HEAD                        # remove files from index
@@ -66,6 +66,7 @@
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
     #attributesfile = ~/.gitattributes
+    editor = nvim
 [credential]
     helper = osxkeychain
 [push]

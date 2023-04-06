@@ -139,6 +139,9 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
 
+# Wezterm
+PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+
 # ----------------------------------------------------------------------------
 # ADDITIONAL SETTINGS
 # ----------------------------------------------------------------------------

@@ -39,5 +39,10 @@ return {
     t({"<% if "}), i(1, "condition"), t({" %>", ""}),
     i(2, "body"), t({""}),
     t({"<% end %>"}),
-  })
+  }),
+
+  -- debug
+  s("debug", { 
+    t("<%= debug "), i(1), t(" %>")
+  }),
 }
