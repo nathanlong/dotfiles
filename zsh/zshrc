@@ -99,6 +99,10 @@ alias sudo='sudo '       # Enable aliases to be sudo’ed
 alias o="open"           # Open file with default application
 alias oo="open ."        # Open cd in Finder
 
+# Common tasks
+alias pubkey="pbcopy < $HOME/.ssh/id_rsa.pub"
+alias reload!="source $HOME/.zshrc"
+
 # System monitoring
 alias toc="top -o cpu"
 alias tor="top -o rsize"
@@ -111,6 +115,13 @@ alias tor="top -o rsize"
 # Usage: pick 4
 pick() {
   git cherry-pick @{-1}~${1:-1}..@{-1}
+}
+
+# From @solomonhawk, shows content n commits into the current branch
+# Usage: peek 2
+peek() {
+  local i="${1:-0}"
+  git show "HEAD~$i"
 }
 
 # ----------------------------------------------------------------------------

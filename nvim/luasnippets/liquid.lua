@@ -28,8 +28,10 @@ end
 
 return {
   -- comment
-  s("comm", { 
-    t("{# "), i(1), t(" #}")
+  s("comment", { 
+    t("{% comment %}"),
+    t({""}), i(1),
+    t("{% endcomment %}"),
   }),
 
   -- expression
@@ -42,16 +44,16 @@ return {
     t("{% "), i(1), t(" %}")
   }),
 
-  -- set variable
-  s("set", {
-    t({"{% set "}), i(1), t({" %}"}),
+  -- assign variable
+  s("assign", {
+    t({"{% assign "}), i(1, "variable"), t{" = "}, i(2, "value"), t({" %}"}),
   }),
 
-  -- set block (multiline)
-  s("setblock", {
-    t({"{% set "}), i(1), t({" %}"}),
+  -- set complex string as variable
+  s("capture", {
+    t({"{% capture "}), i(1, "variable"), t({" %}"}),
     t({""}), i(2),
-    t({"","{% endset %}"})
+    t({"","{% endcapture %}"})
   }),
 
   -- for loop
@@ -69,55 +71,21 @@ return {
     t({"","{% endif %}"})
   }),
 
+  -- unless statement, inverted it
+  s("unless", {
+    t({"{% unless "}), i(1, "condition"), t({" %}"}),
+    t({"","{% endif %}"})
+  }),
+
   -- end (with placeholder for other end statements)
   s("end", {
     t({"{% end"}), i(1, ""), t({" %}"})
   }),
 
-  -- custom component, expects case match for filename and component name
-  s("component", {
-    t("{% from '_components/"), i(1,"Component"), t(".twig' import "), f(mirrorInput, {1}, { user_args = { "" }}), t(" %}")
-  }),
-
-  -- Macro component
-  s("macroComponent",{
-    t({"{% macro "}), i(1, "Component"), t{("(props = {}) %}")},
-    t({"",""}),
-    t({"", "{% set props = {"}),
-    t({"","  "}), i(2, "propName"), t(": props."), f(mirrorInput, {2}, {user_args={""}}), t(" ?? null,"),
-    t({"","} %}"}),
-    t({"",""}),
-    t({"",""}), i(3, "..."),
-    t({"",""}),
-    t({"","{% endmacro %}"})
-  }),
-
-  -- Macro Prop
-  s("propDef", {
-    i(1, "propName"), t(": props."), f(mirrorInput, {1}, {user_args={""}}), t(" ?? null,"),
-  }),
-
-  -- Parts Kit Boilerplate
-  s("kitBoilerplate", {
-    t("{% extends 'viget-base/_layouts/parts-kit' %}"),
-    t({"",""}),
-    t({"","{% block main %}"}),
-    t({"",'<div class="p-responsive-xl-32">'}),
-    t({"",'  <h1 class="text-heading-lg mb-responsive-xl-20">'}), i(1, "Title"), t("</h1>"),
-    t({"",""}),
-    t({"","  "}), i(2, "..."),
-    t({"",""}),
-    t({"","</div>"}),
-    t({"","{% endblock %}"}),
-  }),
-
-  -- Dump
-  s("dump", {
-    t({"{{ dump("}), i(1, "var"), t({") }}"})
-  }),
-
-  -- Viget partsKit function
-  s("partsKit", {
-    t({"craft.viget.partsKit"}), i(1)
+  -- end (with placeholder for other end statements)
+  s("include", {
+    t({"{% include components/"}), i(1, "component"),
+    t({"", "  "}), i(2, "prop"), t({" = "}), i(3, "value"),
+    t({"", "%}"})
   }),
 }

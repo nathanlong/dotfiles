@@ -20,6 +20,8 @@ run_brew() {
         local -a missing_formulae
         local -a desired_formulae=(
             'ack'
+            'asdf'
+            'btop'
             'fd'
             'ffmpeg'
             'just'
@@ -27,6 +29,8 @@ run_brew() {
             'neovim'
             'par'
             'ripgrep'
+            'nethack'
+            # 'cataclysm'
         )
 
         for index in ${!desired_formulae[*]}

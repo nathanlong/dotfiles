@@ -9,6 +9,7 @@ source ./lib/utils
 	# List of npm packages
 	# Many of these are LSPs for use with nvim
 	local packages=(
+    'degit'
 		'stylelint-lsp' 
 		'svelte-language-server' 
 		'@tailwindcss/language-server' 

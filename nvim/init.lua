@@ -1,5 +1,6 @@
 ------------------------------------------------------------------------------  
--- Nathan's NeoVim Config   
+-- Nathan's NeoVim Config
+-- Last compatibility check: 0.9.4 / 2023-10
 --
 -- Goals: 
 -- * Single file (I tinker often, and I don't like hunting in partials)
@@ -48,7 +49,6 @@ require('packer').startup({function(use)
   use 'wbthomason/packer.nvim'
   -- General
   use 'briandoll/change-inside-surroundings.vim'
-  -- use 'phaazon/hop.nvim'
   use 'ggandor/leap.nvim'
   use 'mattn/emmet-vim'
   use 'tpope/vim-repeat'
@@ -77,18 +77,6 @@ require('packer').startup({function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  -- Trouble - fancy diagnostics and lists
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("trouble").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
-    end
-  }
   -- Treesitter - syntax and context awareness
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -102,27 +90,27 @@ require('packer').startup({function(use)
   use 'MaxMEllon/vim-jsx-pretty'
   use 'vim-ruby/vim-ruby'
   use 'tpope/vim-rails'
-  use 'NoahTheDuke/vim-just'
+  -- use 'NoahTheDuke/vim-just'
+  -- use 'tpope/vim-liquid'
   -- Formatting
-  use {
-    'prettier/vim-prettier', 
-    run = 'yarn install --frozen-lockfile --production',
-    ft = {'javascript', 'typescript', 'css', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html', 'twig', 'php'}
-  }
+  use 'sbdchd/neoformat'
   -- Interface
+  use 'voldikss/vim-floaterm'
   use 'lewis6991/gitsigns.nvim'
   use 'folke/todo-comments.nvim'
   use 'folke/which-key.nvim'
-  use 'folke/tokyonight.nvim'
   use 'junegunn/goyo.vim'
+  -- use 'brenoprata10/nvim-highlight-colors'
+  use 'folke/tokyonight.nvim'
+  use 'nathanlong/vim-colors-writer'
   use {
-    'kyazdani42/nvim-tree.lua',
-    requires = { 'kyazdani42/nvim-web-devicons' },
+    'nvim-tree/nvim-tree.lua',
+    requires = { 'nvim-tree/nvim-web-devicons' },
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' }
+    requires = { 'nvim-tree/nvim-web-devicons' }
   }
   -- if we bootstrapped packer then sync config
   if packer_bootstrap then
@@ -175,7 +163,7 @@ o.sidescrolloff = 8 -- keep X chars onscreen when nowrap is set
 o.winminheight = 0 -- Allow splits to be squashed to one line
 o.winminwidth = 0
 o.laststatus = 3 -- v0.7+ only display one statusline for all splits, fancy!
-o.fillchars:append { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft  = '┫', vertright = '┣', verthoriz = '╋'}
+o.fillchars:append { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft  = '┫', vertright = '┣', verthoriz = '╋'} -- chunky dividers
 
 -- Set invisible/whitespace markers, requires nerdfonts
 o.list = true
@@ -200,6 +188,9 @@ o.formatoptions = "qrn1"
 o.termguicolors = true -- Enable true color
 g.bg = "dark"
 vim.cmd[[colorscheme tokyonight]] -- is there not a better way to set this..?
+
+-- Local config enable (ex: .nvim.lua)
+o.exrc = true
 
 ------------------------------------------------------------------------------
 -- MAPPINGS
@@ -297,7 +288,7 @@ keymap("n", "<leader>I", ":set list!<CR>", opts)
 
 -- Grab line without newline
 keymap("n", "<leader>l", "^vg_", opts)
- 
+
 -- Will open files in current directory, allows you to leave the working cd in
 -- the project root. You can also use %% anywhere in the command line.
 keymap("c", "%%", "<C-R>=expand('%:h').'/'<cr>", optsnos)
@@ -330,13 +321,13 @@ end
 ------------------------------------------------------------------------------
 
 augroup("setFiletype", { clear = true })
-autocmd("BufRead,BufNewFile", {
+autocmd({"BufRead", "BufNewFile"}, {
   group = "setFiletype",
   pattern = {"*.txt","*.text"},
   command = "set filetype=markdown"
 })
 
-autocmd("BufRead,BufNewFile", {
+autocmd({"BufRead", "BufNewFile"}, {
   group = "setFiletype",
   pattern = "*.njk",
   command = "set filetype=html"
@@ -374,6 +365,14 @@ vim.cmd [[
 -- Quick mappings
 keymap("n", "<F1>", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<F2>", ":MundoToggle<CR>", opts)
+keymap("n", "<F7>", ":FloatermNew<CR>", opts)
+keymap("t", "<F7>", [[<C-\><C-n>:FloatermNew<CR>]], opts)
+keymap("n", "<F8>", ":FloatermPrev<CR>", opts)
+keymap("t", "<F8>", [[<C-\><C-n>:FloatermPrev<CR>]], opts)
+keymap("n", "<F9>", ":FloatermNext<CR>", opts)
+keymap("t", "<F9>", [[<C-\><C-n>:FloatermNext<CR>]], opts)
+keymap("n", "<F12>", ":FloatermToggle<CR>", opts)
+keymap("t", "<F12>", [[<C-\><C-n>:FloatermToggle<CR>]], opts)
 
 -- LSP + AUTOCOMPLETE ----------------------------------------------------------
 -- LSP Mappings + Settings
@@ -393,10 +392,10 @@ local on_attach = function(client, bufnr)
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gk', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gK', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', 'gK>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', 'gk', vim.lsp.buf.signature_help, bufopts)
+  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
@@ -409,10 +408,10 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Capabilities required for the visualstudio lsps (css, html, etc)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- Activate LSPs
+-- Batch activate LSPs
 -- All LSPs in this list need to be manually installed via NPM/PNPM/whatevs
 local lspconfig = require('lspconfig')
-local servers = { 'tailwindcss', 'tsserver', 'jsonls', 'eslint' }
+local servers = {'tsserver', 'jsonls', 'eslint', 'lua_ls' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -433,6 +432,22 @@ lspconfig.html.setup {
   capabilities = capabilities
 }
 
+-- Attaching Tailwind separately so we can add regex triggers
+lspconfig.tailwindcss.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    tailwindCSS = {
+      experimental = {
+        classRegex = {
+          "(?:class: ?)(?:'|\"|`)([^\"'`]*)(?:'|\"|`)", -- Twig, looks for string preceded by 'class:'
+          { "cx\\(([^]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" }, -- Classnames, ex. cx()
+        }
+      }
+    }
+  }
+}
+
 -- Luasnip ---------------------------------------------------------------------
 -- Load as needed by filetype by the luasnippets folder in the config dir
 local luasnip = require("luasnip")
@@ -444,6 +459,7 @@ vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
 vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
 -- Set this check up for nvim-cmp tab mapping
 local has_words_before = function()
+  unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
@@ -464,7 +480,6 @@ cmp.setup {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
@@ -496,14 +511,26 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
-    { name = 'buffer' },
+    {
+      name = 'buffer',
+      -- Complete from visible buffers
+      option = {
+        get_bufnrs = function()
+          local bufs = {}
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            bufs[vim.api.nvim_win_get_buf(win)] = true
+          end
+          return vim.tbl_keys(bufs)
+        end
+      },
+    },
     { name = 'path' }
   },
 }
 
 -- Telescope -------------------------------------------------------------------
 local actions = require("telescope.actions")
-local trouble = require("trouble.providers.telescope")
+-- local trouble = require("trouble.providers.telescope")
 
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>", opts)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
@@ -519,8 +546,8 @@ require('telescope').setup {
   defaults = {
     file_ignore_patterns = { "%.meta" },
     mappings = {
-      i = { ["<c-t>"] = trouble.open_with_trouble },
-      n = { ["<c-t>"] = trouble.open_with_trouble },
+      -- i = { ["<c-t>"] = trouble.open_with_trouble },
+      -- n = { ["<c-t>"] = trouble.open_with_trouble },
     },
   },
   extensions = {
@@ -632,35 +659,33 @@ require('lualine').setup {
   options = {
     theme = 'tokyonight',
     component_separators = { left = '', right = ''},
-  }, 
+  },
 }
 
+-- neoformat
+g.neoformat_try_node_exe = 1
+keymap("n", "<leader>re", ":Neoformat<cr>", opts)
+keymap("v", "<leader>re", ":Neoformat<cr>", opts)
+
 -- nvim-tree
-require("nvim-tree").setup {
-  actions = {
-    open_file = {
-      window_picker = {
-        enable = false
-      }
-    }
-  }
-}
+require("nvim-tree").setup {}
+
 -- which-key
 require("which-key").setup {}
 
--- Prettier
-keymap("n", "<leader>re", "<Plug>(Prettier)", opts)
-keymap("v", "<leader>re", ":PrettierFragment<cr>", opts)
--- g.prettier#exec_cmd_async = 1
--- g.prettier#autoformat_config_present = 1
-
 -- todo Comments
 require("todo-comments").setup {}
+
+-- Highlight Colors
+-- require('nvim-highlight-colors').setup {
+--   render = "first_column",
+--   enable_tailwind = true,
+-- }
 
 --------------------------------------------------------------------------------
 -- MACHINE SPECIFIC SETTINGS
 --------------------------------------------------------------------------------
 
-if fn.filereadable(fn.glob("$HOME/.config/localconfig/local.vim")) > 0 then
+if fn.filereadable(fn.glob("$HOME/.config/localconfig/local.lua")) > 0 then
   vim.cmd [[source $HOME/.config/localconfig/local.lua]]
 end

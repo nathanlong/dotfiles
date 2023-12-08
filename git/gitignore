@@ -25,5 +25,9 @@ node_modules
 # Generated Files
 auth.json
 
+# Local project neovim config
+.nvim.lua
+
 # Testing out just, might delete later, lol
 justfile
+local_ignore
