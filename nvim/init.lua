@@ -61,6 +61,7 @@ require('packer').startup({function(use)
   use 'gelguy/wilder.nvim'
   use 'editorconfig/editorconfig-vim'
   use 'godlygeek/tabular'
+  use 'sindrets/diffview.nvim'
   -- LSP integration and autocomplete
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
@@ -92,6 +93,8 @@ require('packer').startup({function(use)
   use 'tpope/vim-rails'
   -- use 'NoahTheDuke/vim-just'
   -- use 'tpope/vim-liquid'
+  -- Writing
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
   -- Formatting
   use 'sbdchd/neoformat'
   -- Interface
@@ -102,6 +105,7 @@ require('packer').startup({function(use)
   use 'junegunn/goyo.vim'
   -- use 'brenoprata10/nvim-highlight-colors'
   use 'folke/tokyonight.nvim'
+  use 'catppuccin/nvim'
   use 'nathanlong/vim-colors-writer'
   use {
     'nvim-tree/nvim-tree.lua',
@@ -187,7 +191,8 @@ o.formatoptions = "qrn1"
 -- Colors
 o.termguicolors = true -- Enable true color
 g.bg = "dark"
-vim.cmd[[colorscheme tokyonight]] -- is there not a better way to set this..?
+-- vim.cmd[[colorscheme tokyonight]] -- is there not a better way to set this..?
+vim.cmd[[colorscheme catppuccin-mocha]] -- is there not a better way to set this..?
 
 -- Local config enable (ex: .nvim.lua)
 o.exrc = true
@@ -411,7 +416,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Batch activate LSPs
 -- All LSPs in this list need to be manually installed via NPM/PNPM/whatevs
 local lspconfig = require('lspconfig')
-local servers = {'tsserver', 'jsonls', 'eslint', 'lua_ls' }
+local servers = {'tsserver', 'jsonls', 'eslint', 'lua_ls', 'astro' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -440,8 +445,9 @@ lspconfig.tailwindcss.setup {
     tailwindCSS = {
       experimental = {
         classRegex = {
-          "(?:class: ?)(?:'|\"|`)([^\"'`]*)(?:'|\"|`)", -- Twig, looks for string preceded by 'class:'
+          {"class\\(([^]*)\\", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"}, -- Twig, looks for string preceded by 'class:'
           { "cx\\(([^]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" }, -- Classnames, ex. cx()
+          { "block_attrs\\(([^]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" }, -- WP block_attrs
         }
       }
     }

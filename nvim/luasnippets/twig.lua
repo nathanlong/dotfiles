@@ -28,7 +28,7 @@ end
 
 return {
   -- comment
-  s("comm", { 
+  s("comm", {
     t("{# "), i(1), t(" #}")
   }),
 
@@ -80,44 +80,65 @@ return {
   }),
 
   -- Macro component
-  s("macroComponent",{
-    t({"{% macro "}), i(1, "Component"), t{("(props = {}) %}")},
-    t({"",""}),
-    t({"", "{% set props = {"}),
-    t({"","  "}), i(2, "propName"), t(": props."), f(mirrorInput, {2}, {user_args={""}}), t(" ?? null,"),
-    t({"","} %}"}),
-    t({"",""}),
-    t({"",""}), i(3, "..."),
-    t({"",""}),
-    t({"","{% endmacro %}"})
+  s('macroComponent',{
+    t({'{% macro '}), i(1, 'Component'), t{('(props = {}) %}')},
+    t({'',''}),
+    t({'', '{% set props = {'}),
+    t({'','  '}), i(2, 'propName'), t(': props.'), f(mirrorInput, {2}, {user_args={''}}), t(' ?? null,'),
+    t({'','} %}'}),
+    t({'',''}),
+    t({'',''}), i(3, '...'),
+    t({'',''}),
+    t({'','{% endmacro %}'})
+  }),
+
+  -- Macro simple
+  s('macroSimple',{
+    t({'{%- macro '}), i(1, 'Component'), t{('(var=null) -%}')},
+    t({'',''}), i(3, '...'),
+    t({'','{%- endmacro -%}'})
   }),
 
   -- Macro Prop
-  s("propDef", {
-    i(1, "propName"), t(": props."), f(mirrorInput, {1}, {user_args={""}}), t(" ?? null,"),
+  s('propDef', {
+    i(1, 'propName'), t(': props.'), f(mirrorInput, {1}, {user_args={''}}), t(' ?? null,'),
   }),
 
   -- Parts Kit Boilerplate
-  s("kitBoilerplate", {
-    t("{% extends 'viget-base/_layouts/parts-kit' %}"),
-    t({"",""}),
-    t({"","{% block main %}"}),
-    t({"",'<div class="p-responsive-xl-32">'}),
-    t({"",'  <h1 class="text-heading-lg mb-responsive-xl-20">'}), i(1, "Title"), t("</h1>"),
-    t({"",""}),
-    t({"","  "}), i(2, "..."),
-    t({"",""}),
-    t({"","</div>"}),
-    t({"","{% endblock %}"}),
+  s('kitBoilerplate', {
+    t('{% extends "viget-base/_layouts/parts-kit" %}'),
+    t({'',''}),
+    t({'','{% block main %}'}),
+    t({'','  '}), i(2, '...'),
+    t({'','{% endblock %}'}),
+  }),
+
+  -- Include partial
+  s('partialinclude', {
+    t('{% include "'), i(1, '_partials/component.twig'), t('" with {'),
+    t({'','} only %}'}),
   }),
 
   -- Dump
-  s("dump", {
-    t({"{{ dump("}), i(1, "var"), t({") }}"})
+  s('dump', {
+    t({'{{ dump('}), i(1, 'var'), t({') }}'})
   }),
 
   -- Viget partsKit function
-  s("partsKit", {
-    t({"craft.viget.partsKit"}), i(1)
+  s('partsKit', {
+    t({'craft.viget.partsKit'}), i(1)
+  }),
+
+  -- Div with classnames
+  s('cxdiv', {
+    t('<div class="{{ cx("'), i(1, 'class'), t('", {'),
+    t({'','  "class": condition,'}),
+    t({'','}) }}">'}),
+    t({'','</div>'}),
+  }),
+
+  -- Placeholder Images
+  s('placehold', {
+    t('https://placehold.co/'), i(1, '600'), t('x'), i(2, '400'),
   }),
 }

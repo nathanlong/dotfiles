@@ -10,13 +10,14 @@ source ./lib/utils
 	# Many of these are LSPs for use with nvim
 	local packages=(
     'degit'
-		'stylelint-lsp' 
-		'svelte-language-server' 
-		'@tailwindcss/language-server' 
-		'tiddlywiki' 
+		'stylelint-lsp'
+		'svelte-language-server'
+		'@tailwindcss/language-server'
+		'tiddlywiki'
 		'typescript'
-		'typescript-language-server' 
+		'typescript-language-server'
 		'vscode-langservers-extracted'
+    '@astrojs/language-server'
 	)
 
 	# Install packages globally
