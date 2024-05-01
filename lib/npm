@@ -1,32 +1,34 @@
 #!/bin/zsh
 
-source ./lib/utils
+source ./utils
 
-# Check for npm - CURRENTLY BROKEN? not sure why, so we bypass the check
-# if type_exists 'npm'; then
-	e_header "Installing Node.js packages..."
+run_npm() {
+  # Check for npm - CURRENTLY BROKEN? not sure why, so we bypass the check
+  if type_exists 'npm'; then
+    e_header "Installing Node.js packages..."
 
-	# List of npm packages
-	# Many of these are LSPs for use with nvim
-	local packages=(
-    'degit'
-		'stylelint-lsp'
-		'svelte-language-server'
-		'@tailwindcss/language-server'
-		'tiddlywiki'
-		'typescript'
-		'typescript-language-server'
-		'vscode-langservers-extracted'
-    '@astrojs/language-server'
-	)
+  # List of npm packages
+  # Many of these are LSPs for use with nvim
+  local packages=(
+  'degit'
+  'stylelint-lsp'
+  'svelte-language-server'
+  '@tailwindcss/language-server'
+  'tiddlywiki'
+  'typescript'
+  'typescript-language-server'
+  'vscode-langservers-extracted'
+  '@astrojs/language-server'
+)
 
-	# Install packages globally
-	npm install -g $packages
+  # Install packages globally
+  npm install -g $packages
 
-	[[ $? ]] && e_success "Done"
-# else
-# 	printf "\n"
-# 	e_error "Error: npm not found."
-# 	printf "Aborting...\n"
-# 	exit
-# fi
+  [[ $? ]] && e_success "Done"
+else
+  printf "\n"
+  e_error "Error: npm not found."
+  printf "Aborting...\n"
+  exit
+  fi
+}

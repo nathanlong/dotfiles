@@ -1,4 +1,4 @@
-# Begin zsh profiling (for load speed debugging)
+# To begin zsh profiling, uncomment this line and last line
 # zmodload zsh/zprof
 
 # ----------------------------------------------------------------------------
@@ -87,9 +87,7 @@ alias -- -="cd -"
 
 # Fancy lists
 alias ll='exa --long --header --git --all'       # long form, everything
-alias lo='ls -oG'        # long form, no user group, no hidden
 alias lt='exa --tree --level=2 --long --all'      # tree view
-alias lf='ls -AGFoh'     # long form, no user, file size
 
 # Shortcuts
 alias a="ack -ia"        # ack everything, case insensitive
@@ -128,11 +126,6 @@ peek() {
 # ENVIRONMENT MANAGEMENT
 # ----------------------------------------------------------------------------
 
-# Original vanilla NVM initialization
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # ASDF
 [ -s "$(brew --prefix asdf)/libexec/asdf.sh" ] && \. $(brew --prefix asdf)/libexec/asdf.sh
 
@@ -150,7 +143,7 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
 
-# Wezterm
+# Add Wezterm to path
 PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 
 # ----------------------------------------------------------------------------

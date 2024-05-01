@@ -1,6 +1,5 @@
-------------------------------------------------------------------------------  
+--------------------------------------------------------------------------------
 -- Nathan's NeoVim Config
--- Last compatibility check: 0.9.4 / 2023-10
 --
 -- Goals: 
 -- * Single file (I tinker often, and I don't like hunting in partials)
@@ -10,19 +9,23 @@
 --
 -- Sections:
 -- * Lua/Vim bindings
--- * Packer/Plugins
--- * Settings
--- * Mappings
--- * Helper functions
--- * Autocommands
--- * Plugin Setup and Settings
+-- * @PLUGINS - Packer/Plugins
+-- * @SETTINGS - Settings and Vim options
+-- * @MAP - Mappings
+-- * @FUNC - Helper functions
+-- * @AUTO - Autocommands
+-- * Plugin Setup and Settings, shortcuts for the frequent ones
+--   * @QUICK - Quick Mappings
+--   * @LSP - LSP setup
+--   * @SNIP - Snippets
+--   * Others as needed
 -- * Machine Specific Settings
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- LUA/VIM BINDINGS
 -- Set aliases for the longer api calls
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 local fn = vim.fn
 local o = vim.opt
@@ -33,9 +36,9 @@ local optsnos = { noremap = true }
 local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd   -- Create autocommand
 
-------------------------------------------------------------------------------
--- PLUGINS (plugin settings at bottom)
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- @PLUGINS (plugin settings at bottom)
+--------------------------------------------------------------------------------
 
 -- if packer isn't installed, lets grab it
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -61,7 +64,8 @@ require('packer').startup({function(use)
   use 'gelguy/wilder.nvim'
   use 'editorconfig/editorconfig-vim'
   use 'godlygeek/tabular'
-  use 'sindrets/diffview.nvim'
+  use 'leafOfTree/vim-matchtag'
+  -- use 'sindrets/diffview.nvim'
   -- LSP integration and autocomplete
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
@@ -122,9 +126,9 @@ require('packer').startup({function(use)
   end
 end})
 
-------------------------------------------------------------------------------
--- SETTINGS
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- @SETTINGS
+--------------------------------------------------------------------------------
 
 o.hidden = true -- Switch between buffers without saving
 o.timeoutlen = 250 -- Lowers leader+command timeout.
@@ -197,9 +201,9 @@ vim.cmd[[colorscheme catppuccin-mocha]] -- is there not a better way to set this
 -- Local config enable (ex: .nvim.lua)
 o.exrc = true
 
-------------------------------------------------------------------------------
--- MAPPINGS
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- @MAP - Keyboard Mappings
+--------------------------------------------------------------------------------
 
 -- Remove default neovim map for line yank (too much muscle memory)
 vim.api.nvim_del_keymap("n", "Y")
@@ -232,8 +236,8 @@ keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Resize with arrows
--- keymap("n", "<C-A-k>", ":resize -2<CR>", opts)
--- keymap("n", "<C-A-j>", ":resize +2<CR>", opts)
+keymap("n", "<C-A-k>", ":resize -2<CR>", opts)
+keymap("n", "<C-A-j>", ":resize +2<CR>", opts)
 keymap("n", "<C-A-h>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-A-l>", ":vertical resize +2<CR>", opts)
 
@@ -303,17 +307,17 @@ keymap("n", "<leader>es", ":sp %%", {})
 keymap("n", "<leader>ev", ":vsp %%", {})
 keymap("n", "<leader>et", ":tabe %%", {})
 
--- Select a line without trailing whitespace or linebreaks
--- keymap("n", "<leader>l", "<esc>^vg_", opts)
+-- Regex for git conflict markers
+keymap("n", "<leader>m", "/\\v[<=>]{7}<cr>", opts)
 
 -- Quickly edit and source $MYVIMRC
 keymap("n", "<leader>vv", ":tabnew $MYVIMRC<cr>", opts)
 keymap("n", "<leader>vl", ":tabnew $HOME/.config/localconfig/local.lua<cr>", opts)
 keymap("n", "<leader>vs", ":source $MYVIMRC<cr>", opts)
 
-------------------------------------------------------------------------------
--- HELPER FUNCTIONS
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- @FUNC - Helper Functions
+--------------------------------------------------------------------------------
 
 -- rg as grep
 if fn.executable("rg") > 0 then
@@ -321,9 +325,9 @@ if fn.executable("rg") > 0 then
   vim.opt.grepformat = { "%f:%l:%c:%m" }
 end
 
-------------------------------------------------------------------------------
--- AUTOCOMMANDS
-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- @AUTO - autocommands
+--------------------------------------------------------------------------------
 
 augroup("setFiletype", { clear = true })
 autocmd({"BufRead", "BufNewFile"}, {
@@ -367,7 +371,7 @@ vim.cmd [[
 -- PLUGIN SETTINGS
 --------------------------------------------------------------------------------
 
--- Quick mappings
+-- @QUICK - Quick mappings
 keymap("n", "<F1>", ":NvimTreeToggle<cr>", opts)
 keymap("n", "<F2>", ":MundoToggle<CR>", opts)
 keymap("n", "<F7>", ":FloatermNew<CR>", opts)
@@ -379,7 +383,7 @@ keymap("t", "<F9>", [[<C-\><C-n>:FloatermNext<CR>]], opts)
 keymap("n", "<F12>", ":FloatermToggle<CR>", opts)
 keymap("t", "<F12>", [[<C-\><C-n>:FloatermToggle<CR>]], opts)
 
--- LSP + AUTOCOMPLETE ----------------------------------------------------------
+-- @LSP - LSP + AUTOCOMPLETE ---------------------------------------------------
 -- LSP Mappings + Settings
 -- Basic diagnostic mappings, these will navigate to or display diagnostics
 vim.keymap.set('n', '<space>d', vim.diagnostic.open_float, opts)
@@ -416,7 +420,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Batch activate LSPs
 -- All LSPs in this list need to be manually installed via NPM/PNPM/whatevs
 local lspconfig = require('lspconfig')
-local servers = {'tsserver', 'jsonls', 'eslint', 'lua_ls', 'astro' }
+local servers = {'jsonls', 'eslint', 'lua_ls', 'astro' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -454,7 +458,35 @@ lspconfig.tailwindcss.setup {
   }
 }
 
--- Luasnip ---------------------------------------------------------------------
+-- Typescript with Vue Support
+-- location MUST be defined. If the plugin is installed in node_modules, location can have any value.
+lspconfig.tsserver.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = "/Users/nlong/.asdf/installs/nodejs/20.9.0/.npm/lib/node_modules/@vue/typescript-plugin@2.0.13",
+        languages = {"vue", "typescript"},
+      },
+    },
+  },
+  filetypes = {
+    "javascript",
+    "typescript",
+    "vue",
+  },
+}
+
+-- Vue LSP
+lspconfig.volar.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'}
+}
+
+--  @SNIP - Luasnip ------------------------------------------------------------
 -- Load as needed by filetype by the luasnippets folder in the config dir
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_lua").lazy_load()

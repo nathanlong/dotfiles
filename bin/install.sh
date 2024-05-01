@@ -5,6 +5,7 @@ DOTFILES_TARBALL_PATH="https://github.com/nathanlong/dotfiles/tarball/master"
 DOTFILES_GIT_REMOTE="git@github.com:nathanlong/dotfiles.git"
 
 # If missing, download and extract the dotfiles repository
+# Allows running the install command as a one liner ... but do we really need it?
 if [[ ! -d ${DOTFILES_DIRECTORY} ]]; then
   printf "$(tput setaf 7)Downloading dotfiles...\033[m\n"
   mkdir ${DOTFILES_DIRECTORY}
@@ -53,18 +54,16 @@ if ! is_git_repo; then
   git remote add origin ${DOTFILES_GIT_REMOTE}
   git fetch origin main
   # Reset the index and working tree to the fetched HEAD
-  # (submodules are cloned in the subsequent sync step)
   git reset --hard FETCH_HEAD
   # Remove any untracked files
   git clean -fd
 fi
 
 
-# Install and update packages
-seek_confirmation "Install brew formulae?"
+# Install homebrew formulae
+seek_confirmation "Install homebrew formulae?"
 if is_confirmed; then
-    printf "Updating packages...\n"
-    # Install Homebrew formulae
+    printf "Installing all the brew stuff...\n"
     run_brew
 else
     printf "Skipped brew installations.\n"
@@ -73,66 +72,58 @@ fi
 # Install global npm modules
 seek_confirmation "Install global npm packages?"
 if is_confirmed; then
-    printf "Updating packages...\n"
-    # Install Node packages
+    printf "Installing all the npm stuff..."
     run_npm
 else
-    printf "Skipped package installations.\n"
+    printf "Skipped global package installations.\n"
 fi
 
+# NOTE: May no longer need this?
 # Enable python support in neovim
-seek_confirmation "Enable python support in neovim?"
-if is_confirmed; then
-	python3 -m pip install --user --upgrade pynvim
-    e_success "Added python provider to neovim."
-else
-	printf "Skipping neovim python support.\n"
-fi
+#
+# seek_confirmation "Enable python support in neovim?"
+# if is_confirmed; then
+# 	python3 -m pip install --user --upgrade pynvim
+#     e_success "Added python provider to neovim."
+# else
+# 	printf "Skipping neovim python support.\n"
+# fi
 
+# Create a symlink
 link() {
-  # Force create/replace the symlink.
   ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
 }
 
 mirrorfiles() {
-	# Create neovim directory
-	mkdir ~/.config/nvim
+  # Create neovim directory
+  mkdir ~/.config/nvim
 
-    # Create the necessary symbolic links between the `.dotfiles` and `HOME`
-    # directory. The `bash_profile` sources other files directly from the
-    # `.dotfiles` repository.
-    # link "bash/inputrc"       ".inputrc"
-	link "zsh/zshrc"          ".zshrc"
-    link "git/gitconfig"      ".gitconfig"
-    link "git/gitignore"      ".gitignore"
-    link "vim/init.vim"	      ".config/nvim/init.vim"
+  # Create the necessary symbolic links between the `.dotfiles` and `HOME` dirs.
+  link "term/wezterm.lua"   ".wezterm.lua"
+  link "zsh/zshrc"          ".zshrc"
+  link "git/gitconfig"      ".gitconfig"
+  link "git/gitignore"      ".gitignore"
+  link "vim/init.vim"       ".config/nvim/init.vim"
 
-	# Add vim plug for neovim
-	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    e_success "Added vim plug to manage neovim plugins. Initializing plugins..."
-    nvim +PlugInstall +qall
-    e_success "Plugins initialized."
+  # Connect local neovim overrides
+  e_header "Where do you keep your local nvim overrides? Enter the path or hit ENTER to skip."
+  read -e -p "> " nvimpath
+  if [[ $nvimpath ]]; then
+      ln -fs `eval echo $nvimpath` "${HOME}/.config/nvim/local.vim"
+  fi
 
-    # Connect local neovim overrides
-    e_header "Where do you keep your local neovim overrides? Enter the path or hit ENTER to skip."
-    read -e -p "> " nvimpath
-    if [[ $nvimpath ]]; then
-        ln -fs `eval echo $nvimpath` "${HOME}/.config/nvim/local.vim"
-    fi
+  # Connect local git overrides
+  e_header "Where do you keep your local git overrides? Enter the path or hit ENTER to skip."
+  read -e -p "> " gitpath
+  if [[ $gitpath ]]; then
+      ln -fs `eval echo $gitpath` "${HOME}/.gitconfig.local"
+  fi
 
-    # Connect local git overrides
-    e_header "Where do you keep your local git overrides? Enter the path or hit ENTER to skip."
-    read -e -p "> " gitpath
-    if [[ $gitpath ]]; then
-        ln -fs `eval echo $gitpath` "${HOME}/.gitconfig.local"
-    fi
-
-    e_success "Dotfile installation complete."
+  e_success "Dotfile installation complete."
 }
 
 # Ask before potentially overwriting files
-seek_confirmation "Warning: This step may overwrite your existing dotfiles."
+seek_confirmation "Warning: This step may overwrite your existing dotfiles. Create symlinks for configs?"
 if is_confirmed; then
     mirrorfiles
     source ${HOME}/.zshrc

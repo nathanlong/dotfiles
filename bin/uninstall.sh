@@ -33,4 +33,3 @@ if is_confirmed; then
 else
   printf "Skipping...\n"
 fi
-

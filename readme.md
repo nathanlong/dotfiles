@@ -11,7 +11,7 @@
     - node
     - ruby
     - yarn
-- `wezterm` (on a trial basis)
+- `wezterm`
 
 ## ⚡️ Neovim Features:
 
@@ -23,20 +23,12 @@
 
 ## 💻 Installation:
 
-My one-line installer is old, so don't use that. For right now it's a process
-of:
-
-- Install the repo to `~/.dotfiles`
-- Symlink the config files to the appropriate places
+- Install the repo to `~/.dotfiles` and `cd` into it.
+- Run the install script with `./bin/install.sh`...
+- **OR** ...
+  - Manually symlink the config files to the appropriate places
     - zsh: `~/.zshrc`
     - nvim: `~/.config/nvim`
     - git: `~/.git*` (both files)
     - wezterm: `~/.wezterm.lua`
-- Install Homebrew and git
-- Run install lists for:
-    - brew
-    - asdf
-    - node/npm
-
-I'm on the fence right now about packing these back up in an install script,
-since I really only fully reinstall once every few years...
+  - Install `homebrew` and `git` and global `npm` modules (like LSPs)
