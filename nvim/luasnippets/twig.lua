@@ -137,6 +137,11 @@ return {
     t({'','</div>'}),
   }),
 
+  -- HTML tag
+  s('tag', {
+    t('<'), i(1, 'div'), t(' class="'), i(2, ''), t('"></'), f(mirrorInput, {1}, {user_args={''}}), t('>'),
+  }),
+
   -- Placeholder Images
   s('placehold', {
     t('https://placehold.co/'), i(1, '600'), t('x'), i(2, '400'),

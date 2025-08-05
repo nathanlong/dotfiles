@@ -6,12 +6,12 @@
 - `zsh` (`bash`, but like, newer, and because apple forced us to...)
     - p10k prompt (nice defaults, easy setup)
     - bashmarks (cd shortcuts, embedded for no outside dependencies)
+- `wezterm`
 - `homebrew` (bin package manager)
 - `asdf` (for managing other languages)
     - node
     - ruby
     - yarn
-- `wezterm`
 
 ## ⚡️ Neovim Features:
 
@@ -23,7 +23,16 @@
 
 ## 💻 Installation:
 
-- Install the repo to `~/.dotfiles` and `cd` into it.
+### Option 1: Live Dangerously
+
+Plop this in your terminal:
+
+`zsh -c "$(curl -fsSL raw.github.com/nathanlong/dotfiles/main/bin/install.sh)"`
+
+### Option 2: Do it Manually
+
+- Install `brew` and `git`
+- `git clone git@github.com:nathanlong/dotfiles.git ~/.dotfiles`
 - Run the install script with `./bin/install.sh`...
 - **OR** ...
   - Manually symlink the config files to the appropriate places
@@ -31,4 +40,3 @@
     - nvim: `~/.config/nvim`
     - git: `~/.git*` (both files)
     - wezterm: `~/.wezterm.lua`
-  - Install `homebrew` and `git` and global `npm` modules (like LSPs)

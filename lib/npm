@@ -1,15 +1,14 @@
 #!/bin/zsh
 
-source ./utils
+# Set to run directly via ./lib/npm
+# Rerun everytime you reset a global node version via asdf
 
-run_npm() {
-  # Check for npm - CURRENTLY BROKEN? not sure why, so we bypass the check
-  if type_exists 'npm'; then
-    e_header "Installing Node.js packages..."
+source $(dirname $0)/utils
+e_header "Checking npm..."
 
-  # List of npm packages
-  # Many of these are LSPs for use with nvim
-  local packages=(
+# List of global npm packages
+# Many of these are LSPs for use with nvim
+local packages=(
   'degit'
   'stylelint-lsp'
   'svelte-language-server'
@@ -21,14 +20,5 @@ run_npm() {
   '@astrojs/language-server'
 )
 
-  # Install packages globally
-  npm install -g $packages
-
-  [[ $? ]] && e_success "Done"
-else
-  printf "\n"
-  e_error "Error: npm not found."
-  printf "Aborting...\n"
-  exit
-  fi
-}
+# Install packages globally
+npm install -g $packages

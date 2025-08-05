@@ -53,7 +53,8 @@ require('packer').startup({function(use)
   -- General
   use 'briandoll/change-inside-surroundings.vim'
   use 'ggandor/leap.nvim'
-  use 'mattn/emmet-vim'
+  -- use 'mattn/emmet-vim'
+  use 'olrtg/nvim-emmet'
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
   use 'tpope/vim-fugitive'
@@ -64,7 +65,7 @@ require('packer').startup({function(use)
   use 'gelguy/wilder.nvim'
   use 'editorconfig/editorconfig-vim'
   use 'godlygeek/tabular'
-  use 'leafOfTree/vim-matchtag'
+  -- use 'leafOfTree/vim-matchtag'
   -- use 'sindrets/diffview.nvim'
   -- LSP integration and autocomplete
   use 'neovim/nvim-lspconfig'
@@ -73,6 +74,7 @@ require('packer').startup({function(use)
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
+  use 'b0o/SchemaStore.nvim'
   -- Snippets
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
@@ -93,22 +95,37 @@ require('packer').startup({function(use)
   use 'nathanlong/vim-tiddlywiki'
   use 'nathanlong/twig.vim'
   use 'MaxMEllon/vim-jsx-pretty'
-  use 'vim-ruby/vim-ruby'
+  -- use 'lepture/vim-jinja'
+  -- use 'vim-ruby/vim-ruby'
   use 'tpope/vim-rails'
   -- use 'NoahTheDuke/vim-just'
   -- use 'tpope/vim-liquid'
+  -- AI
+  use({
+    "olimorris/codecompanion.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    }
+  })
   -- Writing
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+  use({ "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+    ft = { "markdown" },
+  })
   -- Formatting
-  use 'sbdchd/neoformat'
+  -- use 'sbdchd/neoformat' -- dropped for not having enough config, needed fragments
+  use ({'prettier/vim-prettier',
+    run = "yarn install --frozen-lockfile --production",
+    ft={ "html", "twig", "javascript", "typescript", "css", "scss", "json"},
+  })
   -- Interface
   use 'voldikss/vim-floaterm'
   use 'lewis6991/gitsigns.nvim'
   use 'folke/todo-comments.nvim'
   use 'folke/which-key.nvim'
   use 'junegunn/goyo.vim'
-  -- use 'brenoprata10/nvim-highlight-colors'
-  use 'folke/tokyonight.nvim'
   use 'catppuccin/nvim'
   use 'nathanlong/vim-colors-writer'
   use {
@@ -154,7 +171,7 @@ o.wildmenu = true
 
 -- Interface
 o.title = true -- Update the title
-o.titlestring = ' %t' -- just the name, and a fancy icon, weeeeee
+o.titlestring = ' %t' -- just the name, and a fancy icon, weeeeee
 o.titleold = 'zsh' -- does zsh not just reassert it's own title?
 o.titlelen = 70
 o.autoread = true -- Refresh files when changed outside of vim
@@ -296,7 +313,7 @@ keymap("n", "<leader><cr>", ":noh<cr>", opts)
 keymap("n", "<leader>I", ":set list!<CR>", opts)
 
 -- Grab line without newline
-keymap("n", "<leader>l", "^vg_", opts)
+keymap("n", "<leader>L", "^vg_", opts)
 
 -- Will open files in current directory, allows you to leave the working cd in
 -- the project root. You can also use %% anywhere in the command line.
@@ -399,16 +416,16 @@ local on_attach = function(client, bufnr)
 
   -- Mappings to magical LSP functions!
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gK', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', 'gk', vim.lsp.buf.signature_help, bufopts)
-  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  -- vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', '<leader>lk', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<leader>le', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
@@ -420,13 +437,31 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Batch activate LSPs
 -- All LSPs in this list need to be manually installed via NPM/PNPM/whatevs
 local lspconfig = require('lspconfig')
-local servers = {'jsonls', 'eslint', 'lua_ls', 'astro' }
+local servers = {'lua_ls', 'astro' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilites = capabilities,
   }
 end
+
+lspconfig.jsonls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas {
+        select = {
+          '.eslintrc',
+          'package.json',
+          'block.json',
+          'theme.json'
+        },
+      },
+      validate = { enable = true },
+    },
+  },
+}
 
 -- This is an interesting one, for some reason these two LSPs need to be
 -- activated separately outside of the above loop. If someone can tell me why,
@@ -441,6 +476,18 @@ lspconfig.html.setup {
   capabilities = capabilities
 }
 
+lspconfig.eslint.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
+
+-- Emmet as a language server (tab expand HTML abbreviations)
+-- lspconfig.emmet_language_server.setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   filetypes = { "css", "eruby", "html", "less", "sass", "scss", "pug", "twig", "jinja", "liquid", "nunjucks" },
+-- }
+
 -- Attaching Tailwind separately so we can add regex triggers
 lspconfig.tailwindcss.setup {
   on_attach = on_attach,
@@ -449,42 +496,47 @@ lspconfig.tailwindcss.setup {
     tailwindCSS = {
       experimental = {
         classRegex = {
-          {"class\\(([^]*)\\", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"}, -- Twig, looks for string preceded by 'class:'
+          { "class:\\s*?[\"'`]([^\"'`]*).*?," },
           { "cx\\(([^]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" }, -- Classnames, ex. cx()
-          { "block_attrs\\(([^]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" }, -- WP block_attrs
         }
       }
     }
   }
 }
 
--- Typescript with Vue Support
--- location MUST be defined. If the plugin is installed in node_modules, location can have any value.
-lspconfig.tsserver.setup{
+-- Normal Typescript LSP support
+lspconfig.ts_ls.setup{
   on_attach = on_attach,
-  capabilities = capabilities,
-  init_options = {
-    plugins = {
-      {
-        name = "@vue/typescript-plugin",
-        location = "/Users/nlong/.asdf/installs/nodejs/20.9.0/.npm/lib/node_modules/@vue/typescript-plugin@2.0.13",
-        languages = {"vue", "typescript"},
-      },
-    },
-  },
-  filetypes = {
-    "javascript",
-    "typescript",
-    "vue",
-  },
+  capabilities = capabilities
 }
 
+-- Typescript with Vue Support
+-- location MUST be defined. If the plugin is installed in node_modules, location can have any value.
+-- lspconfig.ts_ls.setup{
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   init_options = {
+--     plugins = {
+--       {
+--         name = "@vue/typescript-plugin",
+--         location = "/Users/nlong/.asdf/installs/nodejs/20.9.0/.npm/lib/node_modules/@vue/typescript-plugin@2.0.13",
+--         languages = {"vue", "typescript"},
+--       },
+--     },
+--   },
+--   filetypes = {
+--     "javascript",
+--     "typescript",
+--     "vue",
+--   },
+-- }
+
 -- Vue LSP
-lspconfig.volar.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'}
-}
+-- lspconfig.volar.setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'}
+-- }
 
 --  @SNIP - Luasnip ------------------------------------------------------------
 -- Load as needed by filetype by the luasnippets folder in the config dir
@@ -606,10 +658,10 @@ require('telescope').load_extension('fzf')
 -- Treesitter ------------------------------------------------------------------
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "javascript", "html", "css", "php", "scss", "typescript", "vim", "lua" },
-  highlight = { 
+  highlight = {
     enable = true,
     -- for things that may need additional synax help occasionally
-    -- additional_vim_regex_highlighting = {"lua"},
+    additional_vim_regex_highlighting = {"lua", "css"},
   },
   incremental_selection = {
     enable = true,
@@ -667,7 +719,9 @@ require('Comment').setup {}
 g.EditorConfig_exclude_patterns = {'fugitive://.*'}
 
 -- Emmet
-g.user_emmet_expandabbr_key="<C-s>"
+-- g.user_emmet_expandabbr_key="<C-y>"
+-- keymap("n", "<leader>x", require('nvim-emmet').wrap_with_abbreviation, opts)
+vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
 
 -- devicons
 require'nvim-web-devicons'.setup {
@@ -695,15 +749,19 @@ require('leap').add_default_mappings()
 -- lualine
 require('lualine').setup {
   options = {
-    theme = 'tokyonight',
+    theme = 'catppuccin-mocha',
     component_separators = { left = '', right = ''},
   },
 }
 
 -- neoformat
-g.neoformat_try_node_exe = 1
-keymap("n", "<leader>re", ":Neoformat<cr>", opts)
-keymap("v", "<leader>re", ":Neoformat<cr>", opts)
+-- g.neoformat_try_node_exe = 1
+-- keymap("n", "<leader>re", ":Neoformat<cr>", opts)
+-- keymap("v", "<leader>re", ":Neoformat<cr>", opts)
+
+-- Prettier
+keymap("n", "<leader>re", ":Prettier<cr>", opts)
+keymap("v", "<leader>re", ":PrettierFragment<cr>", opts)
 
 -- nvim-tree
 require("nvim-tree").setup {}
@@ -719,6 +777,13 @@ require("todo-comments").setup {}
 --   render = "first_column",
 --   enable_tailwind = true,
 -- }
+
+-- AI
+keymap("n", "<leader>a", ":CodeCompanionChat Toggle<cr>", opts)
+
+
+-- Matchtag
+g.vim_matchtag_files = '*.html,*.xml,*.js,*.jsx,*.ts,*.tsx,*.vue,*.svelte,*.jsp,*.php,*.erb,*.astro,*.twig'
 
 --------------------------------------------------------------------------------
 -- MACHINE SPECIFIC SETTINGS

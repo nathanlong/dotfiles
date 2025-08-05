@@ -45,7 +45,7 @@ setopt pushdminus
 ## History command configuration
 # setopt extended_history       # record timestamp of command in HISTFILE
 # setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_all_dups     # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
@@ -86,8 +86,8 @@ alias ~="cd ~"
 alias -- -="cd -"
 
 # Fancy lists
-alias ll='exa --long --header --git --all'       # long form, everything
-alias lt='exa --tree --level=2 --long --all'      # tree view
+alias ll='eza --long --header --git --all'       # long form, everything
+alias lt='eza --tree --level=2 --long --all'      # tree view
 
 # Shortcuts
 alias a="ack -ia"        # ack everything, case insensitive

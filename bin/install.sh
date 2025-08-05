@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 DOTFILES_DIRECTORY="${HOME}/.dotfiles"
-DOTFILES_TARBALL_PATH="https://github.com/nathanlong/dotfiles/tarball/master"
+DOTFILES_TARBALL_PATH="https://github.com/nathanlong/dotfiles/tarball/main"
 DOTFILES_GIT_REMOTE="git@github.com:nathanlong/dotfiles.git"
 
 # If missing, download and extract the dotfiles repository
@@ -20,8 +20,6 @@ fi
 cd ${DOTFILES_DIRECTORY}
 
 source ./lib/utils # Script functions
-source ./lib/brew  # Sources run_brew(), but doesn't run it yet
-source ./lib/npm   # Sources run_npm(), but doesn't run it yet
 
 # Before relying on Homebrew, check that packages can be compiled
 if ! type_exists 'gcc'; then
@@ -57,25 +55,6 @@ if ! is_git_repo; then
   git reset --hard FETCH_HEAD
   # Remove any untracked files
   git clean -fd
-fi
-
-
-# Install homebrew formulae
-seek_confirmation "Install homebrew formulae?"
-if is_confirmed; then
-    printf "Installing all the brew stuff...\n"
-    run_brew
-else
-    printf "Skipped brew installations.\n"
-fi
-
-# Install global npm modules
-seek_confirmation "Install global npm packages?"
-if is_confirmed; then
-    printf "Installing all the npm stuff..."
-    run_npm
-else
-    printf "Skipped global package installations.\n"
 fi
 
 # NOTE: May no longer need this?
