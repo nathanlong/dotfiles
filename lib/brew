@@ -24,6 +24,7 @@ run_brew() {
       'btop'
       'fd'
       'ffmpeg'
+      'luarocks'
       'just'
       'markdown'
       'neovim'
