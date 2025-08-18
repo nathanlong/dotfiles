@@ -2,8 +2,8 @@ return {
   {
     'briandoll/change-inside-surroundings.vim',
     keys = {
-      {'<leader>c', '<Cmd>ChangeInsideSurrounding<CR>'},
-      {'<leader>C', '<Cmd>ChangeAroundSurrounding<CR>'}
+      {'<leader>c', '<Cmd>ChangeInsideSurrounding<CR>', desc = 'Change inside surrounding'},
+      {'<leader>C', '<Cmd>ChangeAroundSurrounding<CR>', desc = 'Change around surrounding'}
     }
   },
   {

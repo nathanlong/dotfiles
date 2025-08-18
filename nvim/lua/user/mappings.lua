@@ -8,6 +8,12 @@ local optsnos = { noremap = true }
 local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
 local autocmd = vim.api.nvim_create_autocmd   -- Create autocommand
 
+-- Allow default opts with unique desc
+-- Most useful for leader key combos + which-key.nvim plugin
+local function opts_with_desc(desc)
+  return vim.tbl_extend('force', opts, { desc = desc })
+end
+
 -- Remove default neovim map for line yank (too much muscle memory)
 vim.api.nvim_del_keymap('n', 'Y')
 
@@ -45,7 +51,7 @@ keymap('n', '<C-A-h>', ':vertical resize -2<CR>', opts)
 keymap('n', '<C-A-l>', ':vertical resize +2<CR>', opts)
 
 -- Navigate buffers
-keymap('n', '<leader>b', '<C-^>', opts) -- last edited buffer (super useful!)
+keymap('n', '<leader>b', '<C-^>', opts_with_desc('Last edited buffer')) -- last edited buffer (super useful!)
 keymap('n', '<S-l>', ':bnext<CR>', opts)
 keymap('n', '<S-h>', ':bprevious<CR>', opts)
 
@@ -93,22 +99,22 @@ keymap('i', '<S-A-k>', '<esc>YPj', opts)
 keymap('x', '<S-A-k>', 'y`<Pgv', opts)
 
 -- Remove search highlighting
-keymap('n', '<leader><cr>', ':noh<cr>', opts)
+keymap('n', '<leader><cr>', ':noh<cr>', opts_with_desc('Remove highlighting'))
 
 -- Toggle invisibles
-keymap('n', '<leader>I', ':set list!<CR>', opts)
+keymap('n', '<leader>I', ':set list!<CR>', opts_with_desc('Toggle invisibles'))
 
 -- Grab line without newline
-keymap('n', '<leader>L', '^vg_', opts)
+keymap('n', '<leader>L', '^vg_', opts_with_desc('Select line w/o newline'))
 
 -- Will open files in current directory, allows you to leave the working cd in
 -- the project root. You can also use %% anywhere in the command line.
-keymap('c', '%%', '<C-R>=expand("%:h")."/"<cr>', optsnos)
+vim.api.nvim_set_keymap('c', '%%', '<C-R>=expand("%:h")."/"<cr>', optsnos)
 -- We need these to be recursive, so don't use noremap
-keymap('n', '<leader>ew', ':e %%', {})
-keymap('n', '<leader>es', ':sp %%', {})
-keymap('n', '<leader>ev', ':vsp %%', {})
-keymap('n', '<leader>et', ':tabe %%', {})
+vim.api.nvim_set_keymap('n', '<leader>ew', ':e %%', { desc = 'Edit in this window'})
+vim.api.nvim_set_keymap('n', '<leader>es', ':sp %%', { desc = 'Edit in split'})
+vim.api.nvim_set_keymap('n', '<leader>ev', ':vsp %%', { desc = 'Edit in vert split'})
+vim.api.nvim_set_keymap('n', '<leader>et', ':tabe %%', { desc = 'Edit in tab'})
 
 -- Regex for git conflict markers
-keymap('n', '<leader>m', '/\\v[<=>]{7}<cr>', opts)
+keymap('n', '<leader>m', '/\\v[<=>]{7}<cr>', opts_with_desc('Git conflict markers'))

@@ -2,7 +2,7 @@
 local fn = vim.fn
 local o = vim.opt
 local g = vim.g
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 local optsnos = { noremap = true }
 local augroup = vim.api.nvim_create_augroup   -- Create/get autocommand group
@@ -43,18 +43,34 @@ o.ignorecase = true -- case insensitive search
 o.smartcase = true -- case insensitive search
 o.splitbelow = true -- split below the current window
 o.splitright = true -- split vertical windows to the right
+o.splitkeep = "screen" -- keep text on the same screen line when splitting
 o.scrolloff = 4 -- always keeps cursor X lines from bottom
+o.smoothscroll = true -- scroll by screen line, prevents long line 'chunk' scroll
 o.eadirection = "hor" -- only equalize horz when splitting or closing
 o.sidescrolloff = 8 -- keep X chars onscreen when nowrap is set
 o.winminheight = 0 -- Allow splits to be squashed to one line
 o.winminwidth = 0
 o.laststatus = 3 -- v0.7+ only display one statusline for all splits, fancy!
-o.fillchars:append { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft  = '┫', vertright = '┣', verthoriz = '╋'} -- chunky dividers
+-- chunkier dividers, helps me see splits better
+o.fillchars:append {
+  horiz = '━',
+  horizup = '┻',
+  horizdown = '┳',
+  vert = '┃',
+  vertleft  = '┫',
+  vertright = '┣',
+  verthoriz = '╋'
+}
 
 -- Set invisible/whitespace markers, requires nerdfonts
 o.list = true
--- o.listchars:append { tab = ' ', eol = '¬', trail = '⋅' }
-o.listchars:append { tab = ' ', trail = '⋅' }
+o.listchars:append {
+  -- eol = '¬',
+  tab = ' ',
+  trail = '⣿',
+  extends = '»',
+  precedes = '«',
+}
 
 -- Tab and Text
 o.tabstop = 2
@@ -64,15 +80,11 @@ o.shiftround = true
 o.expandtab = true -- I really don't care all that much... team preference
 o.smartindent = true
 o.autoindent = true
-o.textwidth = 78
-o.colorcolumn = "+3"
-o.wrap = true
-o.linebreak = true
-o.formatoptions = "qrn1"
 
 -- Colors
 o.termguicolors = true -- Enable true color
 g.bg = "dark"
 
 -- Local config enable (ex: .nvim.lua)
+-- only set if you WANT to allow local overrides, displays trust dialog first
 o.exrc = true
