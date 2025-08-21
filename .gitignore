@@ -1,0 +1,5 @@
+.DS_store
+git/gitconfig.private
+nvim/.DS_store
+nvim/lua/user/private.lua
+nvim/plugin/packer_compiled.lua

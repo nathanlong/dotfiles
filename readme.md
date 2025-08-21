@@ -13,23 +13,41 @@
 
 ## 💻 Installation:
 
-### Option 1: Live Dangerously
+### Terminal Emulator
 
-Plop this in your terminal:
+Download [WezTerm](https://wezterm.org/).
 
-`zsh -c "$(curl -fsSL raw.github.com/nathanlong/dotfiles/main/bin/install.sh)"`
+### Download Homebrew and Git
 
-### Option 2: Do it Manually
+Follow the [Homebrew installation instructions](https://brew.sh/) then install [Git](https://git-scm.com/) with:
 
-- Install `brew` and `git`
-- `git clone git@github.com:nathanlong/dotfiles.git ~/.dotfiles`
-- Run the install script with `./bin/install.sh`...
-- **OR** ...
-- Manually symlink the config files to the appropriate places
-    - zsh: `~/.zshrc`
-    - nvim: `~/.config/nvim`
-    - git: `~/.git*` (both files)
-    - wezterm: `~/.wezterm.lua`
-- Optionally install `brew` and `npm` global packages with:
-    - `./lib/brew`
-    - `./lib/npm`
+```
+brew install git
+```
+
+### Checkout dotfiles
+
+Checkout a clone of these files with:
+
+```
+git clone git@github.com:nathanlong/dotfiles.git ~/.dotfiles
+```
+
+Then `cd ~/.dotfiles`
+
+### Run the install script
+
+All the config files are managed from the `~/.dotfiles` directory, but we create symlinks to all the different config locations. To run the full install:
+
+```
+cd ~/.dotfiles
+./bin/install.sh
+```
+Follow the prompts to link the configs, and download brew and global npm packages.
+
+### Open Neovim, install plugins
+
+Now that Neovim is installed, run `nvim` in the terminal and [Lazy.nvim](https://lazy.folke.io/) should install all Neovim plugins.
+
+And that should be it! Happy coding!
+

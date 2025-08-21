@@ -23,7 +23,6 @@ return {
   {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
-    opts = {},
   },
   {
     'windwp/nvim-autopairs',
@@ -36,6 +35,5 @@ return {
       { '<F2>', '<Cmd>MundoToggle<cr>'}
 
     },
-    opts = {},
   }
 }

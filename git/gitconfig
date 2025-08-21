@@ -1,5 +1,5 @@
 [include]
-    path = ~/.gitconfig.local
+    path = ~/.gitconfig.private
 [alias]
     # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
     # `git gc`: cleanup unnecessary files and optimize the local repository
@@ -59,7 +59,7 @@
     # show the modified files for a specified commit
     nameonly = diff-tree --no-commit-id --name-only -r
 [branch]
-	sort = -committerdate
+    sort = -committerdate
 [color]
     ui = true
 [core]
@@ -70,8 +70,8 @@
 [credential]
     helper = osxkeychain
 [push]
-	default = simple
-	autoSetupRemote = true
+    default = simple
+    autoSetupRemote = true
 [difftool]
     prompt = true
 [diff]

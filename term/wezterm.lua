@@ -1,15 +1,13 @@
 local wezterm = require 'wezterm'
 
 return {
-  font = wezterm.font "JetBrains Mono",
+  font = wezterm.font 'JetBrains Mono',
   font_size = 14,
-  -- color_scheme = "tokyonight-storm",
-  color_scheme = "catppuccin-mocha",
-  window_decorations = "RESIZE",
-  -- default_cursor_style = 'BlinkingBlock',
+  color_scheme = 'catppuccin-mocha',
+  window_decorations = 'RESIZE',
   keys = {
-    { key = "[", mods = "OPT|SUPER", action = wezterm.action.MoveTabRelative(-1) },
-    { key = "]", mods = "OPT|SUPER", action = wezterm.action.MoveTabRelative(1) },
+    { key = '[', mods = 'OPT|SUPER', action = wezterm.action.MoveTabRelative(-1) },
+    { key = ']', mods = 'OPT|SUPER', action = wezterm.action.MoveTabRelative(1) },
   },
   hyperlink_rules = {
     -- Linkify things that look like URLs and the host has a TLD name.
