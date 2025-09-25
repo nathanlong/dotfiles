@@ -116,3 +116,15 @@ vim.keymap.set('n', '<leader>m', '/\\v[<=>]{7}<cr>', opts_with_desc('Git conflic
 -- Quick terminal windows
 vim.keymap.set( 'n', '<leader>tv', [[<cmd>vsplit | term<cr>A]], { desc = 'Open terminal in vertical split' })
 vim.keymap.set( 'n', '<leader>th', [[<cmd>split | term<cr>A]], { desc = 'Open terminal in horizontal split' })
+
+-- LSP bindings
+vim.keymap.set('n', '<leader>lc', vim.lsp.buf.declaration, opts_with_desc('LSP Declaration'))
+vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, opts_with_desc('LSP Definition'))
+vim.keymap.set('n', '<leader>lk', vim.lsp.buf.hover, opts_with_desc('LSP Hover'))
+vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, opts_with_desc('LSP Implementation'))
+vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, opts_with_desc('LSP Signature Help'))
+vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, opts_with_desc('LSP Type Definition'))
+vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts_with_desc('LSP Rename'))
+vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts_with_desc('LSP Code Action'))
+vim.keymap.set('n', '<leader>le', vim.lsp.buf.references, opts_with_desc('LSP References'))
+vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts_with_desc('LSP Format'))

@@ -18,12 +18,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- User settings and keymaps
+-- User config
 require('user.settings')
 require('user.mappings')
 require('user.autocommands')
+require('user.functions')
 
--- Private local settings
+-- Private local config (if available)
 pcall(require, 'user.local')
 
 -- Setup lazy.nvim
@@ -40,8 +41,10 @@ require('lazy').setup({
 -- Post plugin settings
 vim.cmd.colorscheme 'catppuccin-mocha'
 
--- rg as grep
--- if fn.executable("rg") > 0 then
---   vim.o.grepprg = "rg --hidden --glob '!.git' --no-heading --smart-case --vimgrep --follow $*"
---   vim.opt.grepformat = { "%f:%l:%c:%m" }
--- end
+-- enable all LSPs defined under lsp/
+vim.lsp.enable(vim
+  .iter(vim.api.nvim_get_runtime_file('lsp/*.lua', true))
+  :map(function(f)
+    return vim.fn.fnamemodify(f, ':t:r')
+  end)
+  :totable())
