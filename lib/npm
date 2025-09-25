@@ -4,6 +4,7 @@
 # Rerun everytime you reset a global node version via asdf
 
 source $(dirname $0)/utils
+
 e_header "Checking npm..."
 
 # List of global npm packages

@@ -21,6 +21,10 @@ vim.opt.rtp:prepend(lazypath)
 -- User settings and keymaps
 require('user.settings')
 require('user.mappings')
+require('user.autocommands')
+
+-- Private local settings
+pcall(require, 'user.local')
 
 -- Setup lazy.nvim
 require('lazy').setup({

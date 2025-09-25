@@ -42,15 +42,15 @@ vim.opt.winminheight = 0 -- Allow splits to be squashed to one line
 vim.opt.winminwidth = 0
 vim.opt.laststatus = 3 -- v0.7+ only display one statusline for all splits, fancy!
 -- chunkier dividers, helps me see splits better
--- vim.opt.fillchars:append {
---   horiz = '━',
---   horizup = '┻',
---   horizdown = '┳',
---   vert = '┃',
---   vertleft  = '┫',
---   vertright = '┣',
---   verthoriz = '╋'
--- }
+vim.opt.fillchars:append {
+  horiz = '━',
+  horizup = '┻',
+  horizdown = '┳',
+  vert = '┃',
+  vertleft  = '┫',
+  vertright = '┣',
+  verthoriz = '╋'
+}
 
 -- Set invisible/whitespace markers, requires nerdfonts
 vim.opt.list = true

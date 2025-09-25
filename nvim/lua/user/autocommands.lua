@@ -5,12 +5,6 @@ vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'}, {
   command = 'set filetype=markdown'
 })
 
-vim.api.nvim_create_augroup({'BufRead', 'BufNewFile'}, {
-  group = 'setFiletype',
-  pattern = '*.njk',
-  command = 'set filetype=html'
-})
-
 vim.api.nvim_create_augroup('setIndent', { clear = true })
 vim.api.nvim_create_autocmd('Filetype', {
   group = 'setIndent',

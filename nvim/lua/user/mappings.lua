@@ -112,3 +112,7 @@ vim.api.nvim_set_keymap('n', '<leader>et', ':tabe %%', { desc = 'Edit in tab'})
 
 -- Regex for git conflict markers
 vim.keymap.set('n', '<leader>m', '/\\v[<=>]{7}<cr>', opts_with_desc('Git conflict markers'))
+
+-- Quick terminal windows
+vim.keymap.set( 'n', '<leader>tv', [[<cmd>vsplit | term<cr>A]], { desc = 'Open terminal in vertical split' })
+vim.keymap.set( 'n', '<leader>th', [[<cmd>split | term<cr>A]], { desc = 'Open terminal in horizontal split' })
