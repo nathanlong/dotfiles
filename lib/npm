@@ -10,15 +10,16 @@ e_header "Checking npm..."
 # List of global npm packages
 # Many of these are LSPs for use with nvim
 local packages=(
+  '@astrojs/language-server'
+  '@tailwindcss/language-server'
+  '@vue/language-server'
   'degit'
   'stylelint-lsp'
   'svelte-language-server'
-  '@tailwindcss/language-server'
   'tiddlywiki'
   'typescript'
   'typescript-language-server'
   'vscode-langservers-extracted'
-  '@astrojs/language-server'
 )
 
 # Install packages globally
