@@ -18,7 +18,7 @@ mirrorFiles() {
   link "zsh/zshrc"          ".zshrc"
   link "git/gitconfig"      ".gitconfig"
   link "git/gitignore"      ".gitignore"
-  link "nvim"               ".config/nvim"
+  link "nvim"               ".config"
 }
 
 privateSettings() {
@@ -48,11 +48,9 @@ seek_confirmation "Install and link dotfiles?"
 if is_confirmed; then
   mirrorFiles
   privateSettings
-  source ${HOME}/.zshrc
-  e_success "Configs linked!"
+  e_success "Configs linked! Open a new shell to apply changes."
 else
-  printf "Aborting...\n"
-  exit 1
+  printf "Skipping linking...\n"
 fi
 
 seek_confirmation "Install brew packages?"
@@ -60,8 +58,7 @@ if is_confirmed; then
   source ${DOTFILES}/lib/brew
   e_success "Brew packages installed"
 else
-  printf "Aborting...\n"
-  exit 1
+  printf "Skipping brew packages...\n"
 fi
 
 seek_confirmation "Install global npm packages?"
@@ -69,6 +66,5 @@ if is_confirmed; then
   source ${DOTFILES}/lib/npm
   e_success "Global npm packages installed"
 else
-  printf "Aborting...\n"
-  exit 1
+  printf "Skipping npm packages...\n"
 fi

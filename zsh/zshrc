@@ -13,7 +13,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Prompt
-source ~/.config/p10k/powerlevel10k.zsh-theme
+[[ -f ~/.config/p10k/powerlevel10k.zsh-theme ]] && source ~/.config/p10k/powerlevel10k.zsh-theme
 
 # Bashmarks
 source ~/.dotfiles/bin/bashmarks.sh
