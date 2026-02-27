@@ -11,9 +11,15 @@ return {
     event = 'BufEnter'
   },
   {
-    'ggandor/leap.nvim',
+    url = "https://codeberg.org/andyg/leap.nvim",
     config = function()
-      require('leap').add_default_mappings()
+      vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap)')
+      vim.keymap.set('n', 'S', '<Plug>(leap-from-window)')
+      vim.keymap.set({'x', 'o'}, 'R',  function ()
+        require('leap.treesitter').select {
+          opts = require('leap.user').with_traversal_keys('R', 'r')
+        }
+      end)
     end
   },
   {
@@ -21,7 +27,7 @@ return {
     event = 'VeryLazy',
   },
   {
-    'kylechui/nvim-surround',
+    'tpope/vim-surround',
     event = 'VeryLazy',
   },
   {

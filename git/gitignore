@@ -31,3 +31,4 @@ auth.json
 # Testing out just, might delete later, lol
 justfile
 local_ignore
+JUNK.md

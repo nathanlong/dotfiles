@@ -1,7 +1,7 @@
 ---@type vim.lsp.Config
 return {
   cmd = { 'vscode-html-language-server', '--stdio' },
-  filetypes = { 'html', 'templ' },
+  filetypes = { 'html', 'templ', 'eruby', 'twig' },
   root_markers = { 'package.json', '.git' },
   settings = {},
   init_options = {
