@@ -8,4 +8,20 @@ return {
       {'<leader>re', ':PrettierFragment<cr>', mode = 'v', desc = 'Format selection w/Prettier'}
     }
   },
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        javascript = { "oxfmt" },
+        javascriptreact = { "oxfmt" },
+        typescript = { "oxfmt" },
+        typescriptreact = { "oxfmt" },
+        json = { "oxfmt" },
+        vue = { "oxfmt" },
+      },
+    },
+    keys = {
+      {'<leader>co', '<cmd>lua require("conform").format()<cr>', mode = 'n', desc = 'Format buffer w/oxfmt'},
+    }
+  }
 }
