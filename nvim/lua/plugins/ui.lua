@@ -2,6 +2,9 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
+    keys = {
+      {'<leader>dn', '<Cmd>Noice dismiss<cr>'},
+    },
     opts = {
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -114,9 +117,7 @@ return {
       require('dashboard').setup {
         theme = 'hyper',
         config = {
-          week_header = {
-            enable = true,
-          },
+          header = { "NATHAN'S NEOVIM" },
           shortcut = {
             { desc = '󰊳 Lazy Update', group = '@property', action = 'Lazy update', key = 'u' },
             {
@@ -127,13 +128,8 @@ return {
               action = 'Telescope find_files',
               key = 'f',
             },
-            {
-              desc = ' dotfiles',
-              group = 'Number',
-              action = 'Telescope dotfiles',
-              key = 'd',
-            },
           },
+          footer = { "", "♪ Ļ𝐞тş кᵉⓔℙ tʰ𝓔 Į𝓝𝐭ⓔʳ𝔫𝔼Ⓣ ＷᵉĮʳｄ... 😎"}
         },
       }
     end,

@@ -144,7 +144,10 @@ autoload -U compinit
 compinit
 
 # Add Wezterm to path
-PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+
+# Add custom tools to path with priority
+PATH="$HOME/.local/bin:$PATH"
 
 # ----------------------------------------------------------------------------
 # ADDITIONAL SETTINGS
