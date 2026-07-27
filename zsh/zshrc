@@ -71,6 +71,9 @@ setopt auto_cd
 setopt multios
 setopt prompt_subst
 
+# Default editor
+export EDITOR="nvim"
+
 # ----------------------------------------------------------------------------
 # ALIASES
 # ----------------------------------------------------------------------------
@@ -101,10 +104,6 @@ alias oo="open ."        # Open cd in Finder
 alias pubkey="pbcopy < $HOME/.ssh/id_rsa.pub"
 alias reload!="source $HOME/.zshrc"
 
-# System monitoring
-alias toc="top -o cpu"
-alias tor="top -o rsize"
-
 # ----------------------------------------------------------------------------
 # Helper Functions
 # ----------------------------------------------------------------------------
@@ -120,6 +119,15 @@ pick() {
 peek() {
   local i="${1:-0}"
   git show "HEAD~$i"
+}
+
+# Yazi wrapper for exiting in current dir
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
 }
 
 # ----------------------------------------------------------------------------
@@ -142,6 +150,9 @@ fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 # 2. Otherwise, run compinit yourself
 autoload -U compinit
 compinit
+
+# Init zoxide
+eval "$(zoxide init zsh)"
 
 # Add Wezterm to path
 export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
