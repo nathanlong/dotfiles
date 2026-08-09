@@ -1,7 +1,9 @@
 -- LSP
--- The main config files are in nvim/lsp and are enabled in init.vim
--- These config extend the main configs
--- Keymaps are in mappings.lua
+-- Server configs ship with nvim-lspconfig (407 of them, on the runtimepath).
+-- Our overrides live in nvim/after/lsp/<name>.lua -- deltas only, never full copies.
+-- Precedence: lsp/ -> after/lsp/ -> vim.lsp.config(). Anything we write in nvim/lsp/
+-- would LOSE to nvim-lspconfig's copy, so that directory is deliberately absent.
+-- Which servers are enabled: see init.lua. Keymaps are in mappings.lua.
 
 local config = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -9,34 +11,13 @@ local config = function()
   -- Extend capabilities for blink
   capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities({}, false))
 
-  -- Capabilities required for the visualstudio lsps (css, html, etc)
+  -- The VSCode language servers (cssls, html, jsonls) only provide completions when
+  -- snippet support is enabled. Harmless elsewhere, so apply it to every server.
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  -- The VSCode language servers (cssls, html, jsonls) only provide completions when snippet support is enabled.
-  vim.lsp.config('cssls', {
+  -- '*' merges at the LOWEST precedence, so any after/lsp/ file still wins over it.
+  vim.lsp.config('*', {
     capabilities = capabilities,
-  })
-
-  vim.lsp.config('html', {
-    capabilities = capabilities,
-  })
-
-  vim.lsp.config('jsonls', {
-    capabilities = capabilities,
-    settings = {
-      json = {
-        schemas = require('schemastore').json.schemas {
-          select = {
-            '.eslintrc',
-            'package.json',
-            'block.json',
-            'theme.json',
-            'prettierrc.json'
-          },
-        },
-        validate = { enable = true },
-      },
-    },
   })
 end
 

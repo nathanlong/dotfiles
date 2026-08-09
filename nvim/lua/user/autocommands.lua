@@ -18,6 +18,20 @@ vim.api.nvim_create_autocmd('Filetype', {
   command = 'setlocal ts=2 sts=2 sw=2 fo=qrn1 expandtab spell'
 })
 
+-- Filetyles and Treesitter activation for other filetypes
+vim.filetype.add({
+  extension = {
+    twig = "twig",
+  },
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {"twig", "svelte"},
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
 -- autocommands I have yet to rewrite in lua...
 vim.cmd [[
   augroup vimrcEx

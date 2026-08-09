@@ -13,6 +13,8 @@ if type_exists 'brew'; then
   [[ $? ]] && e_success "Done"
 
   # Specify brew formulae, git is installed first in install.sh before this runs
+  # LSPs are now managed by Mason
+  # Yazi drives a lot of these, see: https://yazi-rs.github.io/docs/installation#homebrew
   e_header "Checking status of desired Homebrew formulae..."
   local list_formulae
   local -a missing_formulae
@@ -21,15 +23,24 @@ if type_exists 'brew'; then
     'asdf'
     'bat'
     'btop'
-    'fd'
-    'ffmpeg'
-    'lua-language-server'
     'luarocks'
     'just'
     'markdown'
     'neovim'
+    'tree-sitter'
+    'tree-sitter-cli'
     'par'
+    'yazi'
+    'ffmpeg-full'
+    'jq'
+    'poppler'
+    'fd'
     'ripgrep'
+    'fzf'
+    'zoxide'
+    'resvg'
+    'imagemagick-full'
+    'font-symbols-only-nerd-font'
   )
 
   for index in ${!desired_formulae[*]}
@@ -48,7 +59,12 @@ if type_exists 'brew'; then
     # Install all missing formulae
     brew install $list_formulae
 
-    [[ $? ]] && e_success "Done"
+    [[ $? ]] && e_success "Formulae installed"
+
+    e_header "Linking image/video utilities"
+    brew link ffmpeg-full imagemagick-full -f --overwrite
+
+    [[ $? ]] && e_success "Linked utilities"
   fi
 
   # Remove outdated versions from the Cellar

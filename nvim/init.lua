@@ -41,10 +41,21 @@ require('lazy').setup({
 -- Post plugin settings
 vim.cmd.colorscheme 'catppuccin-mocha'
 
--- enable all LSPs defined under lsp/
-vim.lsp.enable(vim
-  .iter(vim.api.nvim_get_runtime_file('lsp/*.lua', true))
-  :map(function(f)
-    return vim.fn.fnamemodify(f, ':t:r')
-  end)
-  :totable())
+-- The servers we actually run. Configs come from nvim-lspconfig; our overrides (if any)
+-- are in after/lsp/<name>.lua. Mason installs the binaries.
+-- Globbing 'lsp/*.lua' off the runtimepath here would enable all ~420 servers that
+-- nvim-lspconfig ships, not just ours -- hence the explicit list.
+vim.lsp.enable({
+  'astro',
+  'cssls',
+  'eslint',
+  'html',
+  'jsonls',
+  'lua_ls',
+  'oxfmt',
+  'svelte',
+  'tailwindcss',
+  'ts_ls',
+  'vimls',
+  'vue_ls',
+})

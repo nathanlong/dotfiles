@@ -6,7 +6,7 @@ return {
     main = 'nvim-treesitter.config',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'javascript', 'html', 'css', 'php', 'scss', 'typescript', 'vim', 'lua', 'yaml' },
+      ensure_installed = { 'javascript', 'html', 'css', 'php', 'scss', 'typescript', 'vim', 'lua', 'yaml', 'twig' },
       highlight = {
         enable = true,
         -- for things that may need additional synax help occasionally

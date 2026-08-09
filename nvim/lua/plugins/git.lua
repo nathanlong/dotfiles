@@ -19,6 +19,12 @@ return {
   {
     'tpope/vim-rhubarb',
     event = 'VeryLazy',
+  },
+  {
+    'sindrets/diffview.nvim',
+    event = 'VeryLazy',
+    init = function()
+      vim.cmd("cabbrev dv DiffviewOpen")
+    end
   }
-
 }

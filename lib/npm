@@ -8,18 +8,11 @@ source $(dirname $0)/utils
 e_header "Checking npm..."
 
 # List of global npm packages
-# Many of these are LSPs for use with nvim
+# LSPs are now managed by Mason
 local packages=(
-  '@astrojs/language-server'
-  '@tailwindcss/language-server'
-  '@vue/language-server'
   'degit'
-  'stylelint-lsp'
-  'svelte-language-server'
   'tiddlywiki'
   'typescript'
-  'typescript-language-server'
-  'vscode-langservers-extracted'
 )
 
 # Install packages globally
